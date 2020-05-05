@@ -251,11 +251,11 @@ workflows:
             branches:
               ignore: master 
       - frontend_tests:
-        requires:
-          - install_webpack      
-        filters:
-          branches:
-            ignore: master                  
+          requires:
+            - install_webpack      
+          filters:
+            branches:
+              ignore: master                  
   
   merge_master:
     jobs:
