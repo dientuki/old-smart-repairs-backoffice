@@ -1,0 +1,22 @@
+/* stylelint-disable at-rule-empty-line-before */
+@function rem($pixels) {
+  @return ($pixels / 16) * 1rem;
+}
+
+@function em($pixels, $fs: 16) {
+  @return ($pixels / $fs) * 1em;
+}
+
+@mixin clamp($lines: 4) {
+
+  /* stylelint-disable property-no-vendor-prefix, value-no-vendor-prefix  */
+  display: -webkit-box;
+  -webkit-line-clamp: $lines;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+@mixin hidden() {
+  display: none;
+  visibility: hidden;
+}
