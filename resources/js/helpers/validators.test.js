@@ -31,5 +31,5 @@ describe('storageAvailable', () => {
 
   test('testing anotherStorage', () => {
     expect(Validators.storageAvailable('anotherStorage')).toEqual(false);
-  });   
+  });
 });
