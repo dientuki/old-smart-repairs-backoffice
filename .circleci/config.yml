@@ -281,6 +281,12 @@ workflows:
           filters:
             branches:
               only: master
+      - frontend_tests:
+          requires:
+            - install_webpack      
+          filters:
+            branches:
+              ignore: master                
       - build_webpack:
           requires:
             - install_webpack        
