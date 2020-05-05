@@ -1,0 +1,391 @@
+wd: &wd
+  working_directory: ~/backend
+
+php: &php
+  docker:
+    - image: circleci/php:7.2.19-cli
+
+node: &node
+  docker:
+    - image: circleci/node:12.16.2
+
+ubuntu: &ubuntu
+  docker:
+    - image: circleci/buildpack-deps:20.04    
+
+version: 2
+jobs:
+  checkout_code:
+    <<: *ubuntu
+    <<: *wd  
+    steps:
+      - checkout
+      - save_cache:
+          key: checkout-cache-{{ .Branch }}-{{ .Environment.CIRCLE_SHA1 }}
+          paths:
+            - ~/backend
+
+  php_checks:
+    <<: *wd
+    <<: *php
+    steps:
+      - restore_cache:
+          key: checkout-cache-{{ .Branch }}-{{ .Environment.CIRCLE_SHA1 }}
+      - run:
+          name: Check terminate scripts commands, and logs commands
+          command: sh scripts/check_output.sh
+      - run:
+          name: Check git merged files
+          command: sh scripts/check_merge.sh 
+      - run:
+          name: Check PHP Sintax()
+          command: sh scripts/check_syntax.sh
+
+  install_webpack:
+      <<: *node
+      <<: *wd
+      steps:
+        - restore_cache:
+            key: checkout-cache-{{ .Branch }}-{{ .Environment.CIRCLE_SHA1 }}
+        - run:
+            name: Node as tooling install
+            command: npm install
+        - save_cache:
+            key: dependency-cache-node-{{ checksum "package.json" }}
+            paths:
+              - node_modules
+
+  frontend_linters:
+    <<: *node
+    <<: *wd
+    steps:
+      - restore_cache:
+          key: checkout-cache-{{ .Branch }}-{{ .Environment.CIRCLE_SHA1 }}      
+      - restore_cache:
+          key: dependency-cache-node-{{ checksum "package.json" }}
+      - run:
+          name: Linter Javascript
+          command: npm run eslint:js       
+      - run:
+          name: Linter Javascript eXtended
+          command: npm run eslint:jsx
+      - run:
+          name: Linter CSS
+          command: npm run stylelint    
+          
+  frontend_tests:
+    <<: *node
+    <<: *wd
+    steps:
+      - restore_cache:
+          key: checkout-cache-{{ .Branch }}-{{ .Environment.CIRCLE_SHA1 }}      
+      - restore_cache:
+          key: dependency-cache-node-{{ checksum "package.json" }}
+      - run:
+          name: Run tests
+          command: npm run test       
+
+  build_webpack:
+    <<: *node
+    <<: *wd
+    steps:
+      - restore_cache:
+          key: checkout-cache-{{ .Branch }}-{{ .Environment.CIRCLE_SHA1 }}      
+      - restore_cache:
+          key: dependency-cache-node-{{ checksum "package.json" }}
+      - run:
+          name: Building public assets
+          command: npm run prod
+      - run:
+          name: Building svg files
+          command: npm run svg          
+      - save_cache:
+          key: public-assets-{{ .Branch }}-{{ .Environment.CIRCLE_SHA1 }}
+          paths:
+            - public/dist
+  
+  install_laravel:
+    <<: *php
+    <<: *wd
+    steps:
+      - restore_cache:
+          key: checkout-cache-{{ .Branch }}-{{ .Environment.CIRCLE_SHA1 }}
+      - run:
+          name: Install exiftool
+          command: |
+            sudo apt-get update
+            sudo apt-get install exiftool
+            sudo docker-php-ext-configure exif
+            sudo docker-php-ext-install exif
+      - run:
+          name: Install Laravel with Autoloader Optimization
+          command: composer install --optimize-autoloader --no-dev
+      - save_cache:
+          key: laravel-install-{{ .Branch }}-{{ .Environment.CIRCLE_SHA1 }}
+          paths:
+            - ./      
+
+  optimize_laravel:
+    <<: *php
+    <<: *wd
+    steps:
+      - restore_cache:
+          key: laravel-install-{{ .Branch }}-{{ .Environment.CIRCLE_SHA1 }}
+      - run:
+          name: Optimizing Configuration Loading
+          command: php artisan config:cache
+      - run:
+          name: Optimizing Route Loading
+          command: php artisan route:cache       
+      - save_cache:
+          key: laravel-{{ .Branch }}-{{ .Environment.CIRCLE_SHA1 }}
+          paths:
+            - ./              
+
+  build_targz:
+    <<: *wd
+    <<: *ubuntu
+    steps:
+      - restore_cache:
+          key: laravel-{{ .Branch }}-{{ .Environment.CIRCLE_SHA1 }}
+      - restore_cache:
+          key: public-assets-{{ .Branch }}-{{ .Environment.CIRCLE_SHA1 }}
+      - run:
+          name: Add new version.txt
+          command: echo commit-$(git rev-parse --short HEAD) >  ./public/_version.txt
+      - run:
+          name: Remove files
+          command: |
+            rm -rf .circleci
+            rm -rf .env.*
+            rm -rf .eslintrc.json
+            rm -rf database
+            rm -rf tests
+            rm -rf webpack
+            rm -rf composer.*
+            rm -rf package.json
+            rm -rf package-lock.json
+            rm -rf phpunit.xml
+            rm -rf postcss.config.js
+            rm -rf stylelint.json
+            rm -rf scripts
+            rm -rf bootstrap/cache/config.php
+      - run:
+          name: Making build.tar.gz
+          command: |
+            tar -zcvf ../build.tar.gz --exclude-vcs ./
+            mv ../build.tar.gz ./build.tar.gz
+      - store_artifacts:
+          path: build.tar.gz
+      - persist_to_workspace:
+          root: ./
+          paths:
+            - build.tar.gz
+
+  deploy_stage:
+    <<: *wd
+    <<: *ubuntu
+    steps:
+      - attach_workspace:
+          at: ./
+      - add_ssh_keys:
+          fingerprints:
+            - d2:dd:97:8c:3c:1e:f3:b3:dc:9c:31:00:60:68:94:21
+      - run:
+          name: Add testing server to know host file
+          command: |
+            echo $KNOW_HOST_1 >> ~/.ssh/known_hosts          
+            echo $KNOW_HOST_2 >> ~/.ssh/known_hosts    
+      - run:
+          name: Uploading build.tar.gz
+          command: scp build.tar.gz mateclass@mateclass.com:vpp
+      - run:
+          name: Untar
+          command: ssh mateclass@mateclass.com tar -xzf vpp/build.tar.gz -C vpp
+      - run:
+          name: Clean build.tar.gz
+          command: ssh mateclass@mateclass.com rm -rf vpp/build.tar.gz
+      - run:
+          name: Clean permisions
+          command: | 
+            ssh mateclass@mateclass.com chmod 777 -fR vpp/storage || :
+
+  release:
+    <<: *wd
+    <<: *ubuntu
+    steps:
+      - attach_workspace:
+          at: ./
+      - run:
+          name: Publish assets to Github
+          command: |
+            wget https://github.com/tcnksm/ghr/releases/download/v0.13.0/ghr_v0.13.0_linux_amd64.tar.gz
+            tar -xvzf ghr_v0.13.0_linux_amd64.tar.gz ghr_v0.13.0_linux_amd64/ghr
+            mv ghr_v0.13.0_linux_amd64/ghr ghr
+            ./ghr -t $GITHUB_TOKEN -u $CIRCLE_PROJECT_USERNAME -r $CIRCLE_PROJECT_REPONAME $CIRCLE_TAG build.tar.gz
+
+workflows:
+  version: 2
+  commit:
+    jobs:
+      - checkout_code:
+          filters:
+            branches:
+              ignore: master       
+      - php_checks:
+          requires:
+            - checkout_code              
+          filters:
+            branches:
+              ignore: master                        
+      - install_webpack:
+          requires:
+            - checkout_code        
+          filters:
+            branches:
+              ignore: master                      
+      - frontend_linters:
+          requires:
+            - install_webpack      
+          filters:
+            branches:
+              ignore: master 
+      - frontend_tests:
+        requires:
+          - install_webpack      
+        filters:
+          branches:
+            ignore: master                  
+  
+  merge_master:
+    jobs:
+      - checkout_code:
+          filters:
+            branches:
+              only: master        
+      - php_checks:
+          requires:
+            - checkout_code              
+          filters:
+            branches:
+              only: master                    
+      - install_webpack:
+          requires:
+            - checkout_code        
+          filters:
+            branches:
+              only: master                       
+      - frontend_linters:
+          requires:
+            - install_webpack      
+          filters:
+            branches:
+              only: master
+      - build_webpack:
+          requires:
+            - install_webpack        
+          filters:
+            branches:
+              only: master
+      - install_laravel:
+          requires:
+            - checkout_code        
+          filters:
+            branches:
+              only: master
+      - optimize_laravel:
+          requires:
+            - install_laravel
+            - php_checks
+          filters:
+            branches:
+              only: master
+      - build_targz:
+          requires:
+            - optimize_laravel
+            - frontend_linters
+            - build_webpack     
+          filters:
+            branches:
+              only: master  
+      - deploy_stage:
+          requires:
+            - build_targz    
+          filters:
+            branches:
+              only: master                        
+  release:
+    jobs:
+      - checkout_code:
+          filters:
+            tags:
+              only: /^v.*/
+            branches:
+              ignore: /.*/                    
+      - php_checks:
+          requires:
+            - checkout_code              
+          filters:
+            tags:
+              only: /^v.*/      
+            branches:
+              ignore: /.*/                         
+      - install_webpack:
+          requires:
+            - checkout_code        
+          filters:
+            tags:
+              only: /^v.*/       
+            branches:
+              ignore: /.*/                              
+      - frontend_linters:
+          requires:
+            - install_webpack      
+          filters:
+            tags:
+              only: /^v.*/
+            branches:
+              ignore: /.*/    
+      - build_webpack:
+          requires:
+            - install_webpack        
+          filters:
+            tags:
+              only: /^v.*/
+            branches:
+              ignore: /.*/   
+      - install_laravel:
+          requires:
+            - checkout_code        
+          filters:
+            tags:
+              only: /^v.*/
+            branches:
+              ignore: /.*/   
+      - optimize_laravel:
+          requires:
+            - install_laravel
+            - php_checks
+          filters:
+            tags:
+              only: /^v.*/
+            branches:
+              ignore: /.*/   
+      - build_targz:
+          requires:
+            - optimize_laravel
+            - frontend_linters
+            - build_webpack     
+          filters:
+            tags:
+              only: /^v.*/
+            branches:
+              ignore: /.*/   
+      - release:
+          requires:
+            - build_targz   
+          filters:
+            tags:
+              only: /^v.*/
+            branches:
+              ignore: /.*/                 
