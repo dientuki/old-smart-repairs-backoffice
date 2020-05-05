@@ -21,3 +21,16 @@ export function isValidUrl(url) {
     return false;
   }
 }
+
+/* eslint-disable no-mixed-operators */
+/**
+ * Check if a var is an object
+ * Taken from https://github.com/jashkenas/underscore/blob/master/underscore.js#L1354
+ * @param obj
+ * @returns {boolean}
+ */
+export function isObject(obj) {
+  const type = typeof obj;
+
+  return type === 'function' || type === 'object' && Boolean(obj);
+}

@@ -1,15 +1,4 @@
-/* eslint-disable no-mixed-operators */
-/**
- * Check if a var is an object
- * Taken from https://github.com/jashkenas/underscore/blob/master/underscore.js#L1354
- * @param obj
- * @returns {boolean}
- */
-export function isObject(obj) {
-  const type = typeof obj;
-
-  return type === 'function' || type === 'object' && Boolean(obj);
-}
+import { isObject } from './validators';
 
 /* eslint-disable prefer-const */
 /**
@@ -35,16 +24,4 @@ export function mergeObjects(defaults, custom) {
   }
 
   return final;
-}
-
-export function killBubling(e, tag) {
-  let element = e;
-
-  while (element.parentNode) {
-    element = element.parentNode;
-    if (element.tagName === tag) {
-      return element;
-    }
-  }
-  return null;
 }
