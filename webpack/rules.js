@@ -32,7 +32,7 @@ rules.push({
     MiniCssExtractPlugin.loader,
     {loader: 'css-loader', options: { importLoaders: 1 }},
     'postcss-loader',
-    {loader: 'sass-loader', options: {precision: 2}}
+    {loader: 'sass-loader', options: { sassOptions: {precision: 2}}}
   ],
 });
 
