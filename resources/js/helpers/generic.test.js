@@ -1,14 +1,4 @@
-import { isObject, mergeObjects } from './generic';
-
-describe('isObject', () => {
-  test('using a string', () => {
-    expect(isObject('hola')).toEqual(false);
-  });
-
-  test('using a json', () => {
-    expect(isObject({ a: 1 })).toEqual(true);
-  });
-});
+import * as Generic from './generic';
 
 describe('mergeObjects', () => {
   test('returns a simple merged object', () => {
@@ -26,7 +16,7 @@ describe('mergeObjects', () => {
         c: 3
       };
 
-    expect(mergeObjects(objectA, objectB)).toEqual(result);
+    expect(Generic.mergeObjects(objectA, objectB)).toEqual(result);
   });
 
   test('returns a complex merged object', () => {
@@ -51,6 +41,6 @@ describe('mergeObjects', () => {
         c: 3
       };
 
-    expect(mergeObjects(objectA, objectB)).toEqual(result);
+    expect(Generic.mergeObjects(objectA, objectB)).toEqual(result);
   });
 });
