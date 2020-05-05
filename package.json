@@ -43,15 +43,15 @@
   ],
   "jest": {
     "collectCoverage": true,
-    "coverageReporters": [
-      "html"
-    ],
     "coverageDirectory": "coverage",
-    "moduleNameMapper": {
-      "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/js/__mocks__/fileMock.js",
-      "\\.(css|less|scss)$": "identity-obj-proxy"
+    "coverageThreshold": {
+      "global": {
+        "branches": 85,
+        "functions": 85,
+        "lines": 85
+      }
     },
-    "notify": true,
+    "testURL": "http://localhost/admin",
     "verbose": true
   }
 }
