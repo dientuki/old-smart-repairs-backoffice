@@ -132,6 +132,9 @@ jobs:
       - restore_cache:
           key: laravel-install-{{ .Branch }}-{{ .Environment.CIRCLE_SHA1 }}
       - run:
+          name: Update install
+          command: composer update    
+      - run:
           name: PHP Mess Detector
           command: ./vendor/bin/phpmd app/ text cleancode,codesize,controversial,design,naming,unusedcode
 
