@@ -125,6 +125,16 @@ jobs:
           paths:
             - ./      
 
+  php_linter:
+    <<: *php
+    <<: *wd
+    steps:
+      - restore_cache:
+          key: laravel-install-{{ .Branch }}-{{ .Environment.CIRCLE_SHA1 }}
+      - run:
+          name: PHP Mess Detector
+          command: ./vendor/bin/phpmd app/ text cleancode,codesize,controversial,design,naming,unusedcode
+
   optimize_laravel:
     <<: *php
     <<: *wd
@@ -243,7 +253,13 @@ workflows:
             - checkout_code        
           filters:
             branches:
-              ignore: master                      
+              ignore: master     
+      - install_laravel:
+          requires:
+            - checkout_code
+          filters:
+            branches:
+              ignore: master                             
       - frontend_linters:
           requires:
             - install_webpack      
@@ -255,7 +271,14 @@ workflows:
             - install_webpack      
           filters:
             branches:
-              ignore: master                  
+              ignore: master
+      - php_linter:
+          requires:
+            - install_laravel
+            - php_checks
+          filters:
+            branches:
+              ignore: master                            
   
   merge_master:
     jobs:
