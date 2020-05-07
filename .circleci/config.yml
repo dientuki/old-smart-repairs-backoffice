@@ -154,7 +154,10 @@ jobs:
           key: laravel-install-test-{{ .Branch }}-{{ .Environment.CIRCLE_SHA1 }}
       - run:
           name: PHP Mess Detector
-          command: ./vendor/bin/phpmd app/,routes/,resources/views/,resources/lang/,tests/ text scripts/phpmd.xml
+          command: ./vendor/bin/phpmd app/,config/,database/,routes/,resources/views/,resources/lang/,tests/ text scripts/phpmd.xml
+      - run:
+          name: PHP CodeSniffer
+          command: ./vendor/bin/phpcs app/ config/ database/ routes/ resources/views/ resources/lang/ tests/ --standard=PSR2
 
   optimize_laravel:
     <<: *php
