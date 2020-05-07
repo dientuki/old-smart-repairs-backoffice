@@ -160,7 +160,7 @@ jobs:
           command: ./vendor/bin/phpcs app/ config/ database/ routes/ resources/views/ resources/lang/ tests/ --standard=PSR2
       - run:
           name: PHP Static Analysis Tool
-          command: ./vendor/bin/phpstan analyse -l 0 --memory-limit 256M app/ config/ database/ routes/ resources/views/ resources/lang/ tests/
+          command: ./vendor/bin/phpstan analyse --memory-limit 256M -c scripts/phpstan.neon
 
   optimize_laravel:
     <<: *php
