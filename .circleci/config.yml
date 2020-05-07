@@ -104,7 +104,28 @@ jobs:
           paths:
             - public/dist
   
-  install_laravel:
+  install_laravel_test:
+    <<: *php
+    <<: *wd
+    steps:
+      - restore_cache:
+          key: checkout-cache-{{ .Branch }}-{{ .Environment.CIRCLE_SHA1 }}
+      - run:
+          name: Install exiftool
+          command: |
+            sudo apt-get update
+            sudo apt-get install exiftool
+            sudo docker-php-ext-configure exif
+            sudo docker-php-ext-install exif
+      - run:
+          name: Install Laravel
+          command: composer install --optimize-autoloader
+      - save_cache:
+          key: laravel-install-test-{{ .Branch }}-{{ .Environment.CIRCLE_SHA1 }}
+          paths:
+            - ./      
+
+  install_laravel_prod:
     <<: *php
     <<: *wd
     steps:
@@ -121,22 +142,19 @@ jobs:
           name: Install Laravel with Autoloader Optimization
           command: composer install --optimize-autoloader --no-dev
       - save_cache:
-          key: laravel-install-{{ .Branch }}-{{ .Environment.CIRCLE_SHA1 }}
+          key: laravel-install-prod-{{ .Branch }}-{{ .Environment.CIRCLE_SHA1 }}
           paths:
-            - ./      
+            - ./            
 
   php_linter:
     <<: *php
     <<: *wd
     steps:
       - restore_cache:
-          key: laravel-install-{{ .Branch }}-{{ .Environment.CIRCLE_SHA1 }}
-      - run:
-          name: Update install
-          command: composer update    
+          key: laravel-install-test{{ .Branch }}-{{ .Environment.CIRCLE_SHA1 }} 
       - run:
           name: PHP Mess Detector
-          command: ./vendor/bin/phpmd app/ text cleancode,codesize,controversial,design,naming,unusedcode
+          command: ./vendor/bin/phpmd app/,routes/,resources/views/,resources/lang/,tests/ text scripts/phpmd.xml
 
   optimize_laravel:
     <<: *php
@@ -257,7 +275,7 @@ workflows:
           filters:
             branches:
               ignore: master     
-      - install_laravel:
+      - install_laravel_test:
           requires:
             - checkout_code
           filters:
@@ -277,7 +295,7 @@ workflows:
               ignore: master
       - php_linter:
           requires:
-            - install_laravel
+            - install_laravel_test
             - php_checks
           filters:
             branches:
