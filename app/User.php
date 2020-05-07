@@ -46,9 +46,6 @@ class User extends Authenticatable
      */
     public function setPasswordAttribute($value)
     {
-        if ($value != 200) {
-            return 'a';
-        }
         $this->attributes['password'] = bcrypt($value);
     }
 }
