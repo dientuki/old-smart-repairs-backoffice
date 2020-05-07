@@ -1,12 +1,13 @@
-/* eslint-disable prefer-const */
-export function mergeObjects(defaults, custom) {
-  if (typeof defaults === 'undefined') {
-    throw new Error('"defaults" object must be given');
-  }
-  if (typeof defaults !== 'object' || (typeof custom !== 'undefined' && typeof custom !== 'object')) {
-    throw new Error('Args must be an object');
-  }
+import { isObject } from './validators';
 
+/* eslint-disable prefer-const */
+/**
+ * Merge two objects
+ * @param defaults
+ * @param custom
+ * @returns {{}}
+ */
+export function mergeObjects(defaults, custom) {
   let final = {},
     propertyName;
 
@@ -15,20 +16,12 @@ export function mergeObjects(defaults, custom) {
   }
 
   for (propertyName in custom) {
-    final[propertyName] = custom[propertyName];
+    if (isObject(custom[propertyName]) && final[propertyName] !== undefined) {
+      final[propertyName] = mergeObjects(defaults[propertyName], custom[propertyName]);
+    } else {
+      final[propertyName] = custom[propertyName];
+    }
   }
 
   return final;
-}
-
-export function killBubling(e, tag) {
-  let element = e;
-
-  while (element.parentNode) {
-    element = element.parentNode;
-    if (element.tagName === tag) {
-      return element;
-    }
-  }
-  return null;
 }

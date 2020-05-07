@@ -9,9 +9,11 @@
     "prod": "npm run production",
     "production": "cross-env NODE_ENV=production webpack --progress --hide-modules --config=webpack/webpack.config.js",
     "svg": "svgo --config=svgo.yml -f ./resources/images -o ./public/dist/svg",
-    "stylelint": "stylelint './resources/sass/**/*.scss' --syntax scss --config stylelint.json"
+    "stylelint": "stylelint './resources/sass/**/*.scss' --syntax scss --config stylelint.json",
+    "test": "jest"
   },
   "devDependencies": {
+    "@babel/preset-env": "^7.9.6",
     "autoprefixer": "^9.7.6",
     "babel-eslint": "^10.1.0",
     "browserslist": "^4.12.0",
@@ -22,6 +24,7 @@
     "file-loader": "^6.0.0",
     "hard-source-webpack-plugin": "^0.13.1",
     "image-webpack-loader": "^6.0.0",
+    "jest": "^26.0.1",
     "mini-css-extract-plugin": "^0.9.0",
     "optimize-css-assets-webpack-plugin": "^5.0.3",
     "postcss-loader": "^3.0.0",
@@ -29,6 +32,7 @@
     "sass-loader": "^8.0.2",
     "stylelint": "^13.3.3",
     "stylelint-scss": "^3.17.1",
+    "svgo": "^1.3.2",
     "terser-webpack-plugin": "^3.0.0",
     "webpack": "^4.43.0",
     "webpack-assets-manifest": "^3.1.1",
@@ -36,5 +40,18 @@
   },
   "browserslist": [
     "defaults and last 2 version and > .5%"
-  ]
+  ],
+  "jest": {
+    "collectCoverage": true,
+    "coverageDirectory": "coverage",
+    "coverageThreshold": {
+      "global": {
+        "branches": 85,
+        "functions": 85,
+        "lines": 85
+      }
+    },
+    "testURL": "http://localhost/admin",
+    "verbose": true
+  }
 }

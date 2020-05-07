@@ -1,9 +1,9 @@
 wd: &wd
-  working_directory: ~/backend
+  working_directory: ~/backoffice
 
 php: &php
   docker:
-    - image: circleci/php:7.2.19-cli
+    - image: circleci/php:7.4.5-cli
 
 node: &node
   docker:
@@ -23,7 +23,7 @@ jobs:
       - save_cache:
           key: checkout-cache-{{ .Branch }}-{{ .Environment.CIRCLE_SHA1 }}
           paths:
-            - ~/backend
+            - ~/backoffice 
 
   php_checks:
     <<: *wd
@@ -66,9 +66,9 @@ jobs:
       - run:
           name: Linter Javascript
           command: npm run eslint:js       
-      - run:
-          name: Linter Javascript eXtended
-          command: npm run eslint:jsx
+      # - run:
+          # name: Linter Javascript eXtended
+          # command: npm run eslint:jsx
       - run:
           name: Linter CSS
           command: npm run stylelint    
@@ -104,7 +104,28 @@ jobs:
           paths:
             - public/dist
   
-  install_laravel:
+  install_laravel_test:
+    <<: *php
+    <<: *wd
+    steps:
+      - restore_cache:
+          key: checkout-cache-{{ .Branch }}-{{ .Environment.CIRCLE_SHA1 }}
+      - run:
+          name: Install exiftool
+          command: |
+            sudo apt-get update
+            sudo apt-get install exiftool
+            sudo docker-php-ext-configure exif
+            sudo docker-php-ext-install exif
+      - run:
+          name: Install Laravel
+          command: composer install --optimize-autoloader
+      - save_cache:
+          key: laravel-install-test-{{ .Branch }}-{{ .Environment.CIRCLE_SHA1 }}
+          paths:
+            - ./      
+
+  install_laravel_prod:
     <<: *php
     <<: *wd
     steps:
@@ -121,9 +142,30 @@ jobs:
           name: Install Laravel with Autoloader Optimization
           command: composer install --optimize-autoloader --no-dev
       - save_cache:
-          key: laravel-install-{{ .Branch }}-{{ .Environment.CIRCLE_SHA1 }}
+          key: laravel-install-prod-{{ .Branch }}-{{ .Environment.CIRCLE_SHA1 }}
           paths:
-            - ./      
+            - ./            
+
+  php_linter:
+    <<: *php
+    <<: *wd
+    steps:
+      - restore_cache:
+          key: laravel-install-test-{{ .Branch }}-{{ .Environment.CIRCLE_SHA1 }}
+      - run:
+          name: Install PDO
+          command: |
+            sudo docker-php-ext-install pdo_mysql
+            sudo docker-php-ext-enable pdo_mysql
+      - run:
+          name: PHP Mess Detector
+          command: ./vendor/bin/phpmd app/,config/,database/,routes/,resources/views/,resources/lang/,tests/ text scripts/phpmd.xml
+      - run:
+          name: PHP CodeSniffer
+          command: ./vendor/bin/phpcs app/ config/ database/ routes/ resources/views/ resources/lang/ tests/ --standard=PSR2
+      - run:
+          name: PHP Static Analysis Tool
+          command: ./vendor/bin/phpstan analyse --memory-limit 256M -c scripts/phpstan.neon
 
   optimize_laravel:
     <<: *php
@@ -243,7 +285,13 @@ workflows:
             - checkout_code        
           filters:
             branches:
-              ignore: master                      
+              ignore: master     
+      - install_laravel_test:
+          requires:
+            - checkout_code
+          filters:
+            branches:
+              ignore: master                             
       - frontend_linters:
           requires:
             - install_webpack      
@@ -255,7 +303,14 @@ workflows:
             - install_webpack      
           filters:
             branches:
-              ignore: master                  
+              ignore: master
+      - php_linter:
+          requires:
+            - install_laravel_test
+            - php_checks
+          filters:
+            branches:
+              ignore: master                            
   
   merge_master:
     jobs:
@@ -281,6 +336,12 @@ workflows:
           filters:
             branches:
               only: master
+      - frontend_tests:
+          requires:
+            - install_webpack      
+          filters:
+            branches:
+              ignore: master                
       - build_webpack:
           requires:
             - install_webpack        

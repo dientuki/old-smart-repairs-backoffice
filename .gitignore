@@ -14,3 +14,5 @@ yarn-error.log
 /public/css
 /public/js
 .idea
+/coverage/
+/phpLinter/
