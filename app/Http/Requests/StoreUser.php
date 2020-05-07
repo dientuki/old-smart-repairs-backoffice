@@ -15,7 +15,6 @@ class StoreUser extends FormRequest
     {
         return true;
     }
-    
 
     /**
      * Get the validation rules that apply to the request.
@@ -40,7 +39,6 @@ class StoreUser extends FormRequest
         return [
             'name' => __('fields.name'),
             'email' => __('fields.email'),
-
         ];
-    }    
+    }
 }

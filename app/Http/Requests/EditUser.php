@@ -15,7 +15,6 @@ class EditUser extends FormRequest
     {
         return true;
     }
-    
 
     /**
      * Get the validation rules that apply to the request.
@@ -26,9 +25,9 @@ class EditUser extends FormRequest
     {
         return [
             'name' => 'required',
-            'email' => 'required',         
+            'email' => 'required',
             'password' => 'nullable',
-            'password_confirm' => 'required_with:password|same:password'             
+            'password_confirm' => 'required_with:password|same:password'
         ];
     }
 
@@ -43,7 +42,7 @@ class EditUser extends FormRequest
             'name' => __('fields.name'),
             'email' => __('fields.email'),
             'password' => __('fields.password'),
-            'password_confirm' => __('fields.password_confirm'),            
+            'password_confirm' => __('fields.password_confirm'),
         ];
-    }    
+    }
 }

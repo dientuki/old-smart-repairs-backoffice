@@ -30,8 +30,8 @@ class UsersController extends Controller
      */
     public function index()
     {
-      $users = $this->user->getAll();
-      return view('admin/users/index', compact('users'));
+        $users = $this->user->getAll();
+        return view('admin/users/index', compact('users'));
     }
 
     /**
@@ -45,7 +45,7 @@ class UsersController extends Controller
         $action = 'create';
         $formData = array('route' => 'admin.users.store', 'method' => 'POST');
         
-        return view('admin/users/form', compact('action', 'user',  'formData'));
+        return view('admin/users/form', compact('action', 'user', 'formData'));
     }
 
     /**
@@ -55,14 +55,14 @@ class UsersController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(StoreUser $request)
-    {      
+    {
         $data = $request->validated();
 
         $user = new User();
         $user->create($data);
         // send mail
         //$token = Password::getRepository()->create($user);
-        //$user->sendPasswordResetNotification($token);        
+        //$user->sendPasswordResetNotification($token);
 
         return redirect()->route('admin.users.index');
     }
@@ -119,7 +119,7 @@ class UsersController extends Controller
             Alert::success('Registro eliminado correctamente!')->flash();
         } catch (Exception $e) {
             Alert::error('No puedes eliminar el registro!')->flash();
-        }  
+        }
 
         return redirect()->route('admin.users.index');
     }

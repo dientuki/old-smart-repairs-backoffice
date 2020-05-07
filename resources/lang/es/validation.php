@@ -1,5 +1,5 @@
 <?php
-
+// phpcs:disable Generic.Files.LineLength
 return [
 
     /*

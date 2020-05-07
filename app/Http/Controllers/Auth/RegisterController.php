@@ -46,7 +46,7 @@ class RegisterController extends Controller
      *
      * @param  array  $data
      * @return \Illuminate\Contracts\Validation\Validator
-     * 
+     *
      * @SuppressWarnings(PHPMD)
      */
     protected function validator(array $data)
@@ -63,7 +63,7 @@ class RegisterController extends Controller
      *
      * @param  array  $data
      * @return \App\User
-     * 
+     *
      * @SuppressWarnings(PHPMD)
      */
     protected function create(array $data)
