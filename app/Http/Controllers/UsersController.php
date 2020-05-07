@@ -7,12 +7,19 @@ use Exception;
 use Illuminate\Http\Request;
 use App\Http\Requests\EditUser;
 use App\Http\Requests\StoreUser;
-use Prologue\Alerts\Facades\Alert;
+//use Prologue\Alerts\Facades\Alert;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Password;
 
 class UsersController extends Controller
 {
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var object $array
+     */
+    private $user;
+
     /**
      * Create a new controller instance.
      *
@@ -116,9 +123,9 @@ class UsersController extends Controller
 
         try {
             $user->delete();
-            Alert::success('Registro eliminado correctamente!')->flash();
+            //Alert::success('Registro eliminado correctamente!')->flash();
         } catch (Exception $e) {
-            Alert::error('No puedes eliminar el registro!')->flash();
+            //Alert::error('No puedes eliminar el registro!')->flash();
         }
 
         return redirect()->route('admin.users.index');
