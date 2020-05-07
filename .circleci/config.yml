@@ -158,6 +158,9 @@ jobs:
       - run:
           name: PHP CodeSniffer
           command: ./vendor/bin/phpcs app/ config/ database/ routes/ resources/views/ resources/lang/ tests/ --standard=PSR2
+      - run:
+          name: PHP Static Analysis Tool
+          command: ./vendor/bin/phpstan analyse -l 0 app/ config/ database/ routes/ resources/views/ resources/lang/ tests/         
 
   optimize_laravel:
     <<: *php
