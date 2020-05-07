@@ -1,5 +1,5 @@
 wd: &wd
-  working_directory: ~/backend
+  working_directory: ~/backoffice
 
 php: &php
   docker:
@@ -23,7 +23,7 @@ jobs:
       - save_cache:
           key: checkout-cache-{{ .Branch }}-{{ .Environment.CIRCLE_SHA1 }}
           paths:
-            - ~/backend 
+            - ~/backoffice 
 
   php_checks:
     <<: *wd
@@ -154,7 +154,9 @@ jobs:
           key: laravel-install-test-{{ .Branch }}-{{ .Environment.CIRCLE_SHA1 }}
       - run:
           name: Install PDO
-          command: sudo apt-get install php-mysql
+          command: |
+            sudo docker-php-ext-install pdo_mysql
+            sudo docker-php-ext-enable pdo_mysql
       - run:
           name: PHP Mess Detector
           command: ./vendor/bin/phpmd app/,config/,database/,routes/,resources/views/,resources/lang/,tests/ text scripts/phpmd.xml
