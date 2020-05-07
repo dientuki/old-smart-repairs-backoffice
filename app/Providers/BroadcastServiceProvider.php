@@ -11,6 +11,8 @@ class BroadcastServiceProvider extends ServiceProvider
      * Bootstrap any application services.
      *
      * @return void
+     * 
+     * @SuppressWarnings(PHPMD)
      */
     public function boot()
     {
