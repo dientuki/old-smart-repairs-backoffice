@@ -153,6 +153,9 @@ jobs:
       - restore_cache:
           key: laravel-install-test-{{ .Branch }}-{{ .Environment.CIRCLE_SHA1 }}
       - run:
+          name: Install PDO
+          command: sudo apt-get install php-mysql
+      - run:
           name: PHP Mess Detector
           command: ./vendor/bin/phpmd app/,config/,database/,routes/,resources/views/,resources/lang/,tests/ text scripts/phpmd.xml
       - run:
