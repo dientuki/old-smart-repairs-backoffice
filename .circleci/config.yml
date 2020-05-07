@@ -168,7 +168,7 @@ jobs:
           command: ./vendor/bin/phpstan analyse --memory-limit 256M -c scripts/phpstan.neon
       - run:
           name: PHP Magic Number Detector
-          command: ./vendor/bin/phpmnd app/ config/ database/ routes/ resources/views/ resources/lang/ tests/
+          command: ./vendor/bin/phpmnd app/ config/ database/ routes/ resources/views/ resources/lang/ tests/ --non-zero-exit-on-violation
           
 
   optimize_laravel:
