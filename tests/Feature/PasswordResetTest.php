@@ -243,7 +243,7 @@ class PasswordResetTest extends TestCase
             ->assertSuccessful()
             ->assertSee(__('validation.min.string', [
                 'attribute' => 'password',
-                'min' => 6,
+                'min' => 8,
             ]));
 
         $user->refresh();
