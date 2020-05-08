@@ -199,7 +199,7 @@ jobs:
     <<: *wd
     steps:
       - restore_cache:
-          key: laravel-install-{{ .Branch }}-{{ .Environment.CIRCLE_SHA1 }}
+          key: laravel-install-prod-{{ .Branch }}-{{ .Environment.CIRCLE_SHA1 }}
       - run:
           name: Optimizing Configuration Loading
           command: php artisan config:cache
@@ -228,6 +228,7 @@ jobs:
             rm -rf .circleci
             rm -rf .env.*
             rm -rf .eslintrc.json
+            rm -rf .babelrc
             rm -rf database
             rm -rf tests
             rm -rf webpack
@@ -235,9 +236,13 @@ jobs:
             rm -rf package.json
             rm -rf package-lock.json
             rm -rf phpunit.xml
+            rm -rf phpstan.neon
+            rm -rf phpmd.xml
             rm -rf postcss.config.js
             rm -rf stylelint.json
             rm -rf scripts
+            rm -rf svgo.yml
+            rm -rf artisan
             rm -rf bootstrap/cache/config.php
       - run:
           name: Making build.tar.gz
