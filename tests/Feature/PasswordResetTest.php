@@ -283,7 +283,7 @@ class PasswordResetTest extends TestCase
         $user->refresh();
         //die('asdf'.!Hash::check($password, $user->password).'dunno');
         $this->assertFalse(Hash::check(self::USER_ORIGINAL_PASSWORD, $user->password));
-        $this->assertTrue(Hash::check($password, $user->password)); 
+        $this->assertTrue(Hash::check($password, $user->password));
     }
     */
 }
