@@ -15,7 +15,12 @@
     </rule>
     <rule ref="rulesets/cleancode.xml/StaticAccess">
         <properties>
-            <property name="exceptions" value="Illuminate\Support\Facades\Schema"/>
+            <property name="exceptions">
+                <value>
+                   \Illuminate\Support\Facades\Schema,
+                   \Illuminate\Support\Str
+                </value>
+            </property>
         </properties>
     </rule>
 
