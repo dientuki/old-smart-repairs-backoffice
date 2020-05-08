@@ -380,7 +380,7 @@ workflows:
             - install_webpack      
           filters:
             branches:
-              ignore: master                
+              only: master                
       - build_webpack:
           requires:
             - install_webpack     
@@ -401,14 +401,14 @@ workflows:
             - php_checks
           filters:
             branches:
-              ignore: master     
+              only: master    
       - laravel_test:
           requires:
             - install_laravel_test
             - php_checks
           filters:
             branches:
-              ignore: master    
+              only: master  
       - install_laravel_prod:
           requires:
             - checkout_code        
