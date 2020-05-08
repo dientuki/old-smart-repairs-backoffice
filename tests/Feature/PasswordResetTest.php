@@ -191,7 +191,7 @@ class PasswordResetTest extends TestCase
         $token = Password::broker()->createToken($user);
 
         $password = Str::random();
-        $password_confirmation = Str::random();
+        $passwordConfirmation = Str::random();
 
         $this
             ->followingRedirects()
@@ -202,7 +202,7 @@ class PasswordResetTest extends TestCase
                 'token' => $token,
                 'email' => $user->email,
                 'password' => $password,
-                'password_confirmation' => $password_confirmation,
+                'password_confirmation' => $passwordConfirmation,
             ])
             ->assertSuccessful()
             ->assertSee(__('validation.confirmed', [
