@@ -284,5 +284,4 @@ class PasswordResetTest extends TestCase
         $this->assertFalse(Hash::check(self::USER_ORIGINAL_PASSWORD, $user->password));
         $this->assertTrue(Hash::check($password, $user->password));
     }
-
 }
