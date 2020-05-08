@@ -2,13 +2,13 @@
 
 namespace Tests\Feature;
 
-use Hash;
 use App\User;
-use Password;
-use Notification;
 use Tests\TestCase;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Password;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Auth\Notifications\ResetPassword;
 
 class PasswordResetTest extends TestCase
@@ -18,7 +18,7 @@ class PasswordResetTest extends TestCase
     const ROUTE_PASSWORD_EMAIL = 'password.email';
     const ROUTE_PASSWORD_REQUEST = 'password.request';
     const ROUTE_PASSWORD_RESET = 'password.reset';
-    const ROUTE_PASSWORD_RESET_SUBMIT = 'password.reset.submit';
+    const ROUTE_PASSWORD_RESET_SUBMIT = 'password.update';
 
     const USER_ORIGINAL_PASSWORD = 'secret';
 
@@ -66,7 +66,7 @@ class PasswordResetTest extends TestCase
                 'email' => $this->faker->unique()->safeEmail,
             ])
             ->assertSuccessful()
-            ->assertSee(e(__('passwords.user')));
+            ->assertSee(__('passwords.user'));
     }
 
     /**
@@ -85,7 +85,7 @@ class PasswordResetTest extends TestCase
             ->assertSuccessful()
             ->assertSee(__('passwords.sent'));
 
-        Notification::assertSentTo($user, ResetPassword::class);
+        Notification::assertSentTo(User::latest()->first(), ResetPassword::class);
     }
 
     /**
@@ -284,4 +284,5 @@ class PasswordResetTest extends TestCase
         $this->assertFalse(Hash::check(self::USER_ORIGINAL_PASSWORD, $user->password));
         $this->assertTrue(Hash::check($password, $user->password));
     }
+
 }
