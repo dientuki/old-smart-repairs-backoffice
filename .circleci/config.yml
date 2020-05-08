@@ -163,16 +163,16 @@ jobs:
             sudo docker-php-ext-enable pdo_mysql
       - run:
           name: PHP Mess Detector
-          command: ./vendor/bin/phpmd app/,config/,database/,routes/,resources/views/,resources/lang/,tests/ text scripts/phpmd.xml
+          command: composer phpmd
       - run:
           name: PHP CodeSniffer
-          command: ./vendor/bin/phpcs app/ config/ database/ routes/ resources/views/ resources/lang/ tests/ --standard=PSR2
+          command: composer phpcs
       - run:
           name: PHP Static Analysis Tool
-          command: ./vendor/bin/phpstan analyse --memory-limit 256M -c scripts/phpstan.neon
+          command: composer phpstan
       - run:
           name: PHP Magic Number Detector
-          command: ./vendor/bin/phpmnd app/ config/ database/ routes/ resources/views/ resources/lang/ tests/ --non-zero-exit-on-violation
+          command: composer phpmnd
 
   laravel_test:
     <<: *phpTest
