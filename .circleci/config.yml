@@ -177,7 +177,17 @@ jobs:
       - restore_cache:
           key: laravel-install-test-{{ .Branch }}-{{ .Environment.CIRCLE_SHA1 }}
       - run:
-          name: PHP Mess Detector
+          name: Create Environment file
+          command: |
+            mv .env.testing .env
+            php artisan key:generate
+      - run:
+          name: Create database and run migration
+          command: |
+            touch database/database.sqlite
+            php artisan migrate --env=testing            
+      - run:
+          name: Testing
           command: ./vendor/bin/phpunit
 
   optimize_laravel:
