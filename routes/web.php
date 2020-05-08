@@ -40,7 +40,8 @@ Route::group(['prefix' => 'admin'], function () {
 
     Route::group(['middleware' => 'auth'], function () {
         //Route::get('dashboard.html', ['uses' => 'PackagesController@index', 'as' => 'dashboard']);
-        Route::get('dashboard.html', 'HomeController@index')->name('dashboard');
         Route::resource('users', 'UsersController')->except(['show']);
     });
+
+    Route::get('dashboard.html', 'HomeController@index')->name('dashboard');
 });

@@ -5,6 +5,10 @@ php: &php
   docker:
     - image: circleci/php:7.4.5-cli
 
+phpTest: &phpTest
+  docker:
+    - image: circleci/php:7.4.5-node-browsers  
+
 node: &node
   docker:
     - image: circleci/node:12.16.2
@@ -159,20 +163,43 @@ jobs:
             sudo docker-php-ext-enable pdo_mysql
       - run:
           name: PHP Mess Detector
-          command: ./vendor/bin/phpmd app/,config/,database/,routes/,resources/views/,resources/lang/,tests/ text scripts/phpmd.xml
+          command: composer phpmd
       - run:
           name: PHP CodeSniffer
-          command: ./vendor/bin/phpcs app/ config/ database/ routes/ resources/views/ resources/lang/ tests/ --standard=PSR2
+          command: composer phpcs
       - run:
           name: PHP Static Analysis Tool
-          command: ./vendor/bin/phpstan analyse --memory-limit 256M -c scripts/phpstan.neon
+          command: composer phpstan
+      - run:
+          name: PHP Magic Number Detector
+          command: composer phpmnd
+
+  laravel_test:
+    <<: *phpTest
+    <<: *wd
+    steps:
+      - restore_cache:
+          key: laravel-install-test-{{ .Branch }}-{{ .Environment.CIRCLE_SHA1 }}
+      - run:
+          name: Create database and run migration
+          command: |
+            sudo apt install -y libsqlite3-dev zlib1g-dev
+            sudo docker-php-ext-install zip          
+      - run:
+          name: Create database and run migration
+          command: |
+            touch database/database.sqlite
+            php artisan migrate --env=testing            
+      - run:
+          name: Testing
+          command: ./vendor/bin/phpunit
 
   optimize_laravel:
     <<: *php
     <<: *wd
     steps:
       - restore_cache:
-          key: laravel-install-{{ .Branch }}-{{ .Environment.CIRCLE_SHA1 }}
+          key: laravel-install-prod-{{ .Branch }}-{{ .Environment.CIRCLE_SHA1 }}
       - run:
           name: Optimizing Configuration Loading
           command: php artisan config:cache
@@ -201,6 +228,7 @@ jobs:
             rm -rf .circleci
             rm -rf .env.*
             rm -rf .eslintrc.json
+            rm -rf .babelrc
             rm -rf database
             rm -rf tests
             rm -rf webpack
@@ -208,9 +236,13 @@ jobs:
             rm -rf package.json
             rm -rf package-lock.json
             rm -rf phpunit.xml
+            rm -rf phpstan.neon
+            rm -rf phpmd.xml
             rm -rf postcss.config.js
             rm -rf stylelint.json
             rm -rf scripts
+            rm -rf svgo.yml
+            rm -rf artisan
             rm -rf bootstrap/cache/config.php
       - run:
           name: Making build.tar.gz
@@ -288,10 +320,10 @@ workflows:
               ignore: master     
       - install_laravel_test:
           requires:
-            - checkout_code
+            - checkout_code        
           filters:
             branches:
-              ignore: master                             
+              ignore: master                                       
       - frontend_linters:
           requires:
             - install_webpack      
@@ -310,7 +342,14 @@ workflows:
             - php_checks
           filters:
             branches:
-              ignore: master                            
+              ignore: master     
+      - laravel_test:
+          requires:
+            - install_laravel_test
+            - php_checks
+          filters:
+            branches:
+              ignore: master                                       
   
   merge_master:
     jobs:
@@ -344,37 +383,53 @@ workflows:
               ignore: master                
       - build_webpack:
           requires:
-            - install_webpack        
+            - install_webpack     
+            - frontend_tests
+            - frontend_linters   
           filters:
             branches:
               only: master
-      - install_laravel:
+      - install_laravel_test:
           requires:
             - checkout_code        
           filters:
             branches:
               only: master
+      - php_linter:
+          requires:
+            - install_laravel_test
+            - php_checks
+          filters:
+            branches:
+              ignore: master     
+      - laravel_test:
+          requires:
+            - install_laravel_test
+            - php_checks
+          filters:
+            branches:
+              ignore: master    
+      - install_laravel_prod:
+          requires:
+            - checkout_code        
+          filters:
+            branches:
+              only: master              
       - optimize_laravel:
           requires:
-            - install_laravel
-            - php_checks
+            - install_laravel_prod
+            - php_linter
+            - laravel_test
           filters:
             branches:
               only: master
       - build_targz:
           requires:
             - optimize_laravel
-            - frontend_linters
             - build_webpack     
           filters:
             branches:
-              only: master  
-      - deploy_stage:
-          requires:
-            - build_targz    
-          filters:
-            branches:
-              only: master                        
+              only: master                     
   release:
     jobs:
       - checkout_code:

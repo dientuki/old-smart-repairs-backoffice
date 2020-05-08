@@ -13,7 +13,8 @@
         "fruitcake/laravel-cors": "^1.0",
         "guzzlehttp/guzzle": "^6.3",
         "laravel/framework": "^7.0",
-        "laravel/tinker": "^2.0"
+        "laravel/tinker": "^2.0",
+        "laravel/ui": "^2.0"
     },
     "require-dev": {
         "facade/ignition": "^2.0",
@@ -23,6 +24,7 @@
         "phpmd/phpmd": "^2.8",
         "phpstan/phpstan": "^0.12.23",
         "phpunit/phpunit": "^8.5",
+        "povils/phpmnd": "^2.2",
         "squizlabs/php_codesniffer": "^3.5"
     },
     "config": {
@@ -61,6 +63,27 @@
         ],
         "post-create-project-cmd": [
             "@php artisan key:generate --ansi"
+        ],
+        "linter": [
+            "composer phpmd",
+            "composer phpcs",
+            "composer phpstan",
+            "composer phpmnd"
+        ],
+        "phpmd": [
+            "phpmd app/,config/,database/,routes/,resources/views/,resources/lang/,tests/ text ./phpmd.xml"
+        ],     
+        "phpcs": [
+            "phpcs app/ config/ database/ routes/ resources/views/ resources/lang/ tests/ --standard=PSR2"
+        ],             
+        "phpstan": [
+            "phpstan analyse -c ./phpstan.neon"
+        ],
+        "phpmnd": [
+            "phpmnd app/ config/ database/ routes/ resources/views/ resources/lang/ tests/ --non-zero-exit-on-violation"
+        ],
+        "test": [
+            "phpunit --coverage-html ./coverage/phpunit"
         ]
     }
 }
