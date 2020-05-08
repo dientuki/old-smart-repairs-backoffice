@@ -317,13 +317,7 @@ workflows:
             - checkout_code        
           filters:
             branches:
-              ignore: master     
-      - install_laravel_test:
-          requires:
-            - checkout_code
-          filters:
-            branches:
-              ignore: master                             
+              ignore: master                              
       - frontend_linters:
           requires:
             - install_webpack      
@@ -383,37 +377,53 @@ workflows:
               ignore: master                
       - build_webpack:
           requires:
-            - install_webpack        
+            - install_webpack     
+            - frontend_tests
+            - frontend_linters   
           filters:
             branches:
               only: master
-      - install_laravel:
+      - install_laravel_test:
           requires:
             - checkout_code        
           filters:
             branches:
               only: master
+      - php_linter:
+          requires:
+            - install_laravel_test
+            - php_checks
+          filters:
+            branches:
+              ignore: master     
+      - laravel_test:
+          requires:
+            - install_laravel_test
+            - php_checks
+          filters:
+            branches:
+              ignore: master    
+      - install_laravel_prod:
+          requires:
+            - checkout_code        
+          filters:
+            branches:
+              only: master              
       - optimize_laravel:
           requires:
-            - install_laravel
-            - php_checks
+            - install_laravel_prod
+            - php_linter
+            - laravel_test
           filters:
             branches:
               only: master
       - build_targz:
           requires:
             - optimize_laravel
-            - frontend_linters
             - build_webpack     
           filters:
             branches:
-              only: master  
-      - deploy_stage:
-          requires:
-            - build_targz    
-          filters:
-            branches:
-              only: master                        
+              only: master                     
   release:
     jobs:
       - checkout_code:
