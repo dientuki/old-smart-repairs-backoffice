@@ -5,6 +5,10 @@ php: &php
   docker:
     - image: circleci/php:7.4.5-cli
 
+phpTest: &phpTest
+  docker:
+    - image: circleci/php:7.4.5-node-browsers  
+
 node: &node
   docker:
     - image: circleci/node:12.16.2
@@ -171,7 +175,7 @@ jobs:
           command: ./vendor/bin/phpmnd app/ config/ database/ routes/ resources/views/ resources/lang/ tests/ --non-zero-exit-on-violation
 
   laravel_test:
-    <<: *php
+    <<: *phpTest
     <<: *wd
     steps:
       - restore_cache:
