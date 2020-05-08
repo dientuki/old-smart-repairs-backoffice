@@ -317,7 +317,13 @@ workflows:
             - checkout_code        
           filters:
             branches:
-              ignore: master                              
+              ignore: master     
+      - install_laravel_test:
+          requires:
+            - checkout_code        
+          filters:
+            branches:
+              only: master                                       
       - frontend_linters:
           requires:
             - install_webpack      
