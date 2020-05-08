@@ -102,10 +102,10 @@ class PasswordResetTest extends TestCase
                 'token' => $token,
             ]))
             ->assertSuccessful()
-            ->assertSee('Reset Password')
-            ->assertSee('E-Mail Address')
-            ->assertSee('Password')
-            ->assertSee('Confirm Password');
+            ->assertSee(__('Reset Password'))
+            ->assertSee(__('E-Mail Address'))
+            ->assertSee(__('Password'))
+            ->assertSee(__('Confirm Password'));
     }
 
     /**
@@ -120,7 +120,7 @@ class PasswordResetTest extends TestCase
 
         $token = Password::broker()->createToken($user);
 
-        $password = str_random();
+        $password = Str::random();
 
         $this
             ->followingRedirects()
@@ -129,7 +129,7 @@ class PasswordResetTest extends TestCase
             ]))
             ->post(route(self::ROUTE_PASSWORD_RESET_SUBMIT), [
                 'token' => $token,
-                'email' => str_random(),
+                'email' => Str::random(),
                 'password' => $password,
                 'password_confirmation' => $password,
             ])
@@ -156,7 +156,7 @@ class PasswordResetTest extends TestCase
 
         $token = Password::broker()->createToken($user);
 
-        $password = str_random();
+        $password = Str::random();
 
         $this
             ->followingRedirects()
@@ -190,8 +190,8 @@ class PasswordResetTest extends TestCase
 
         $token = Password::broker()->createToken($user);
 
-        $password = str_random();
-        $password_confirmation = str_random();
+        $password = Str::random();
+        $password_confirmation = Str::random();
 
         $this
             ->followingRedirects()
@@ -227,7 +227,7 @@ class PasswordResetTest extends TestCase
 
         $token = Password::broker()->createToken($user);
 
-        $password = str_random(5);
+        $password = Str::random(5);
 
         $this
             ->followingRedirects()
@@ -263,7 +263,7 @@ class PasswordResetTest extends TestCase
 
         $token = Password::broker()->createToken($user);
 
-        $password = str_random();
+        $password = Str::random();
 
         $this
             ->followingRedirects()
