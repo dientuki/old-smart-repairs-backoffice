@@ -43,7 +43,7 @@
   ],
   "jest": {
     "collectCoverage": true,
-    "coverageDirectory": "coverage",
+    "coverageDirectory": "coverage/jest",
     "coverageThreshold": {
       "global": {
         "branches": 75,

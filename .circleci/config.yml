@@ -169,7 +169,16 @@ jobs:
       - run:
           name: PHP Magic Number Detector
           command: ./vendor/bin/phpmnd app/ config/ database/ routes/ resources/views/ resources/lang/ tests/ --non-zero-exit-on-violation
-          
+
+  laravel_test:
+    <<: *php
+    <<: *wd
+    steps:
+      - restore_cache:
+          key: laravel-install-test-{{ .Branch }}-{{ .Environment.CIRCLE_SHA1 }}
+      - run:
+          name: PHP Mess Detector
+          command: ./vendor/bin/phpunit
 
   optimize_laravel:
     <<: *php
@@ -314,7 +323,14 @@ workflows:
             - php_checks
           filters:
             branches:
-              ignore: master                            
+              ignore: master     
+      - laravel_test:
+          requires:
+            - install_laravel_test
+            - php_checks
+          filters:
+            branches:
+              ignore: master                                       
   
   merge_master:
     jobs:

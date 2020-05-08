@@ -2,7 +2,11 @@
 
 mkdir -p phpLinter
 
-docker-compose exec backoffice ./vendor/bin/phpmd app/,config/,database/,routes/,resources/views/,resources/lang/,tests/ html scripts/phpmd.xml > phpLinter/phpmd.html
-docker-compose exec backoffice ./vendor/bin/phpcs app/ config/ database/ routes/ resources/views/ resources/lang/ tests/ --standard=PSR2 > phpLinter/phpcs.txt
+echo "=== PHP Mess Detector ==="
+docker-compose exec backoffice ./vendor/bin/phpmd app/,config/,database/,routes/,resources/views/,resources/lang/,tests/ text scripts/phpmd.xml
+echo "=== PHP CodeSniffer ==="
+docker-compose exec backoffice ./vendor/bin/phpcs app/ config/ database/ routes/ resources/views/ resources/lang/ tests/ --standard=PSR2
+echo "=== PHP Static Analysis Tool ==="
 docker-compose exec backoffice ./vendor/bin/phpstan analyse -c scripts/phpstan.neon
-docker-compose exec backoffice ./vendor/bin/phpmnd app/ config/ database/ routes/ resources/views/ resources/lang/ tests/ > phpLinter/magic-number.txt
+echo "=== PHP Magic Number Detector ==="
+docker-compose exec backoffice ./vendor/bin/phpmnd app/ config/ database/ routes/ resources/views/ resources/lang/ tests/
