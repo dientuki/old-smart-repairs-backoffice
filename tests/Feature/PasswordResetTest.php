@@ -140,8 +140,8 @@ class PasswordResetTest extends TestCase
 
         $user->refresh();
 
-        $this->assertFalse(Hash::check($password, $user->password));
         $this->assertTrue(Hash::check(self::USER_ORIGINAL_PASSWORD, $user->password));
+        $this->assertFalse(Hash::check($password, $user->password));
     }
 
     /**
@@ -255,7 +255,6 @@ class PasswordResetTest extends TestCase
     /**
      * Testing submitting the password reset page.
      */
-    /*
     public function testSubmitPasswordReset()
     {
         $user = factory(User::class)->create([
@@ -263,7 +262,6 @@ class PasswordResetTest extends TestCase
         ]);
 
         $token = Password::broker()->createToken($user);
-
         $password = Str::random(8);
 
         $this
@@ -281,9 +279,8 @@ class PasswordResetTest extends TestCase
             ->assertSee(__('passwords.reset'));
 
         $user->refresh();
-        //die('asdf'.!Hash::check($password, $user->password).'dunno');
+
         $this->assertFalse(Hash::check(self::USER_ORIGINAL_PASSWORD, $user->password));
         $this->assertTrue(Hash::check($password, $user->password));
     }
-    */
 }
