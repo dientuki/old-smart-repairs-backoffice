@@ -1,5 +1,6 @@
 parameters:
 	level: 0
+	memory-limit: 1G
 	paths:
 		- app
 		- config
