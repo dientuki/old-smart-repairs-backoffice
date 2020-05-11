@@ -77,7 +77,7 @@
             "phpcs app/ config/ database/ routes/ resources/views/ resources/lang/ tests/ --standard=PSR2"
         ],             
         "phpstan": [
-            "phpstan analyse -c ./phpstan.neon"
+            "phpstan analyse -c ./phpstan.neon --memory-limit 1G"
         ],
         "phpmnd": [
             "phpmnd app/ config/ database/ routes/ resources/views/ resources/lang/ tests/ --non-zero-exit-on-violation"
