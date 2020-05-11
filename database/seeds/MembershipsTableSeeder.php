@@ -14,9 +14,9 @@ class MembershipsTableSeeder extends Seeder
     public function run()
     {
         DB::table('memberships')->insert([
-            'fk_account' => 1,
-            'fk_user' => 1,
-            'fk_rol' => 1,
+            'account_id' => 1,
+            'user_id' => 1,
+            'rol_id' => 1,
             'is_owner' => true,
             'is_active' => true
         ]);

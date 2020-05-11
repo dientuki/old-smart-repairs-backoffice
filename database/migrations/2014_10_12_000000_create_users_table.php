@@ -21,7 +21,6 @@ class CreateUsersTable extends Migration
 
             $table->id();
             $table->string('name', 190);
-            $table->string('email', 190)->unique();
         });
     }
 

@@ -17,20 +17,23 @@ class LoginsTableSeeder extends Seeder
         DB::table('logins')->insert([
             'username' => 'maxxim',
             'password' => Hash::make('password'),
-            'fk_user' => 1,
+            'user_id' => 1,
             'is_active' => 1,
+            'email' => 'maxxim@gmail.com',
         ]);
         DB::table('logins')->insert([
             'username' => 'maxxim-tech',
             'password' => Hash::make('password'),
-            'fk_user' => 2,
+            'user_id' => 2,
             'is_active' => 1,
+            'email' => 'maxxim-tech@gmail.com',
         ]);
         DB::table('logins')->insert([
             'username' => 'maxxim-sell',
             'password' => Hash::make('password'),
-            'fk_user' => 3,
+            'user_id' => 3,
             'is_active' => 1,
+            'email' => 'maxxim-sell@gmail.com',
         ]);
     }
 }

@@ -15,15 +15,14 @@ class UsersTableSeeder extends Seeder
     {
         DB::table('users')->insert([
             'name' => 'Le gato',
-            'email' => 'maxxim@gmail.com',
         ]);
         DB::table('users')->insert([
             'name' => 'Le tecnico',
-            'email' => 'maxxim-tech@gmail.com',
+            
         ]);
         DB::table('users')->insert([
             'name' => 'Le vendedor',
-            'email' => 'maxxim-sell@gmail.com',
+            
         ]);
     }
 }

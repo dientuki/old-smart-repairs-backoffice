@@ -2,7 +2,7 @@
 
 namespace Tests\Feature;
 
-use App\User;
+use App\Login;
 use Tests\TestCase;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Hash;
@@ -74,7 +74,7 @@ class PasswordResetTest extends TestCase
      */
     public function testSubmitPasswordResetRequest()
     {
-        $user = factory(User::class)->create();
+        $user = factory(Login::class)->create();
 
         $this
             ->followingRedirects()
@@ -85,7 +85,7 @@ class PasswordResetTest extends TestCase
             ->assertSuccessful()
             ->assertSee(__('passwords.sent'));
 
-        Notification::assertSentTo(User::latest()->first(), ResetPassword::class);
+        Notification::assertSentTo(Login::latest()->first(), ResetPassword::class);
     }
 
     /**
@@ -93,7 +93,7 @@ class PasswordResetTest extends TestCase
      */
     public function testShowPasswordResetPage()
     {
-        $user = factory(User::class)->create();
+        $user = factory(Login::class)->create();
 
         $token = Password::broker()->createToken($user);
 
@@ -114,7 +114,7 @@ class PasswordResetTest extends TestCase
      */
     public function testSubmitPasswordResetInvalidEmail()
     {
-        $user = factory(User::class)->create([
+        $user = factory(Login::class)->create([
             'password' => self::USER_ORIGINAL_PASSWORD,
         ]);
 
@@ -150,7 +150,7 @@ class PasswordResetTest extends TestCase
      */
     public function testSubmitPasswordResetEmailNotFound()
     {
-        $user = factory(User::class)->create([
+        $user = factory(Login::class)->create([
             'password' => self::USER_ORIGINAL_PASSWORD,
         ]);
 
@@ -184,7 +184,7 @@ class PasswordResetTest extends TestCase
      */
     public function testSubmitPasswordResetPasswordMismatch()
     {
-        $user = factory(User::class)->create([
+        $user = factory(Login::class)->create([
             'password' => self::USER_ORIGINAL_PASSWORD,
         ]);
 
@@ -221,7 +221,7 @@ class PasswordResetTest extends TestCase
      */
     public function testSubmitPasswordResetPasswordTooShort()
     {
-        $user = factory(User::class)->create([
+        $user = factory(Login::class)->create([
             'password' => self::USER_ORIGINAL_PASSWORD,
         ]);
 
@@ -257,7 +257,7 @@ class PasswordResetTest extends TestCase
      */
     public function testSubmitPasswordReset()
     {
-        $user = factory(User::class)->create([
+        $user = factory(Login::class)->create([
             'password' => self::USER_ORIGINAL_PASSWORD,
         ]);
 

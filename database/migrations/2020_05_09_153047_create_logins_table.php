@@ -20,14 +20,16 @@ class CreateLoginsTable extends Migration
             $table->collation = 'utf8_unicode_ci';
 
             $table->id();
-            $table->string('username', 190);
+            $table->string('username', 190)->unique();
             $table->string('password', 60)->nullable();
-            $table->foreignId('fk_user');
+            $table->foreignId('user_id');
             $table->boolean('is_active')->unsigned()->default(false);
+            $table->string('email', 190)->unique();
+            $table->timestamp('email_verified_at')->nullable();
             $table->rememberToken();
             $table->timestamps();
 
-            $table->foreign('fk_user')->references('id')->on('users');
+            $table->foreign('user_id')->references('id')->on('users');
         });
     }
 

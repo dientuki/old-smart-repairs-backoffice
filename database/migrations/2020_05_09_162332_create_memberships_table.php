@@ -19,16 +19,16 @@ class CreateMembershipsTable extends Migration
             $table->charset = 'utf8';
             $table->collation = 'utf8_unicode_ci';
 
-            $table->id();
-            $table->foreignId('fk_account');
-            $table->foreignId('fk_user');
-            $table->tinyInteger('fk_rol')->unsigned();
+            $table->id('id');
+            $table->foreignId('account_id');
+            $table->foreignId('user_id');
+            $table->tinyInteger('rol_id')->unsigned();
             $table->boolean('is_owner')->unsigned()->default(false);
             $table->boolean('is_active')->unsigned()->default(false);
 
-            $table->foreign('fk_account')->references('id')->on('accounts');
-            $table->foreign('fk_user')->references('id')->on('users');
-            $table->foreign('fk_rol')->references('id')->on('roles');
+            $table->foreign('account_id')->references('id')->on('accounts');
+            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('rol_id')->references('id')->on('roles');
         });
     }
 
