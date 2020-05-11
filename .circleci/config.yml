@@ -181,7 +181,7 @@ jobs:
       - restore_cache:
           key: laravel-install-test-{{ .Branch }}-{{ .Environment.CIRCLE_SHA1 }}
       - run:
-          name: Create database and run migration
+          name: Install SQLite
           command: |
             sudo apt install -y libsqlite3-dev zlib1g-dev
             sudo docker-php-ext-install zip          
