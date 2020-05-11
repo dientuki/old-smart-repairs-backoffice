@@ -18,11 +18,9 @@ class UsersTableSeeder extends Seeder
         ]);
         DB::table('users')->insert([
             'name' => 'Le tecnico',
-            
         ]);
         DB::table('users')->insert([
             'name' => 'Le vendedor',
-            
         ]);
     }
 }
