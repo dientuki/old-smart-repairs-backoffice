@@ -129,13 +129,6 @@ jobs:
       - restore_cache:
           key: checkout-cache-{{ .Branch }}-{{ .Environment.CIRCLE_SHA1 }}
       - run:
-          name: Install exiftool
-          command: |
-            sudo apt-get update
-            sudo apt-get install exiftool
-            sudo docker-php-ext-configure exif
-            sudo docker-php-ext-install exif
-      - run:
           name: Install Laravel with Autoloader Optimization
           command: composer install --optimize-autoloader --no-dev
       - save_cache:
