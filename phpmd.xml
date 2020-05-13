@@ -28,13 +28,27 @@
         </properties>
     </rule>
 
-    <rule ref="rulesets/codesize.xml" />
+    <rule ref="rulesets/codesize.xml">
+        <exclude name="TooManyPublicMethods" />
+    </rule>
+
+    <rule ref="rulesets/codesize.xml/TooManyPublicMethods">
+        <properties>
+            <property name="ignorepattern">
+                <value>
+                   (^(set|get|test))i
+                </value>
+            </property>
+        </properties>
+    </rule>    
+    
     <rule ref="rulesets/controversial.xml" />
     <rule ref="rulesets/design.xml" />
 
     <rule ref="rulesets/naming.xml">
         <exclude name="ShortVariable" />
         <exclude name="ShortMethodName" />
+        <exclude name="LongVariable" />
     </rule>
 
     <rule ref="rulesets/naming.xml/ShortVariable">
@@ -46,7 +60,14 @@
         <properties>
             <property name="exceptions" value="up"/>
         </properties>
-    </rule>    
+    </rule>
+    <rule ref="rulesets/naming.xml/LongVariable">
+        <properties>
+            <property name="maximum" value="30"/>
+        </properties>
+    </rule>        
+
+    
 
     <rule ref="rulesets/unusedcode.xml" />    
 </ruleset>

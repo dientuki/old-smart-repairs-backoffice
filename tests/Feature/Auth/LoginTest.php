@@ -157,11 +157,13 @@ class LoginTest extends TestCase
 
     public function testUserCannotMakeMoreThanFiveAttemptsInOneMinute()
     {
+        $logginAttempts = 10;
+
         $user = factory(Login::class)->create([
             'password' => self::PASSWORD,
         ]);
 
-        foreach (range(0, 5) as $_) {
+        for ($i = 1; $i <= $logginAttempts; $i++) {
             $response = $this->from($this->loginGetRoute())->post($this->loginPostRoute(), [
                 'username' => $user->username,
                 'password' => 'invalid-password',
