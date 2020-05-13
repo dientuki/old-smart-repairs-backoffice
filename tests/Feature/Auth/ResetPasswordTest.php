@@ -90,15 +90,16 @@ class ResetPasswordTest extends TestCase
         $user = factory(Login::class)->create([
             'password' => self::PASSWORD,
         ]);
+        $invalid = $this->getInvalidToken();
 
-        $response = $this->from($this->passwordResetGetRoute($this->getInvalidToken()))->post($this->passwordResetPostRoute(), [
-            'token' => $this->getInvalidToken(),
+        $response = $this->from($this->passwordResetGetRoute($invalid))->post($this->passwordResetPostRoute(), [
+            'token' => $invalid,
             'email' => $user->email,
             'password' => self::NEW_PASSWORD,
             'password_confirmation' => self::NEW_PASSWORD,
         ]);
 
-        $response->assertRedirect($this->passwordResetGetRoute($this->getInvalidToken()));
+        $response->assertRedirect($this->passwordResetGetRoute($invalid));
         $this->assertEquals($user->email, $user->fresh()->email);
         $this->assertTrue(Hash::check(self::PASSWORD, $user->fresh()->password));
         $this->assertGuest();
@@ -109,8 +110,9 @@ class ResetPasswordTest extends TestCase
         $user = factory(Login::class)->create([
             'password' => self::PASSWORD,
         ]);
+        $token = $this->getValidToken($user);
 
-        $response = $this->from($this->passwordResetGetRoute($token = $this->getValidToken($user)))->post($this->passwordResetPostRoute(), [
+        $response = $this->from($this->passwordResetGetRoute($token))->post($this->passwordResetPostRoute(), [
             'token' => $token,
             'email' => $user->email,
             'password' => '',
@@ -131,8 +133,9 @@ class ResetPasswordTest extends TestCase
         $user = factory(Login::class)->create([
             'password' => self::PASSWORD,
         ]);
+        $token = $this->getValidToken($user);
 
-        $response = $this->from($this->passwordResetGetRoute($token = $this->getValidToken($user)))->post($this->passwordResetPostRoute(), [
+        $response = $this->from($this->passwordResetGetRoute($token))->post($this->passwordResetPostRoute(), [
             'token' => $token,
             'email' => '',
             'password' => self::NEW_PASSWORD,

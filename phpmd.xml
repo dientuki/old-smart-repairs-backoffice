@@ -18,9 +18,11 @@
             <property name="exceptions">
                 <value>
                    \Illuminate\Support\Str,
+                   \Illuminate\Support\Facades\Event,
                    \Illuminate\Support\Facades\Hash,
                    \Illuminate\Support\Facades\Notification,
                    \Illuminate\Support\Facades\Schema,
+                   \Illuminate\Support\Facades\URL,
                 </value>
             </property>
         </properties>

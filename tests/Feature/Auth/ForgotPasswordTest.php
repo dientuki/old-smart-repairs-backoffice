@@ -74,7 +74,8 @@ class ForgotPasswordTest extends TestCase
 
         $response->assertRedirect($this->passwordEmailGetRoute());
         $response->assertSessionHasErrors('email');
-        Notification::assertNotSentTo(factory(Login::class)->make(['email' => 'nobody@example.com']), ResetPassword::class);
+        Notification::assertNotSentTo(factory(Login::class)
+            ->make(['email' => 'nobody@example.com']), ResetPassword::class);
     }
 
     public function testEmailIsRequired()
