@@ -8,6 +8,8 @@ parameters:
 		- resources/views
 		- resources/lang
 		- tests
+	autoload_files:
+		- app/Helpers/Resources.php
 	autoload_directories:
 		- database/migrations/
 	ignoreErrors:
