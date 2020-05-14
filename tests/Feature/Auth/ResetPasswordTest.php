@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\WithoutMiddleware;
 
 class ResetPasswordTest extends TestCase
 {
@@ -66,6 +67,8 @@ class ResetPasswordTest extends TestCase
 
     public function testUserCanResetPasswordWithValidToken()
     {
+        $this->withoutMiddleware();
+
         Event::fake();
         $user = factory(Login::class)->create();
 
@@ -87,6 +90,8 @@ class ResetPasswordTest extends TestCase
 
     public function testUserCannotResetPasswordWithInvalidToken()
     {
+        $this->withoutMiddleware();
+
         $user = factory(Login::class)->create([
             'password' => self::PASSWORD,
         ]);
@@ -107,6 +112,8 @@ class ResetPasswordTest extends TestCase
 
     public function testUserCannotResetPasswordWithoutProvidingANewPassword()
     {
+        $this->withoutMiddleware();
+
         $user = factory(Login::class)->create([
             'password' => self::PASSWORD,
         ]);
@@ -130,6 +137,8 @@ class ResetPasswordTest extends TestCase
 
     public function testUserCannotResetPasswordWithoutProvidingAnEmail()
     {
+        $this->withoutMiddleware();
+        
         $user = factory(Login::class)->create([
             'password' => self::PASSWORD,
         ]);

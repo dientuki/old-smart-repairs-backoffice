@@ -7,6 +7,7 @@ use Tests\TestCase;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\WithoutMiddleware;
 
 class LoginTest extends TestCase
 {
@@ -107,6 +108,8 @@ class LoginTest extends TestCase
 
     public function testUserCannotLoginWithIncorrectPassword()
     {
+        $this->withoutMiddleware();
+
         $user = factory(Login::class)->create([
             'password' => self::PASSWORD,
         ]);
@@ -125,6 +128,8 @@ class LoginTest extends TestCase
 
     public function testUserCannotLoginWithUsernameThatDoesNotExist()
     {
+        $this->withoutMiddleware();
+
         $response = $this->from($this->loginGetRoute())->post($this->loginPostRoute(), [
             'username' => 'nobody',
             'password' => 'invalid-password',
@@ -157,6 +162,8 @@ class LoginTest extends TestCase
 
     public function testUserCannotMakeMoreThanFiveAttemptsInOneMinute()
     {
+        $this->withoutMiddleware();
+
         $logginAttempts = 10;
 
         $user = factory(Login::class)->create([

@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Auth\Notifications\ResetPassword;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\WithoutMiddleware;
 
 class ForgotPasswordTest extends TestCase
 {
@@ -49,6 +50,8 @@ class ForgotPasswordTest extends TestCase
 
     public function testUserReceivesAnEmailWithAPasswordResetLink()
     {
+        $this->withoutMiddleware();
+
         Notification::fake();
         $user = factory(Login::class)->create([
             'email' => 'john@example.com',
@@ -66,6 +69,8 @@ class ForgotPasswordTest extends TestCase
 
     public function testUserDoesNotReceiveEmailWhenNotRegistered()
     {
+        $this->withoutMiddleware();
+
         Notification::fake();
 
         $response = $this->from($this->passwordEmailGetRoute())->post($this->passwordEmailPostRoute(), [
@@ -80,6 +85,8 @@ class ForgotPasswordTest extends TestCase
 
     public function testEmailIsRequired()
     {
+        $this->withoutMiddleware();
+
         $response = $this->from($this->passwordEmailGetRoute())->post($this->passwordEmailPostRoute(), []);
 
         $response->assertRedirect($this->passwordEmailGetRoute());
@@ -88,6 +95,8 @@ class ForgotPasswordTest extends TestCase
 
     public function testEmailIsAValidEmail()
     {
+        $this->withoutMiddleware();
+        
         $response = $this->from($this->passwordEmailGetRoute())->post($this->passwordEmailPostRoute(), [
             'email' => 'invalid-email',
         ]);

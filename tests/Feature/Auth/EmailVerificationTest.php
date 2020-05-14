@@ -8,10 +8,12 @@ use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Auth\Notifications\VerifyEmail;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\WithoutMiddleware;
 
 class EmailVerificationTest extends TestCase
 {
     use RefreshDatabase;
+    use WithoutMiddleware;
 
     protected $verificationVerifyRouteName = 'verification.verify';
 

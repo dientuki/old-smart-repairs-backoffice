@@ -2,13 +2,14 @@
 
 namespace Tests\Feature\Auth;
 
-use App\Login;
 use App\User;
+use App\Login;
 use Tests\TestCase;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\WithoutMiddleware;
 
 /**
  * @SuppressWarnings(PHPMD)
@@ -17,6 +18,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 class RegisterTest extends TestCase
 {
     use RefreshDatabase;
+    use WithoutMiddleware;
 
     protected function successfulRegistrationRoute()
     {
