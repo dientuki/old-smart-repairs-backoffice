@@ -1,11 +1,11 @@
 // Bootstrap
-
-@import '~bootstrap/scss/bootstrap';
+@import "~bootstrap/scss/bootstrap";
 
 // Variables
 @import "./variables";
 
 // Fonts
+
 @font-face {
   font-family: Roboto-regular;
   src: url("../fonts/Roboto-Regular.woff2") format("woff2"),
@@ -16,6 +16,5 @@
 }
 
 body {
-  background: #123456;
   font-family: Roboto-regular;
 }
