@@ -49,9 +49,4 @@ class Login extends Authenticatable
     {
         $this->attributes['password'] = Hash::make($value);
     }
-
-    public function user()
-    {
-        return $this->hasOne(User::class);
-    }
 }
