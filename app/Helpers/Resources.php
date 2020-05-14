@@ -1,5 +1,7 @@
 <?php
-
+/**
+ * https://tutsforweb.com/creating-helpers-laravel/
+ */
 if (! function_exists('load_resource')) {
     /**
      * Throw an HttpException with the given data.
