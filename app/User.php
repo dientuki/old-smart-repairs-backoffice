@@ -2,14 +2,16 @@
 
 namespace App;
 
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Notifications\Notifiable;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Database\Eloquent\Model;
 
-class User extends Authenticatable
+class User extends Model
 {
-    use Notifiable;
+    /**
+     * The table associated with the model.
+     *
+     * @var string
+     */
+    protected $table = 'users';
 
     /**
      * The attributes that are mass assignable.
@@ -17,36 +19,18 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'email'
     ];
 
     /**
-     * The attributes that should be hidden for arrays.
+     * Indicates if the model should be timestamped.
      *
-     * @var array
+     * @var bool
      */
-    protected $hidden = [
-        'password', 'remember_token',
-    ];
+    public $timestamps = false;
 
-    /**
-     * The attributes that should be cast to native types.
-     *
-     * @var array
-     */
-    protected $casts = [
-        'email_verified_at' => 'datetime',
-    ];
-    
-    /**
-     * Set the user's password.
-     *
-     * @param string $value
-     *
-     * @return void
-     */
-    public function setPasswordAttribute($value)
+    public function login()
     {
-        $this->attributes['password'] = Hash::make($value);
+        return $this->belongsTo(App\Login);
     }
 }

@@ -1,3 +1,6 @@
+// Bootstrap
+@import "~bootstrap/scss/bootstrap";
+
 // Variables
 @import "./variables";
 
@@ -13,5 +16,5 @@
 }
 
 body {
-  background: #123456;
+  font-family: Roboto-regular;
 }

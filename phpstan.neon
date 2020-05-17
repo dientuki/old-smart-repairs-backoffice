@@ -8,12 +8,14 @@ parameters:
 		- resources/views
 		- resources/lang
 		- tests
+	autoload_files:
+		- app/Helpers/Resources.php
 	autoload_directories:
 		- database/migrations/
 	ignoreErrors:
 		-
 			message: '#Undefined variable\: \$factory#'
-			path: database/factories/UserFactory.php
+			path: database/factories/*
 		-
 			message: '#Undefined variable\: \$this#'
 			path: routes/console.php

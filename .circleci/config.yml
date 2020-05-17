@@ -115,13 +115,6 @@ jobs:
       - restore_cache:
           key: checkout-cache-{{ .Branch }}-{{ .Environment.CIRCLE_SHA1 }}
       - run:
-          name: Install exiftool
-          command: |
-            sudo apt-get update
-            sudo apt-get install exiftool
-            sudo docker-php-ext-configure exif
-            sudo docker-php-ext-install exif
-      - run:
           name: Install Laravel
           command: composer install --optimize-autoloader
       - save_cache:
@@ -135,13 +128,6 @@ jobs:
     steps:
       - restore_cache:
           key: checkout-cache-{{ .Branch }}-{{ .Environment.CIRCLE_SHA1 }}
-      - run:
-          name: Install exiftool
-          command: |
-            sudo apt-get update
-            sudo apt-get install exiftool
-            sudo docker-php-ext-configure exif
-            sudo docker-php-ext-install exif
       - run:
           name: Install Laravel with Autoloader Optimization
           command: composer install --optimize-autoloader --no-dev
@@ -181,7 +167,7 @@ jobs:
       - restore_cache:
           key: laravel-install-test-{{ .Branch }}-{{ .Environment.CIRCLE_SHA1 }}
       - run:
-          name: Create database and run migration
+          name: Install SQLite
           command: |
             sudo apt install -y libsqlite3-dev zlib1g-dev
             sudo docker-php-ext-install zip          

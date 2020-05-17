@@ -74,16 +74,23 @@
             "phpmd app/,config/,database/,routes/,resources/views/,resources/lang/,tests/ text ./phpmd.xml"
         ],     
         "phpcs": [
-            "phpcs app/ config/ database/ routes/ resources/views/ resources/lang/ tests/ --standard=PSR2"
+            "phpcs app/ config/ database/ routes/ resources/lang/ tests/ --standard=PSR2",
+            "phpcs resources/views/ --exclude=Generic.Files.LineLength --standard=PSR2"
         ],             
         "phpstan": [
-            "phpstan analyse -c ./phpstan.neon"
+            "phpstan analyse -c ./phpstan.neon --memory-limit 1G"
         ],
         "phpmnd": [
             "phpmnd app/ config/ database/ routes/ resources/views/ resources/lang/ tests/ --non-zero-exit-on-violation"
         ],
         "test": [
             "phpunit --coverage-html ./coverage/phpunit"
+        ],
+        "clear": [
+            "@php artisan route:cache",
+            "@php artisan cache:clear",
+            "@php artisan config:cache",
+            "@php artisan view:clear"
         ]
     }
 }

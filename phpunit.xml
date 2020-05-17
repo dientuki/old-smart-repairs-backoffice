@@ -10,6 +10,8 @@
         </testsuite>
         <testsuite name="Feature">
             <directory suffix="Test.php">./tests/Feature</directory>
+            <exclude>./tests/Feature/Auth/EmailVerificationTest.php</exclude>
+            <exclude>./tests/Feature/Auth/RegisterTest.php</exclude>
         </testsuite>
     </testsuites>
     <filter>

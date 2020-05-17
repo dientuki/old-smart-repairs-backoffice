@@ -14,6 +14,6 @@ plugins.push(new MiniCssExtractPlugin({
 }));
 
 plugins.push(new WebpackAssetsManifest());
-plugins.push(new HardSourceWebpackPlugin());
+//plugins.push(new HardSourceWebpackPlugin());
 
 module.exports = plugins;

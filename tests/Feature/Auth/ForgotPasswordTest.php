@@ -1,0 +1,107 @@
+<?php
+
+namespace Tests\Feature\Auth;
+
+use App\Login;
+use Tests\TestCase;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Notification;
+use Illuminate\Auth\Notifications\ResetPassword;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\WithoutMiddleware;
+
+class ForgotPasswordTest extends TestCase
+{
+    use RefreshDatabase;
+
+    protected function passwordRequestRoute()
+    {
+        return route('password.request');
+    }
+
+    protected function passwordEmailGetRoute()
+    {
+        return route('password.email');
+    }
+
+    protected function passwordEmailPostRoute()
+    {
+        return route('password.email');
+    }
+
+    public function testUserCanViewAnEmailPasswordForm()
+    {
+        $response = $this->get($this->passwordRequestRoute());
+
+        $response->assertSuccessful();
+        $response->assertViewIs('auth.passwords.email');
+    }
+
+    public function testUserCanViewAnEmailPasswordFormWhenAuthenticated()
+    {
+        $user = factory(Login::class)->make();
+
+        $response = $this->actingAs($user)->get($this->passwordRequestRoute());
+
+        $response->assertSuccessful();
+        $response->assertViewIs('auth.passwords.email');
+    }
+
+    public function testUserReceivesAnEmailWithAPasswordResetLink()
+    {
+        $this->withoutMiddleware();
+
+        Notification::fake();
+        $user = factory(Login::class)->create([
+            'email' => 'john@example.com',
+        ]);
+
+        $this->post($this->passwordEmailPostRoute(), [
+            'email' => 'john@example.com',
+        ]);
+
+        $this->assertNotNull($token = DB::table('password_resets')->first());
+        Notification::assertSentTo($user, ResetPassword::class, function ($notification) use ($token) {
+            return Hash::check($notification->token, $token->token) === true;
+        });
+    }
+
+    public function testUserDoesNotReceiveEmailWhenNotRegistered()
+    {
+        $this->withoutMiddleware();
+
+        Notification::fake();
+
+        $response = $this->from($this->passwordEmailGetRoute())->post($this->passwordEmailPostRoute(), [
+            'email' => 'nobody@example.com',
+        ]);
+
+        $response->assertRedirect($this->passwordEmailGetRoute());
+        $response->assertSessionHasErrors('email');
+        Notification::assertNotSentTo(factory(Login::class)
+            ->make(['email' => 'nobody@example.com']), ResetPassword::class);
+    }
+
+    public function testEmailIsRequired()
+    {
+        $this->withoutMiddleware();
+
+        $response = $this->from($this->passwordEmailGetRoute())->post($this->passwordEmailPostRoute(), []);
+
+        $response->assertRedirect($this->passwordEmailGetRoute());
+        $response->assertSessionHasErrors('email');
+    }
+
+    public function testEmailIsAValidEmail()
+    {
+        $this->withoutMiddleware();
+        
+        $response = $this->from($this->passwordEmailGetRoute())->post($this->passwordEmailPostRoute(), [
+            'email' => 'invalid-email',
+        ]);
+
+        $response->assertRedirect($this->passwordEmailGetRoute());
+        $response->assertSessionHasErrors('email');
+    }
+}

@@ -4,7 +4,7 @@
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
-class UsersTableSeeder extends Seeder
+class AccountsTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -13,14 +13,11 @@ class UsersTableSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('users')->insert([
-            'name' => 'Le gato',
+        DB::table('accounts')->insert([
+            'account' => 'MaxxiCell'
         ]);
-        DB::table('users')->insert([
-            'name' => 'Le tecnico',
-        ]);
-        DB::table('users')->insert([
-            'name' => 'Le vendedor',
+        DB::table('accounts')->insert([
+            'account' => 'Le tecnico truche',
         ]);
     }
 }

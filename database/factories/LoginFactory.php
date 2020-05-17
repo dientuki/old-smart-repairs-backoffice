@@ -4,6 +4,7 @@
 
 use App\User;
 use App\Login;
+use Illuminate\Support\Str;
 use Faker\Generator as Faker;
 
 /*
@@ -17,8 +18,14 @@ use Faker\Generator as Faker;
 |
 */
 
-$factory->define(User::class, function (Faker $faker) {
+$factory->define(Login::class, function (Faker $faker) {
     return [
-        'name' => $faker->name
+        'username' => $faker->userName,
+        'password' => 'password', // password
+        'remember_token' => Str::random(10),
+        'is_active' => true,
+        'user_id' => factory(User::class)->create()->id,
+        'email' => $faker->unique()->safeEmail,
+        'email_verified_at' => now()
     ];
 });
