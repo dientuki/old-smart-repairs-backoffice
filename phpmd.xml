@@ -22,6 +22,7 @@
                    \Illuminate\Support\Facades\Hash,
                    \Illuminate\Support\Facades\Notification,
                    \Illuminate\Support\Facades\Schema,
+                   \Illuminate\Support\Facades\Session,
                    \Illuminate\Support\Facades\URL,
                 </value>
             </property>
