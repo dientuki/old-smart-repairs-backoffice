@@ -1,4 +1,5 @@
 <?php
+
 /**
  * https://tutsforweb.com/creating-helpers-laravel/
  */
@@ -13,16 +14,13 @@ if (! function_exists('load_resource')) {
      */
     function load_resource($resource, $mode = 'url')
     {
-        try {
-            $manifest = file_get_contents(public_path('/dist/manifest.json'));
-            if ($manifest == false) {
-                throw new Exception();
-            }
-        } catch (Exception $e) {
+        $manifest = public_path('/dist/manifest.json');
+        
+        if (file_exists($manifest) == false) {
             return false;
         }
-
-        $json = json_decode($manifest, true);
+        
+        $json = json_decode(file_get_contents($manifest), true);
 
         foreach ($json as $key => $value) {
             $tmp = explode('/', $key);
