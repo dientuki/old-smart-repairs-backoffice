@@ -6,6 +6,7 @@ use App\Login;
 use Tests\TestCase;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 
@@ -37,7 +38,7 @@ class LoginTest extends TestCase
 
     protected function successfulLogoutRoute()
     {
-        return '/admin/login';
+        return route('login');
     }
 
     protected function guestMiddlewareRoute()
@@ -69,11 +70,14 @@ class LoginTest extends TestCase
 
     public function testUserCanLoginWithCorrectCredentials()
     {
+        Session::start();
+
         $user = factory(Login::class)->create([
             'password' => self::PASSWORD,
         ]);
 
         $response = $this->post($this->loginPostRoute(), [
+            '_token' => csrf_token(),
             'username' => $user->username,
             'password' => self::PASSWORD,
         ]);
@@ -84,6 +88,8 @@ class LoginTest extends TestCase
 
     public function testRememberMeFunctionality()
     {
+        Session::start();
+
         $user = factory(Login::class)->create([
             'id' => random_int(1, 100),
             'password' => self::PASSWORD,
@@ -93,6 +99,7 @@ class LoginTest extends TestCase
             'username' => $user->username,
             'password' => self::PASSWORD,
             'remember' => 'on',
+            '_token' => csrf_token(),
         ]);
 
         $user = $user->fresh();
@@ -144,9 +151,11 @@ class LoginTest extends TestCase
 
     public function testUserCanLogout()
     {
-        $this->be(factory(Login::class)->create());
+        Session::start();
 
-        $response = $this->post($this->logoutRoute());
+        $response = $this->post($this->logoutRoute(), [
+            '_token' => csrf_token(),
+        ]);
 
         $response->assertRedirect($this->successfulLogoutRoute());
         $this->assertGuest();
@@ -154,7 +163,11 @@ class LoginTest extends TestCase
 
     public function testUserCannotLogoutWhenNotAuthenticated()
     {
-        $response = $this->post($this->logoutRoute());
+        Session::start();
+
+        $response = $this->post($this->logoutRoute(), [
+            '_token' => csrf_token(),
+        ]);
 
         $response->assertRedirect($this->successfulLogoutRoute());
         $this->assertGuest();
