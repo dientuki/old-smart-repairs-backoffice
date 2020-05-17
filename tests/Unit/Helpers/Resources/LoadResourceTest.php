@@ -2,7 +2,7 @@
 
 namespace Tests\Unit\Helpers\Resources;
 
-use PHPUnit\Framework\TestCase;
+use Tests\TestCase;
 
 class LoadResourceTest extends TestCase
 {
