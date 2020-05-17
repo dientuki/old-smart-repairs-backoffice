@@ -16,6 +16,12 @@
 
                     You are logged in!
                 </div>
+        <form action="{{ route('logout') }}" method="POST">
+          {{ csrf_field() }}
+          <button class="main-nav__title-wrapper">
+            <div class="main-nav__title">Salir</div>            
+          </button>
+        </form>
             </div>
         </div>
     </div>
