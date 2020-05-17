@@ -13,9 +13,12 @@ if (! function_exists('load_resource')) {
      */
     function load_resource($resource, $mode = 'url')
     {
-        $manifest = file_get_contents(public_path('/dist/manifest.json'));
-
-        if ($manifest == false) {
+        try {
+            $manifest = file_get_contents(public_path('/dist/manifest.json'));
+            if ($manifest == false) {
+                throw new Exception();
+            }
+        } catch (Exception $e) {
             return false;
         }
 
