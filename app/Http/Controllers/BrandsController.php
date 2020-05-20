@@ -51,7 +51,8 @@ class BrandsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    //public function store(Request $request)
+    public function store()
     {
         //
     }
@@ -62,7 +63,8 @@ class BrandsController extends Controller
      * @param  \App\Brands  $brands
      * @return \Illuminate\Http\Response
      */
-    public function edit(Brands $brands)
+    //public function edit(Brands $brands)
+    public function edit()
     {
         //
     }
@@ -74,7 +76,8 @@ class BrandsController extends Controller
      * @param  \App\Brands  $brands
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Brands $brands)
+    //public function update(Request $request, Brands $brands)
+    public function update()
     {
         //
     }
@@ -85,7 +88,8 @@ class BrandsController extends Controller
      * @param  \App\Brands  $brands
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Brands $brands)
+    //public function destroy(Brands $brands)
+    public function destroy()
     {
         //
     }
