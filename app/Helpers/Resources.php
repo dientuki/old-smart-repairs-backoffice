@@ -64,23 +64,19 @@ if (! function_exists('load_svg')) {
 }
 
 if (! function_exists('selected_filter')) {
-    function selected_filter($param, $value, $default = false)
+    function selected_filter($param, $value, $default)
     {
         $request = request();
         $return = 'value="' . $value . '"';
 
         if ($request->has($param)) {
             if ($request->get($param) == $value) {
-                $return .= ' selected';
-            }
-        } else {
-            if ($default !== false) {
-                if ($value == $default) {
-                    $return .= ' selected';
-                }
+                return $return .= ' selected';
             }
         }
 
-        return $return;
+        if ($value == $default) {
+            return $return .= ' selected';
+        }
     }
 }
