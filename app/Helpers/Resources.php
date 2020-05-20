@@ -62,3 +62,25 @@ if (! function_exists('load_svg')) {
         return false;
     }
 }
+
+if (! function_exists('selected_filter')) {
+    function selected_filter($param, $value, $default = false)
+    {
+        $request = request();
+        $return = 'value="' . $value . '"';
+
+        if ($request->has($param)) {
+            if ($request->get($param) == $value) {
+            $return .= ' selected';
+            } 
+        } else {
+            if ($default !== false) {
+            if ($value == $default) {
+                $return .= ' selected';
+            }
+            }
+        }
+
+        return $return;
+    }
+}
