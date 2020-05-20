@@ -20,20 +20,20 @@ class Brands extends Model
      */
     public $timestamps = false;
 
-    static function getAll() {
+    public function getAll() {
         $request = request();
         $queries = [];
         
-        $brands = Brands::select('id', 'brand');
+        $brands = $this->select('id', 'brand');
         
+        $brands->orderBy('brand', 'asc');
+        $queries['order'] = 'asc';
+
         if ($request->has('order')) {
           $brands->orderBy('brand', $request->get('order'));
           $queries['order'] = $request->get('order');
-        } else {
-          $brands->orderBy('brand', 'asc');
-          $queries['order'] = 'asc';
-        }  
-  
+        }
+
         return $brands->simplePaginate(20)->appends($queries);      
       }    
 }

@@ -8,13 +8,30 @@ use Illuminate\Http\Request;
 class BrandsController extends Controller
 {
     /**
+     * Brands model
+     *
+     * @var \App\Brands
+     */
+    protected $brands;
+
+    /**
+     * Instantiate a new controller instance.
+     *
+     * @return void
+     */    
+    public function __construct()
+    {
+        $this->brands = new Brands();
+    }
+
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
     public function index()
     {
-        $brands = Brands::getAll();
+        $brands = $this->brands->getAll();
         return view('brands/index', compact('brands'));
     }
 
