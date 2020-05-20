@@ -1,7 +1,7 @@
 <div class="vertical-nav" id="sidebar">
 
   <div class="main-nav__title-wrapper vertical-nav__action" >
-    <div class="main-nav__title"><img src="http://vpp.mateclass.com/images/logo.png" width="200"></div>
+    <div class="main-nav__title"><img src="http://fixmymobilebedford.com/wp-content/uploads/2018/11/Transparent.png" width="200"></div>
   </div>
 
   <nav class="main-nav">
