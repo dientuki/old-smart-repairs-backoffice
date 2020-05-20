@@ -15,6 +15,16 @@
           <li class="main-nav__li"><a href="#" class="main-nav__link">Algo</a></li>
         </ul>
       </li>
+
+      <li class="main-nav__item">
+        <form action="{{ route('logout') }}" method="POST">
+          {{ csrf_field() }}
+          <button class="main-nav__title-wrapper">
+            <div class="main-nav__icon">{!! load_svg('box-arrow-right') !!}</div>
+            <div class="main-nav__title">Salir</div>            
+          </button>
+        </form>
+      </li>      
     </ul>
   </nav>
 </div>
