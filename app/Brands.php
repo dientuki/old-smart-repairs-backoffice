@@ -20,7 +20,8 @@ class Brands extends Model
      */
     public $timestamps = false;
 
-    public function getAll() {
+    public function getAll()
+    {
         $request = request();
         $queries = [];
         
@@ -30,10 +31,10 @@ class Brands extends Model
         $queries['order'] = 'asc';
 
         if ($request->has('order')) {
-          $brands->orderBy('brand', $request->get('order'));
-          $queries['order'] = $request->get('order');
+            $brands->orderBy('brand', $request->get('order'));
+            $queries['order'] = $request->get('order');
         }
 
-        return $brands->simplePaginate(20)->appends($queries);      
-      }    
+        return $brands->simplePaginate(20)->appends($queries);
+    }
 }

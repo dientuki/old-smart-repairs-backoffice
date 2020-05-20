@@ -2,8 +2,7 @@
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 
-use App\User;
-use App\Login;
+use App\Brands;
 use Faker\Generator as Faker;
 
 /*
@@ -17,7 +16,7 @@ use Faker\Generator as Faker;
 |
 */
 
-$factory->define(Brand::class, function (Faker $faker) {
+$factory->define(Brands::class, function (Faker $faker) {
     return [
         'brand' => $faker->company
     ];

@@ -18,7 +18,7 @@ class BrandsController extends Controller
      * Instantiate a new controller instance.
      *
      * @return void
-     */    
+     */
     public function __construct()
     {
         $this->brands = new Brands();
