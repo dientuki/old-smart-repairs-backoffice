@@ -8,7 +8,7 @@
     "eslint:jsx": "eslint ./resources/js/**/*.jsx",
     "prod": "npm run production",
     "production": "cross-env NODE_ENV=production webpack --progress --hide-modules --config=webpack/webpack.config.js",
-    "svg": "svgo --config=svgo.yml -f ./resources/images -o ./public/dist/svg",
+    "svg": "svgo --config=svgo.yml -f ./resources/icons -o ./public/dist/svg",
     "stylelint": "stylelint './resources/sass/**/*.scss' --syntax scss --config stylelint.json",
     "test": "jest"
   },

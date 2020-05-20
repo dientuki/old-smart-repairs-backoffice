@@ -20,5 +20,19 @@ class MembershipsTableSeeder extends Seeder
             'is_owner' => true,
             'is_active' => true
         ]);
+        DB::table('memberships')->insert([
+            'account_id' => 1,
+            'user_id' => 2,
+            'rol_id' => 2,
+            'is_owner' => true,
+            'is_active' => true
+        ]);
+        DB::table('memberships')->insert([
+            'account_id' => 1,
+            'user_id' => 3,
+            'rol_id' => 3,
+            'is_owner' => true,
+            'is_active' => true
+        ]);
     }
 }

@@ -1,4 +1,4 @@
-import { isValidUrl } from './helpers/validators';
+import { expandableItem } from './sidebar/sidebar';
 __webpack_public_path__ = `${window.location.protocol}//${window.location.host}/dist/`;
 
-isValidUrl('http://www.ciudad.com.ar');
+expandableItem(document.querySelectorAll('.must-expand'));

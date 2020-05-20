@@ -1,8 +1,11 @@
-// Bootstrap
-@import "~bootstrap/scss/bootstrap";
-
 // Variables
 @import "./variables";
+
+// Bootstrap
+
+@import "~bootstrap/scss/bootstrap";
+
+@import "./mixin";
 
 // Fonts
 
@@ -15,6 +18,24 @@
   font-display: swap;
 }
 
+@import "./app-critical";
+
 body {
   font-family: Roboto-regular;
+}
+
+.p-5 {
+  padding-top: 0 !important;
+}
+
+.d-flex {
+  > nav {
+    margin-left: auto !important;
+  }
+}
+
+ul,
+li {
+  padding: 0;
+  list-style: none;
 }

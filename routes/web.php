@@ -18,9 +18,9 @@ Route::group(['prefix' => 'admin'], function () {
     Auth::routes(['register' => false]);
 
     Route::group(['middleware' => 'auth'], function () {
-        //Route::get('dashboard.html', ['uses' => 'PackagesController@index', 'as' => 'dashboard']);
+        Route::get('dashboard.html', ['uses' => 'DashboardController@index', 'as' => 'dashboard']);
         //Route::resource('users', 'UsersController')->except(['show']);
     });
 
-    Route::get('dashboard.html', 'HomeController@index')->name('dashboard');
+    //Route::get('dashboard.html', 'HomeController@index')->name('dashboard');
 });
