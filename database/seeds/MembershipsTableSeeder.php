@@ -33,6 +33,6 @@ class MembershipsTableSeeder extends Seeder
             'rol_id' => 3,
             'is_owner' => true,
             'is_active' => true
-        ]);                
+        ]);
     }
 }
