@@ -27,11 +27,11 @@ class Brands extends Model
         $brands = Brands::select('id', 'brand');
         
         if ($request->has('order')) {
-          $brands->orderBy('id', $request->get('order'));
+          $brands->orderBy('brand', $request->get('order'));
           $queries['order'] = $request->get('order');
         } else {
-          $brands->orderBy('id', 'desc');
-          $queries['order'] = 'desc';
+          $brands->orderBy('brand', 'asc');
+          $queries['order'] = 'asc';
         }  
   
         return $brands->simplePaginate(20)->appends($queries);      

@@ -1,4 +1,4 @@
-<?php $default = isset($default) ? $default : 'desc'; ?>
+<?php $default = isset($default) ? $default : 'asc'; ?>
 
 <div class="col-1 form-inline">
   <select data-param="order" class="sort form-control">
