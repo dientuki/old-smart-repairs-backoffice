@@ -71,12 +71,14 @@ if (! function_exists('selected_filter')) {
 
         if ($request->has($param)) {
             if ($request->get($param) == $value) {
-                return $return .= ' selected';
+                return $return . ' selected';
             }
         }
 
         if ($value == $default) {
-            return $return .= ' selected';
+            return $return . ' selected';
         }
+
+        return $return;
     }
 }
