@@ -19,5 +19,6 @@ return [
     'edit' => 'Editar',
     'delete' => 'Borrar',
     'new' => 'Nuevo|Nueva',
-    'apply' => 'Aplicar',    
+    'apply' => 'Aplicar',
+    'action' => 'Accion',
 ];

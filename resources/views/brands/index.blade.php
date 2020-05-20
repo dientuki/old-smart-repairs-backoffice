@@ -2,7 +2,7 @@
 
 @section ('content')
 
-<div class="header-sticky row has-FS">
+<div class="header-sticky row">
   <div class="col">{{ ucfirst(trans_choice('fields.brand', 2)) }}</div>
 
   @include ('widgets/order')
@@ -13,7 +13,7 @@
     <thead class="thead-dark">
         <tr>
             <th>{{ ucfirst(trans_choice('fields.brand',1)) }}</th>
-            <th class="column-action">{{ ucfirst(__('fields.action')) }}</th>
+            <th class="column-action">{{ ucfirst(__('buttons.action')) }}</th>
         </tr>
     </thead>
     <tbody>
@@ -23,13 +23,13 @@
 
             <td class="column-action px-4">
                 <div class="row">
-                <a href="{{route('brands.edit', $brand->id)}}" class="btn btn-primary col" title="{{__('buttons.edit')}} {{ $brand->brand }}">{{__('buttons.edit')}}</a>
+                <a href="{{route('brands.edit', $brand->id)}}" class="btn btn-primary col" title="{{__('buttons.edit')}} {{ $brand->brand }}">{!! load_svg('pencil') !!}{{__('buttons.edit')}}</a>
                 
                 {!! Form::open(array('route' => array('brands.destroy', $brand->id), 'method' => 'DELETE', 'class' => 'col modalOpener', 'id' => 'id-' . $brand->id)) !!}
-                <button id="button-{{ $brand->id }}" type="submit" class="btn btn-danger modalDelete"
-                    title="{{__('buttons.delete')}} {{ $brand->brand }}">
-                    <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
-                    {{__('buttons.delete') }}</button>
+                  <button id="button-{{ $brand->id }}" type="submit" class="btn btn-danger modalDelete" title="{{__('buttons.delete')}} {{ $brand->brand }}">
+                      {!! load_svg('trash') !!}
+                      {{__('buttons.delete') }}
+                  </button>
                 {!! Form::close() !!}
                 </div>
             </td>

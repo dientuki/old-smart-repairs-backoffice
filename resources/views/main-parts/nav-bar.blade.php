@@ -12,7 +12,7 @@
           <div class="main-nav__title">Equipos</div>
         </div>
         <ul class="main-nav__submenu">
-          <li class="main-nav__li"><a href="{{route('brands.index')}}" class="main-nav__link">Marcas</a></li>
+          <li class="main-nav__li"><a href="{{route('brands.index')}}" class="main-nav__link">{{ ucfirst(trans_choice('fields.brand', 2)) }}</a></li>
         </ul>
       </li>
 
