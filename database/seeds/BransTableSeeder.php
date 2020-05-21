@@ -1,6 +1,7 @@
 <?php
 // phpcs:disable PSR1.Classes.ClassDeclaration.MissingNamespace
 
+use App\Brands;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
@@ -13,14 +14,12 @@ class BrandsTableSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('brands')->insert([
-            'brand' => 'Motorola',
-        ]);
-        DB::table('brands')->insert([
-            'brand' => 'Samsung',
-        ]);
-        DB::table('brands')->insert([
-            'brand' => 'Xiaomi',
-        ]);
+        factory(Brands::class, 50)->create()->each(function ($brand) {
+            $values = factory(Brands::class)->make();
+    
+            if (is_array($values)) {
+              $brand->save($values);
+            }
+        });
     }
 }
