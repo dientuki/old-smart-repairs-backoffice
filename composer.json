@@ -85,6 +85,7 @@
             "phpmnd app/ config/ database/ routes/ resources/views/ resources/lang/ tests/ --non-zero-exit-on-violation"
         ],
         "test": [
+            "@php artisan config:clear",
             "phpunit --coverage-html ./coverage/phpunit"
         ],
         "clear": [
