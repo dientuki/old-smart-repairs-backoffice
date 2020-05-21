@@ -22,7 +22,7 @@ class BrandsTest extends TestCase
 
     public function testUserCanViewIndex()
     {
-        $response = $this->actingAs($this->user)->get($this->successfulBrandRoute());
+        $response = $this->actingAs($this->user)->get($this->successfulIndexRoute());
 
         $response->assertSuccessful();
         $response->assertViewIs('brands.index');
