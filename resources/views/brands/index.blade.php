@@ -3,7 +3,7 @@
 @section ('content')
 
 <div class="header-sticky row">
-  <div class="col">{{ ucfirst(trans_choice('fields.brand', 2)) }}</div>
+  <div class="col">{{ ucfirst(trans_choice('brands.brand', 2)) }}</div>
 
   @include ('widgets/order')
 </div>
@@ -12,7 +12,7 @@
 <table class="table table-striped table-bordered table-hover table-sm">
     <thead class="thead-dark">
         <tr>
-            <th>{{ ucfirst(trans_choice('fields.brand',1)) }}</th>
+            <th>{{ ucfirst(trans_choice('brands.brand',1)) }}</th>
             <th class="column-action">{{ ucfirst(__('buttons.action')) }}</th>
         </tr>
     </thead>
@@ -40,7 +40,7 @@
 
 <div class="row">
   <div class="col-sm">
-    <a href="{{route('brands.create')}}" class="btn btn-primary" title="{{__('buttons.create')}} {{ ucfirst(trans_choice('fields.brand',1)) }}">{{__('buttons.create')}} {{ ucfirst(trans_choice('fields.brand',1)) }}</a>
+    <a href="{{route('brands.create')}}" class="btn btn-primary" title="{{__('buttons.create')}} {{ ucfirst(trans_choice('brands.brand',1)) }}">{{__('buttons.create')}} {{ ucfirst(trans_choice('brands.brand',1)) }}</a>
   </div>
   <div class="col-sm d-flex">
     {{ $brands->links() }}
