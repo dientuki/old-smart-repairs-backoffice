@@ -1,5 +1,7 @@
 <?php
 
+namespace Tests\Feature;
+
 use App\Login;
 use Tests\TestCase;
 use Illuminate\Support\Facades\Session;
@@ -8,10 +10,9 @@ class BrandsTest extends TestCase
 {
     protected $user;
 
-    public function setUp(): void {
-
+    public function setUp(): void
+    {
         parent::setUp();
-
         $this->user = factory(Login::class)->create();
     }
 
@@ -26,5 +27,6 @@ class BrandsTest extends TestCase
 
         $response->assertSuccessful();
         $response->assertViewIs('brands.index');
+        $response->assertSee(ucfirst(trans_choice('brands.brand', 2)));
     }
 }

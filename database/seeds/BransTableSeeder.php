@@ -18,7 +18,7 @@ class BrandsTableSeeder extends Seeder
             $values = factory(Brands::class)->make();
     
             if (is_array($values)) {
-              $brand->save($values);
+                $brand->save($values);
             }
         });
     }
