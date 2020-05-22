@@ -25,7 +25,7 @@ class BrandsTest extends TestCase
     protected function successfulIndexPaginateRoute($page)
     {
         return route('brands.index', ['page='. $page]);
-    } 
+    }
 
     public function testUserCanViewIndex()
     {
@@ -43,22 +43,6 @@ class BrandsTest extends TestCase
         $response->assertSuccessful();
 
         $response = $this->actingAs($this->user)->get($this->successfulIndexPaginateRoute(1));
-        $response->assertSuccessful();        
-    }
-
-    public function testUserCanOrder()
-    {
-        $array = ['A','B','C'];
-
-        foreach ($array as $letter) {
-            factory(Brands::class)->create([
-                'brand' => $letter
-            ]);
-        }
-
-        $response = $this->actingAs($this->user)->get($this->successfulIndexOrderRoute('desc'));
         $response->assertSuccessful();
-        
-        dd($response->content());
-    }    
+    }
 }

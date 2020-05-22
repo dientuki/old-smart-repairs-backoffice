@@ -19,7 +19,7 @@ class BrandsTest extends TestCase
     protected function successfulIndexOrderRoute($order)
     {
         return route('brands.index', ['order='. $order]);
-    }       
+    }
 
     public function testGetAscOrder()
     {
@@ -52,11 +52,13 @@ class BrandsTest extends TestCase
 
         $array = array_reverse($array);
 
-        $this->followingRedirects()->actingAs(factory(Login::class)->create())->get( $this->successfulIndexOrderRoute('desc') );
+        $this->followingRedirects()
+            ->actingAs(factory(Login::class)->create())
+            ->get($this->successfulIndexOrderRoute('desc'));
         $brands = $this->brands->getAll();
 
-        foreach($brands as $key => $brand) {
+        foreach ($brands as $key => $brand) {
             $this->assertEquals($brand->brand, $array[$key]);
         }
-    }   
+    }
 }
