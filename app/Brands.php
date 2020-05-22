@@ -14,6 +14,13 @@ class Brands extends Model
     protected $table = 'brands';
 
     /**
+     * The table associated with the model.
+     *
+     * @var string
+     */
+    protected $order = array('asc', 'desc');    
+
+    /**
      * Indicates if the model should be timestamped.
      *
      * @var bool
@@ -31,8 +38,10 @@ class Brands extends Model
         $queries['order'] = 'asc';
 
         if ($request->has('order')) {
-            $brands->reorder('brand', $request->get('order'));
-            $queries['order'] = $request->get('order');
+            if (in_array($request->get('order'), $this->order)) {
+                $brands->reorder('brand', $request->get('order'));
+                $queries['order'] = $request->get('order');    
+            }
         }
 
         return $brands->simplePaginate(20)->appends($queries);

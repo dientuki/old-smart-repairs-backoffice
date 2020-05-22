@@ -13,7 +13,5 @@ return [
     |
     */
 
-    'previous' => '&laquo; Anterior',
-    'next'     => 'Siguiente &raquo;',
-    'empty'    => 'Pagina inexistente',
+    'no-records' => 'No hay registros',
 ];

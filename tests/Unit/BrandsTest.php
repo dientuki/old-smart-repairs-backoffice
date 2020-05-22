@@ -55,10 +55,34 @@ class BrandsTest extends TestCase
         $this->followingRedirects()
             ->actingAs(factory(Login::class)->create())
             ->get($this->successfulIndexOrderRoute('desc'));
+
         $brands = $this->brands->getAll();
 
         foreach ($brands as $key => $brand) {
             $this->assertEquals($brand->brand, $array[$key]);
         }
     }
+
+    public function testGetAnyOrder()
+    {
+        $array = ['C','B','A'];
+
+        foreach ($array as $letter) {
+            factory(Brands::class)->create([
+                'brand' => $letter
+            ]);
+        }
+
+        $array = array_reverse($array);
+
+        $this->followingRedirects()
+            ->actingAs(factory(Login::class)->create())
+            ->get($this->successfulIndexOrderRoute('any'));
+
+        $brands = $this->brands->getAll();
+
+        foreach ($brands as $key => $brand) {
+            $this->assertEquals($brand->brand, $array[$key]);
+        }
+    }    
 }
