@@ -39,3 +39,25 @@ li {
   padding: 0;
   list-style: none;
 }
+
+.table {
+  th,
+  td {
+    vertical-align: middle;
+  }
+
+  .bi {
+    display: inline-block;
+    width: rem(16);
+    height: rem(16);
+    margin-right: rem(8);
+  }
+}
+
+.column-action {
+  width: rem(261);
+
+  button {
+    width: 100%;
+  }
+}
