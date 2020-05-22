@@ -31,7 +31,7 @@ class Brands extends Model
         $queries['order'] = 'asc';
 
         if ($request->has('order')) {
-            $brands->orderBy('brand', $request->get('order'));
+            $brands->reorder('brand', $request->get('order'));
             $queries['order'] = $request->get('order');
         }
 
