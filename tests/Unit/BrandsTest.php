@@ -84,5 +84,5 @@ class BrandsTest extends TestCase
         foreach ($brands as $key => $brand) {
             $this->assertEquals($brand->brand, $array[$key]);
         }
-    }    
+    }
 }

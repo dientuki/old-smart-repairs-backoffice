@@ -14,11 +14,11 @@ class Brands extends Model
     protected $table = 'brands';
 
     /**
-     * The table associated with the model.
+     * The values acepted to order.
      *
      * @var string
      */
-    protected $order = array('asc', 'desc');    
+    protected $order = array('asc', 'desc');
 
     /**
      * Indicates if the model should be timestamped.
@@ -40,7 +40,7 @@ class Brands extends Model
         if ($request->has('order')) {
             if (in_array($request->get('order'), $this->order)) {
                 $brands->reorder('brand', $request->get('order'));
-                $queries['order'] = $request->get('order');    
+                $queries['order'] = $request->get('order');
             }
         }
 

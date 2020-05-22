@@ -30,7 +30,7 @@ class BrandsTest extends TestCase
     protected function successfulIndexOrderRoute($order)
     {
         return route('brands.index', ['order='. $order]);
-    }    
+    }
 
     public function testUserCanViewIndex()
     {
@@ -48,7 +48,7 @@ class BrandsTest extends TestCase
         $response->assertSuccessful();
         $response->assertViewIs('brands.index');
         $response->assertSee(__('error.no-record'));
-    }    
+    }
 
     public function testUserCanPaginate()
     {
@@ -77,5 +77,5 @@ class BrandsTest extends TestCase
         $response->assertSuccessful();
         $response->assertViewIs('brands.index');
         $response->assertSee(__('pagination.empty'));
-    }    
+    }
 }
