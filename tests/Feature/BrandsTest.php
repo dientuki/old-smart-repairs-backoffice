@@ -53,12 +53,12 @@ class BrandsTest extends TestCase
     protected function successfulEditRoute($brand)
     {
         return route('brands.edit', $brand);
-    }    
+    }
 
     protected function successfulUpdateRoute($brand)
     {
         return route('brands.update', $brand);
-    }     
+    }
 
     public function testUserCanViewIndex()
     {
@@ -173,7 +173,7 @@ class BrandsTest extends TestCase
         $response->assertSuccessful();
         $response->assertViewIs('brands.form');
         $response->assertSee(__('buttons.update') . ' ' . trans_choice('brands.brand', 1));
-    }    
+    }
 
     public function testUserCanUpdate()
     {
@@ -181,7 +181,7 @@ class BrandsTest extends TestCase
 
         $brand = factory(Brand::class)->create([
             'id' => random_int(1, 100)
-        ]);        
+        ]);
         
         $this->assertCount(1, $this->brand->all());
 
@@ -197,13 +197,13 @@ class BrandsTest extends TestCase
         $response->assertSuccessful();
         $response->assertViewIs('brands.index');
         $response->assertSee(self::BRAND);
-    }    
+    }
 
     public function testUserCannotUpdateWithoutBrand()
     {
         $brand = factory(Brand::class)->create([
             'id' => random_int(1, 100)
-        ]); 
+        ]);
 
         $this->assertCount(1, $this->brand->all());
 
@@ -224,7 +224,7 @@ class BrandsTest extends TestCase
 
         $brand = factory(Brand::class)->create([
             'id' => random_int(1, 100)
-        ]); 
+        ]);
 
         $this->assertCount(1, $this->brand->all());
 
@@ -238,5 +238,5 @@ class BrandsTest extends TestCase
         $this->assertCount(1, $this->brand->all());
         $response->assertRedirect($this->successfulEditRoute($brand->id));
         $response->assertSessionHasErrors('brand');
-    }    
+    }
 }

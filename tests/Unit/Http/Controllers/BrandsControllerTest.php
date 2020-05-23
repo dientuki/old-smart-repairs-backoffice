@@ -31,7 +31,7 @@ class BrandsControllerTest extends TestCase
     protected function successfulEditRoute($id)
     {
         return route('brands.edit', ['brand' => $id]);
-    }    
+    }
 
     public function testUserCanViewIndex()
     {
@@ -59,5 +59,5 @@ class BrandsControllerTest extends TestCase
 
         $response->assertSuccessful();
         $response->assertViewIs('brands.form');
-    }    
+    }
 }
