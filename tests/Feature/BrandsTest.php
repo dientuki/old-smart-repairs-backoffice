@@ -16,7 +16,7 @@ class BrandsTest extends TestCase
     const BRAND = 'Motorolla';
 
     protected $user;
-    protected $brands;
+    protected $brand;
 
     public function setUp(): void
     {

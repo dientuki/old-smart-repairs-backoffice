@@ -8,7 +8,7 @@ use Tests\TestCase;
 
 class BrandsTest extends TestCase
 {
-    protected $brands;
+    protected $brand;
 
     public function setUp(): void
     {
