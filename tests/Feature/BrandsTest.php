@@ -175,6 +175,17 @@ class BrandsTest extends TestCase
         $response->assertSee(__('buttons.update') . ' ' . trans_choice('brands.brand', 1));
     }
 
+    public function testUserCannotViewEditWithWrongId()
+    {
+        factory(Brand::class)->create([
+            'id' => 1
+        ]);
+
+        $response = $this->actingAs($this->user)->get($this->successfulEditRoute(2));
+
+        $response->assertNotFound();
+    }
+
     public function testUserCanUpdate()
     {
         Session::start();

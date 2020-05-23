@@ -59,5 +59,6 @@ class BrandsControllerTest extends TestCase
 
         $response->assertSuccessful();
         $response->assertViewIs('brands.form');
+        $response->assertSee($brand->brand);
     }
 }
