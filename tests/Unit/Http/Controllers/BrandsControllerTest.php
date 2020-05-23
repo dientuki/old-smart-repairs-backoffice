@@ -2,6 +2,7 @@
 
 namespace Tests\Unit\Http\Controllers;
 
+use App\Brand;
 use App\Login;
 use Tests\TestCase;
 use Illuminate\Support\Facades\Session;
@@ -27,6 +28,11 @@ class BrandsControllerTest extends TestCase
         return route('brands.create');
     }
 
+    protected function successfulEditRoute($id)
+    {
+        return route('brands.edit', ['brand' => $id]);
+    }    
+
     public function testUserCanViewIndex()
     {
         $response = $this->actingAs($this->user)->get($this->successfulIndexRoute());
@@ -42,4 +48,16 @@ class BrandsControllerTest extends TestCase
         $response->assertSuccessful();
         $response->assertViewIs('brands.form');
     }
+
+    public function testUserCanViewEdit()
+    {
+        $brand = factory(Brand::class)->create([
+            'id' => random_int(1, 100)
+        ]);
+
+        $response = $this->actingAs($this->user)->get($this->successfulEditRoute($brand->id));
+
+        $response->assertSuccessful();
+        $response->assertViewIs('brands.form');
+    }    
 }

@@ -50,6 +50,16 @@ class BrandsTest extends TestCase
         return route('brands.store');
     }
 
+    protected function successfulEditRoute($brand)
+    {
+        return route('brands.edit', $brand);
+    }    
+
+    protected function successfulUpdateRoute($brand)
+    {
+        return route('brands.update', $brand);
+    }     
+
     public function testUserCanViewIndex()
     {
         $response = $this->actingAs($this->user)->get($this->successfulIndexRoute());
@@ -151,4 +161,82 @@ class BrandsTest extends TestCase
         $response->assertRedirect($this->successfulCreateRoute());
         $response->assertSessionHasErrors('brand');
     }
+
+    public function testUserCanViewEdit()
+    {
+        $brand = factory(Brand::class)->create([
+            'id' => random_int(1, 100)
+        ]);
+
+        $response = $this->actingAs($this->user)->get($this->successfulEditRoute($brand->id));
+
+        $response->assertSuccessful();
+        $response->assertViewIs('brands.form');
+        $response->assertSee(__('buttons.update') . ' ' . trans_choice('brands.brand', 1));
+    }    
+
+    public function testUserCanUpdate()
+    {
+        Session::start();
+
+        $brand = factory(Brand::class)->create([
+            'id' => random_int(1, 100)
+        ]);        
+        
+        $this->assertCount(1, $this->brand->all());
+
+        $response = $this->actingAs($this->user)
+            ->followingRedirects()
+            ->from($this->successfulEditRoute($brand->id))
+            ->put($this->successfulUpdateRoute($brand->id), [
+                'brand' => self::BRAND,
+                '_token' => csrf_token(),
+            ]);
+
+        $this->assertCount(1, $this->brand->all());
+        $response->assertSuccessful();
+        $response->assertViewIs('brands.index');
+        $response->assertSee(self::BRAND);
+    }    
+
+    public function testUserCannotUpdateWithoutBrand()
+    {
+        $brand = factory(Brand::class)->create([
+            'id' => random_int(1, 100)
+        ]); 
+
+        $this->assertCount(1, $this->brand->all());
+
+        $response = $this->actingAs($this->user)
+            ->from($this->successfulEditRoute($brand->id))
+            ->put($this->successfulUpdateRoute($brand->id), [
+                'brand' => '',
+                '_token' => csrf_token(),
+            ]);
+
+        $this->assertCount(1, $this->brand->all());
+        $response->assertRedirect($this->successfulEditRoute($brand->id));
+        $response->assertSessionHasErrors('brand');
+    }
+
+    public function testUserCannotUpdateWithoutCorrectBrand()
+    {
+
+        $brand = factory(Brand::class)->create([
+            'id' => random_int(1, 100)
+        ]); 
+
+        $this->assertCount(1, $this->brand->all());
+
+        $response = $this->actingAs($this->user)
+            ->from($this->successfulEditRoute($brand->id))
+            ->put($this->successfulUpdateRoute($brand->id), [
+                'brand' => Str::random(200),
+                '_token' => csrf_token(),
+            ]);
+
+        $this->assertCount(1, $this->brand->all());
+        $response->assertRedirect($this->successfulEditRoute($brand->id));
+        $response->assertSessionHasErrors('brand');
+    }    
 }
