@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Brands;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\Brands\StoreBrand;
 
 class BrandsController extends Controller
 {
@@ -42,19 +44,26 @@ class BrandsController extends Controller
      */
     public function create()
     {
-        //
+        $brand = $this->brands;
+        $action = 'create';
+        $formData = array('route' => 'brands.store', 'method' => 'POST');
+        
+        return view('brands/form', compact('action', 'brand', 'formData'));
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  App\Http\Requests\Brands\StoreBrand  $request
      * @return \Illuminate\Http\Response
      */
-    //public function store(Request $request)
-    public function store()
+    public function store(StoreBrand $request)
     {
-        //
+        $data = $request->validated();
+
+        $this->brands->create($data);
+
+        return redirect()->route('brands.index');
     }
 
     /**

@@ -78,6 +78,9 @@
             "phpcs app/ config/ database/ routes/ resources/lang/ tests/ --standard=PSR2",
             "phpcs resources/views/ --exclude=Generic.Files.LineLength --standard=PSR2"
         ],             
+        "phpcbf": [
+            "phpcbf app/ config/ database/ routes/ resources/lang/ tests/ --standard=PSR2"
+        ],
         "phpstan": [
             "phpstan analyse -c ./phpstan.neon --memory-limit 1G"
         ],

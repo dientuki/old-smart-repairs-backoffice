@@ -27,6 +27,13 @@ class Brands extends Model
      */
     public $timestamps = false;
 
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = ['brand'];
+
     public function getAll()
     {
         $request = request();
