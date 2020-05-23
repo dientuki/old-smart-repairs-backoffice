@@ -3,7 +3,7 @@
 namespace Tests\Unit;
 
 use App\Login;
-use App\Brands;
+use App\Brand;
 use Tests\TestCase;
 
 class BrandsTest extends TestCase
@@ -13,7 +13,7 @@ class BrandsTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
-        $this->brands = new Brands();
+        $this->brand = new Brand();
     }
 
     protected function successfulIndexOrderRoute($order)
@@ -26,14 +26,14 @@ class BrandsTest extends TestCase
         $array = ['C','B','A'];
 
         foreach ($array as $letter) {
-            factory(Brands::class)->create([
+            factory(Brand::class)->create([
                 'brand' => $letter
             ]);
         }
 
         $array = array_reverse($array);
 
-        $brands = $this->brands->getAll();
+        $brands = $this->brand->getAll();
 
         foreach ($brands as $key => $brand) {
             $this->assertEquals($brand->brand, $array[$key]);
@@ -45,7 +45,7 @@ class BrandsTest extends TestCase
         $array = ['A','B','C'];
 
         foreach ($array as $letter) {
-            factory(Brands::class)->create([
+            factory(Brand::class)->create([
                 'brand' => $letter
             ]);
         }
@@ -56,7 +56,7 @@ class BrandsTest extends TestCase
             ->actingAs(factory(Login::class)->create())
             ->get($this->successfulIndexOrderRoute('desc'));
 
-        $brands = $this->brands->getAll();
+        $brands = $this->brand->getAll();
 
         foreach ($brands as $key => $brand) {
             $this->assertEquals($brand->brand, $array[$key]);
@@ -68,7 +68,7 @@ class BrandsTest extends TestCase
         $array = ['C','B','A'];
 
         foreach ($array as $letter) {
-            factory(Brands::class)->create([
+            factory(Brand::class)->create([
                 'brand' => $letter
             ]);
         }
@@ -79,7 +79,7 @@ class BrandsTest extends TestCase
             ->actingAs(factory(Login::class)->create())
             ->get($this->successfulIndexOrderRoute('any'));
 
-        $brands = $this->brands->getAll();
+        $brands = $this->brand->getAll();
 
         foreach ($brands as $key => $brand) {
             $this->assertEquals($brand->brand, $array[$key]);

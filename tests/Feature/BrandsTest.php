@@ -3,7 +3,7 @@
 namespace Tests\Feature;
 
 use App\Login;
-use App\Brands;
+use App\Brand;
 use Tests\TestCase;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Session;
@@ -22,7 +22,7 @@ class BrandsTest extends TestCase
     {
         parent::setUp();
         $this->user = factory(Login::class)->create();
-        $this->brands = new Brands();
+        $this->brand = new Brand();
     }
 
     protected function successfulIndexRoute()
@@ -70,7 +70,7 @@ class BrandsTest extends TestCase
 
     public function testUserCanPaginate()
     {
-        factory(Brands::class, 30)->create();
+        factory(Brand::class, 30)->create();
         $response = $this->actingAs($this->user)->get($this->successfulIndexPaginateRoute(2));
         $response->assertSuccessful();
 
@@ -80,7 +80,7 @@ class BrandsTest extends TestCase
 
     public function testUserCanOrder()
     {
-        factory(Brands::class, 30)->create();
+        factory(Brand::class, 30)->create();
         $response = $this->actingAs($this->user)->get($this->successfulIndexOrderRoute('asc'));
         $response->assertSuccessful();
 
@@ -90,7 +90,7 @@ class BrandsTest extends TestCase
 
     public function testUserCanPaginateInexistePage()
     {
-        factory(Brands::class, 30)->create();
+        factory(Brand::class, 30)->create();
         $response = $this->actingAs($this->user)->get($this->successfulIndexPaginateRoute(80));
         $response->assertSuccessful();
         $response->assertViewIs('brands.index');
@@ -118,7 +118,7 @@ class BrandsTest extends TestCase
                 '_token' => csrf_token(),
             ]);
 
-        $this->assertCount(1, $this->brands->all());
+        $this->assertCount(1, $this->brand->all());
         $response->assertSuccessful();
         $response->assertViewIs('brands.index');
         $response->assertSee(self::BRAND);
@@ -133,7 +133,7 @@ class BrandsTest extends TestCase
                 '_token' => csrf_token(),
             ]);
 
-        $this->assertCount(0, $this->brands->all());
+        $this->assertCount(0, $this->brand->all());
         $response->assertRedirect($this->successfulCreateRoute());
         $response->assertSessionHasErrors('brand');
     }
@@ -147,7 +147,7 @@ class BrandsTest extends TestCase
                 '_token' => csrf_token(),
             ]);
 
-        $this->assertCount(0, $this->brands->all());
+        $this->assertCount(0, $this->brand->all());
         $response->assertRedirect($this->successfulCreateRoute());
         $response->assertSessionHasErrors('brand');
     }
