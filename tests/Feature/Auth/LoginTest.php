@@ -21,11 +21,6 @@ class LoginTest extends TestCase
         return route('dashboard');
     }
 
-    protected function loginGetRoute()
-    {
-        return route('login');
-    }
-
     protected function loginPostRoute()
     {
         return route('login');

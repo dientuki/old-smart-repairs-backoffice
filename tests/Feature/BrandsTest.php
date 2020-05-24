@@ -14,6 +14,8 @@ class BrandsTest extends TestCase
     use RefreshDatabase;
     
     const BRAND = 'Motorolla';
+    const VIEW_FORM = 'brands.form';
+    const VIEW_INDEX = 'brands.index';
 
     protected $user;
     protected $brand;
@@ -60,13 +62,22 @@ class BrandsTest extends TestCase
         return route('brands.update', $brand);
     }
 
+    public function testUserUnauthenticateCantViewIndex()
+    {
+        $this->get($this->successfulIndexRoute())
+            ->assertRedirect($this->loginGetRoute());
+    }
+        
     public function testUserCanViewIndex()
     {
+        $brand = factory(Brand::class)->create();
+
         $response = $this->actingAs($this->user)->get($this->successfulIndexRoute());
 
         $response->assertSuccessful();
-        $response->assertViewIs('brands.index');
+        $response->assertViewIs(self::VIEW_INDEX);
         $response->assertSee(ucfirst(trans_choice('brands.brand', 2)));
+        $response->assertSee($brand->title);
     }
 
     public function testUserCanViewEmptyIndex()
@@ -74,13 +85,14 @@ class BrandsTest extends TestCase
         $response = $this->actingAs($this->user)->get($this->successfulIndexRoute());
 
         $response->assertSuccessful();
-        $response->assertViewIs('brands.index');
+        $response->assertViewIs(self::VIEW_INDEX);
         $response->assertSee(__('error.no-record'));
     }
 
     public function testUserCanPaginate()
     {
         factory(Brand::class, 30)->create();
+
         $response = $this->actingAs($this->user)->get($this->successfulIndexPaginateRoute(2));
         $response->assertSuccessful();
 
@@ -91,6 +103,7 @@ class BrandsTest extends TestCase
     public function testUserCanOrder()
     {
         factory(Brand::class, 30)->create();
+
         $response = $this->actingAs($this->user)->get($this->successfulIndexOrderRoute('asc'));
         $response->assertSuccessful();
 
@@ -103,8 +116,14 @@ class BrandsTest extends TestCase
         factory(Brand::class, 30)->create();
         $response = $this->actingAs($this->user)->get($this->successfulIndexPaginateRoute(80));
         $response->assertSuccessful();
-        $response->assertViewIs('brands.index');
+        $response->assertViewIs(self::VIEW_INDEX);
         $response->assertSee(__('pagination.empty'));
+    }
+
+    public function testUserUnauthenticateCantViewCreate()
+    {
+        $this->get($this->successfulCreateRoute())
+            ->assertRedirect($this->loginGetRoute());
     }
 
     public function testUserCanViewCreate()
@@ -112,14 +131,12 @@ class BrandsTest extends TestCase
         $response = $this->actingAs($this->user)->get($this->successfulCreateRoute());
 
         $response->assertSuccessful();
-        $response->assertViewIs('brands.form');
+        $response->assertViewIs(self::VIEW_FORM);
         $response->assertSee(__('buttons.create') . ' ' . trans_choice('brands.brand', 1));
     }
 
     public function testUserCanCreate()
     {
-        Session::start();
-        
         $response = $this->actingAs($this->user)
             ->followingRedirects()
             ->from($this->successfulCreateRoute())
@@ -130,13 +147,14 @@ class BrandsTest extends TestCase
 
         $this->assertCount(1, $this->brand->all());
         $response->assertSuccessful();
-        $response->assertViewIs('brands.index');
+        $response->assertViewIs(self::VIEW_INDEX);
         $response->assertSee(self::BRAND);
     }
     
     public function testUserCannotCreateWithoutBrand()
     {
         $response = $this->actingAs($this->user)
+            ->followingRedirects()
             ->from($this->successfulCreateRoute())
             ->post($this->successfulStoreRoute(), [
                 'brand' => '',
@@ -144,13 +162,17 @@ class BrandsTest extends TestCase
             ]);
 
         $this->assertCount(0, $this->brand->all());
-        $response->assertRedirect($this->successfulCreateRoute());
-        $response->assertSessionHasErrors('brand');
+        $response->assertSuccessful();
+        $response->assertViewIs(self::VIEW_FORM);
+        $response->assertSee(__('validation.required', [
+            'attribute' => trans_choice('brands.brand', 1),
+        ]));
     }
 
     public function testUserCannotCreateWithoutCorrectBrand()
     {
         $response = $this->actingAs($this->user)
+            ->followingRedirects()
             ->from($this->successfulCreateRoute())
             ->post($this->successfulStoreRoute(), [
                 'brand' => Str::random(200),
@@ -158,8 +180,21 @@ class BrandsTest extends TestCase
             ]);
 
         $this->assertCount(0, $this->brand->all());
-        $response->assertRedirect($this->successfulCreateRoute());
-        $response->assertSessionHasErrors('brand');
+        $response->assertSuccessful();
+        $response->assertSee(__('validation.max.string', [
+            'attribute' => trans_choice('brands.brand', 1),
+            'max' => 190
+        ]));
+    }
+
+    public function testUserUnauthenticateCantViewEdit()
+    {
+        $brand = factory(Brand::class)->create([
+            'id' => random_int(1, 100)
+        ]);
+
+        $this->get($this->successfulEditRoute($brand->id))
+            ->assertRedirect($this->loginGetRoute());
     }
 
     public function testUserCanViewEdit()
@@ -171,7 +206,8 @@ class BrandsTest extends TestCase
         $response = $this->actingAs($this->user)->get($this->successfulEditRoute($brand->id));
 
         $response->assertSuccessful();
-        $response->assertViewIs('brands.form');
+        $response->assertViewIs(self::VIEW_FORM);
+        $response->assertSee($brand->brand);
         $response->assertSee(__('buttons.update') . ' ' . trans_choice('brands.brand', 1));
     }
 
@@ -188,7 +224,7 @@ class BrandsTest extends TestCase
 
     public function testUserCanUpdate()
     {
-        Session::start();
+        //Session::start();
 
         $brand = factory(Brand::class)->create([
             'id' => random_int(1, 100)
@@ -206,7 +242,7 @@ class BrandsTest extends TestCase
 
         $this->assertCount(1, $this->brand->all());
         $response->assertSuccessful();
-        $response->assertViewIs('brands.index');
+        $response->assertViewIs(self::VIEW_INDEX);
         $response->assertSee(self::BRAND);
     }
 
@@ -219,6 +255,7 @@ class BrandsTest extends TestCase
         $this->assertCount(1, $this->brand->all());
 
         $response = $this->actingAs($this->user)
+            ->followingRedirects()
             ->from($this->successfulEditRoute($brand->id))
             ->put($this->successfulUpdateRoute($brand->id), [
                 'brand' => '',
@@ -226,13 +263,15 @@ class BrandsTest extends TestCase
             ]);
 
         $this->assertCount(1, $this->brand->all());
-        $response->assertRedirect($this->successfulEditRoute($brand->id));
-        $response->assertSessionHasErrors('brand');
+        $response->assertSuccessful();
+        $response->assertViewIs(self::VIEW_FORM);
+        $response->assertSee(__('validation.required', [
+            'attribute' => trans_choice('brands.brand', 1),
+        ]));
     }
 
     public function testUserCannotUpdateWithoutCorrectBrand()
     {
-
         $brand = factory(Brand::class)->create([
             'id' => random_int(1, 100)
         ]);
@@ -240,6 +279,7 @@ class BrandsTest extends TestCase
         $this->assertCount(1, $this->brand->all());
 
         $response = $this->actingAs($this->user)
+            ->followingRedirects()
             ->from($this->successfulEditRoute($brand->id))
             ->put($this->successfulUpdateRoute($brand->id), [
                 'brand' => Str::random(200),
@@ -247,7 +287,10 @@ class BrandsTest extends TestCase
             ]);
 
         $this->assertCount(1, $this->brand->all());
-        $response->assertRedirect($this->successfulEditRoute($brand->id));
-        $response->assertSessionHasErrors('brand');
+        $response->assertSuccessful();
+        $response->assertSee(__('validation.max.string', [
+            'attribute' => trans_choice('brands.brand', 1),
+            'max' => 190
+        ]));
     }
 }
