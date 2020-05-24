@@ -24,5 +24,5 @@ abstract class TestCase extends BaseTestCase
     protected function loginGetRoute()
     {
         return route('login');
-    }    
+    }
 }

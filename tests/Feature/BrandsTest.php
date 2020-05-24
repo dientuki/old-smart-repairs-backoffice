@@ -87,7 +87,7 @@ class BrandsTest extends TestCase
         $response->assertSuccessful();
         $response->assertViewIs(self::VIEW_INDEX);
         $response->assertSee(__('error.no-record'));
-    }    
+    }
 
     public function testUserCanPaginate()
     {
@@ -136,7 +136,7 @@ class BrandsTest extends TestCase
     }
 
     public function testUserCanCreate()
-    {   
+    {
         $response = $this->actingAs($this->user)
             ->followingRedirects()
             ->from($this->successfulCreateRoute())
@@ -195,7 +195,7 @@ class BrandsTest extends TestCase
 
         $this->get($this->successfulEditRoute($brand->id))
             ->assertRedirect($this->loginGetRoute());
-    }    
+    }
 
     public function testUserCanViewEdit()
     {
