@@ -20,4 +20,9 @@ abstract class TestCase extends BaseTestCase
 
         Notification::fake();
     }
+
+    protected function loginGetRoute()
+    {
+        return route('login');
+    }    
 }
