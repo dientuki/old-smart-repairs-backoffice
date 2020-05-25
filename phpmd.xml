@@ -31,6 +31,7 @@
 
     <rule ref="rulesets/codesize.xml">
         <exclude name="TooManyPublicMethods" />
+        <exclude name="TooManyMethods" />
     </rule>
 
     <rule ref="rulesets/codesize.xml/TooManyPublicMethods">
@@ -41,7 +42,16 @@
                 </value>
             </property>
         </properties>
-    </rule>    
+    </rule>
+    <rule ref="rulesets/codesize.xml/TooManyMethods">
+        <properties>
+            <property name="ignorepattern">
+                <value>
+                   (^(set|get|test))i
+                </value>
+            </property>
+        </properties>
+    </rule>       
     
     <rule ref="rulesets/controversial.xml" />
     <rule ref="rulesets/design.xml" />

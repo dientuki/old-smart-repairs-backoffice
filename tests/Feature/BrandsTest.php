@@ -65,7 +65,7 @@ class BrandsTest extends TestCase
     protected function successfulDeleteRoute($brand)
     {
         return route('brands.destroy', $brand);
-    }    
+    }
 
     public function testUserUnauthenticateCantViewIndex()
     {
@@ -321,7 +321,7 @@ class BrandsTest extends TestCase
 
     public function testUserCannotDeleteWithWrongId()
     {
-        $brand = factory(Brand::class)->create([
+        factory(Brand::class)->create([
             'id' => 1
         ]);
 
@@ -336,5 +336,5 @@ class BrandsTest extends TestCase
 
         $this->assertCount(1, $this->brand->all());
         $response->assertNotFound();
-    }    
+    }
 }
