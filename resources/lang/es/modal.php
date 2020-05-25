@@ -4,11 +4,15 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Error Language Lines
+    | Modal Language Lines
     |--------------------------------------------------------------------------
-    |
     |
     */
 
-    'no-records' => 'No hay registros',
+    'delete' => [
+      'title' => 'Cuidado!',
+      'content' => '¿Esta seguro que desea borrar el registro?',
+      'cancel' => 'No',
+      'confirm' => 'Si!'
+    ],
 ];
