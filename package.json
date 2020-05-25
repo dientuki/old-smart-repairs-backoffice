@@ -54,5 +54,8 @@
     },
     "testURL": "http://localhost/admin",
     "verbose": true
+  },
+  "dependencies": {
+    "modal-vanilla": "^0.8.0"
   }
 }
