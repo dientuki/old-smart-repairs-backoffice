@@ -62,6 +62,11 @@ class BrandsTest extends TestCase
         return route('brands.update', $brand);
     }
 
+    protected function successfulDeleteRoute($brand)
+    {
+        return route('brands.destroy', $brand);
+    }    
+
     public function testUserUnauthenticateCantViewIndex()
     {
         $this->get($this->successfulIndexRoute())
@@ -111,7 +116,7 @@ class BrandsTest extends TestCase
         $response->assertSuccessful();
     }
 
-    public function testUserCanPaginateInexistePage()
+    public function testUserCanPaginateNonExistentPage()
     {
         factory(Brand::class, 30)->create();
         $response = $this->actingAs($this->user)->get($this->successfulIndexPaginateRoute(80));
@@ -293,4 +298,43 @@ class BrandsTest extends TestCase
             'max' => 190
         ]));
     }
+
+    public function testUserCanDelete()
+    {
+        $brand = factory(Brand::class)->create([
+            'id' => random_int(1, 100)
+        ]);
+
+        $this->assertCount(1, $this->brand->all());
+
+        $response = $this->actingAs($this->user)
+            ->followingRedirects()
+            ->from($this->successfulIndexRoute())
+            ->delete($this->successfulDeleteRoute($brand->id), [
+                '_token' => csrf_token(),
+            ]);
+
+        $this->assertCount(0, $this->brand->all());
+        $response->assertSuccessful();
+        $response->assertViewIs(self::VIEW_INDEX);
+    }
+
+    public function testUserCannotDeleteWithWrongId()
+    {
+        $brand = factory(Brand::class)->create([
+            'id' => 1
+        ]);
+
+        $this->assertCount(1, $this->brand->all());
+
+        $response = $this->actingAs($this->user)
+            ->followingRedirects()
+            ->from($this->successfulIndexRoute())
+            ->delete($this->successfulDeleteRoute(2), [
+                '_token' => csrf_token(),
+            ]);
+
+        $this->assertCount(1, $this->brand->all());
+        $response->assertNotFound();
+    }    
 }
