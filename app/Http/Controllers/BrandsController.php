@@ -100,9 +100,9 @@ class BrandsController extends Controller
      * @param  \App\Brands  $brands
      * @return \Illuminate\Http\Response
      */
-    //public function destroy(Brands $brands)
-    public function destroy()
+    public function destroy(Brand $brand)
     {
-        //
+        $brand->delete();
+        return redirect()->route('brands.index');
     }
 }
