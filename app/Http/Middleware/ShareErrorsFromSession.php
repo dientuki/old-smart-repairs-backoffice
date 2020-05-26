@@ -25,7 +25,7 @@ class ShareErrorsFromSession extends Middleware
         $this->view->share('errors', $errors? : new ViewErrorBag);
 
         if ($errors != null) {
-            Alert::error(__('error.in-forms'));
+            Alert::add('danger', __('error.in-forms'));
         }
 
         // Putting the errors in the view for every view allows the developer to just
