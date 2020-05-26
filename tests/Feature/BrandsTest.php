@@ -154,6 +154,7 @@ class BrandsTest extends TestCase
         $response->assertSuccessful();
         $response->assertViewIs(self::VIEW_INDEX);
         $response->assertSee(self::BRAND);
+        $response->assertSee(__('brands.store'));
     }
     
     public function testUserCannotCreateWithoutBrand()
@@ -172,6 +173,7 @@ class BrandsTest extends TestCase
         $response->assertSee(__('validation.required', [
             'attribute' => trans_choice('brands.brand', 1),
         ]));
+        $response->assertSee(__('error.in-forms'));
     }
 
     public function testUserCannotCreateWithoutCorrectBrand()
@@ -186,10 +188,12 @@ class BrandsTest extends TestCase
 
         $this->assertCount(0, $this->brand->all());
         $response->assertSuccessful();
+        $response->assertViewIs(self::VIEW_FORM);
         $response->assertSee(__('validation.max.string', [
             'attribute' => trans_choice('brands.brand', 1),
             'max' => 190
         ]));
+        $response->assertSee(__('error.in-forms'));
     }
 
     public function testUserUnauthenticateCantViewEdit()
@@ -229,8 +233,6 @@ class BrandsTest extends TestCase
 
     public function testUserCanUpdate()
     {
-        //Session::start();
-
         $brand = factory(Brand::class)->create([
             'id' => random_int(1, 100)
         ]);
@@ -249,6 +251,7 @@ class BrandsTest extends TestCase
         $response->assertSuccessful();
         $response->assertViewIs(self::VIEW_INDEX);
         $response->assertSee(self::BRAND);
+        $response->assertSee(__('brands.update'));
     }
 
     public function testUserCannotUpdateWithoutBrand()
@@ -273,6 +276,7 @@ class BrandsTest extends TestCase
         $response->assertSee(__('validation.required', [
             'attribute' => trans_choice('brands.brand', 1),
         ]));
+        $response->assertSee(__('error.in-forms'));
     }
 
     public function testUserCannotUpdateWithoutCorrectBrand()
@@ -293,10 +297,12 @@ class BrandsTest extends TestCase
 
         $this->assertCount(1, $this->brand->all());
         $response->assertSuccessful();
+        $response->assertViewIs(self::VIEW_FORM);
         $response->assertSee(__('validation.max.string', [
             'attribute' => trans_choice('brands.brand', 1),
             'max' => 190
         ]));
+        $response->assertSee(__('error.in-forms'));
     }
 
     public function testUserCanDelete()
@@ -317,6 +323,7 @@ class BrandsTest extends TestCase
         $this->assertCount(0, $this->brand->all());
         $response->assertSuccessful();
         $response->assertViewIs(self::VIEW_INDEX);
+        $response->assertSee(__('brands.destroy'));
     }
 
     public function testUserCannotDeleteWithWrongId()
