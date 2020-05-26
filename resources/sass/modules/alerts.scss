@@ -1,0 +1,86 @@
+/* Animated.css library https://github.com/animate-css/animate.css */
+/* originally authored by Nick Pettit - https://github.com/nickpettit/glide */
+
+@keyframes pulse {
+  from {
+    transform: scale3d(1, 1, 1);
+  }
+
+  50% {
+    transform: scale3d(1.05, 1.05, 1.05);
+  }
+
+  to {
+    transform: scale3d(1, 1, 1);
+  }
+}
+
+@keyframes backOutUp {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+
+  20% {
+    transform: translateY(0px) scale(0.7);
+    opacity: 0.7;
+  }
+
+  100% {
+    transform: translateY(-700px) scale(0.7);
+    opacity: 0.7;
+  }
+}
+
+.animated {
+  animation-duration: 1s;
+  animation-fill-mode: both;
+}
+
+.backOutUp {
+  animation-name: backOutUp;
+}
+
+.pulse {
+  animation-name: pulse;
+  animation-timing-function: ease-in-out;
+  animation-delay: 500ms;
+}
+
+.alert {
+  &-wrapper {
+    position: fixed;
+    width: calc(100% - #{$sidebar} - 3rem);
+    right: 1.5rem;
+    top: rem(65);
+    z-index: 99999;
+
+    .alert {
+      margin-bottom: 0;
+    }
+  }
+
+  &-close {
+    position: absolute;
+    right: rem(15);
+    top: 50%;
+    width: 1em;
+    height: 1em;
+    cursor: pointer;
+    opacity: .5;
+    transform: translateY(-50%);
+
+    &:hover {
+      opacity: 1;
+    }
+  }
+
+  .ico-close {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+}
+
