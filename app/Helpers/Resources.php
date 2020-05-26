@@ -18,7 +18,7 @@ if (! function_exists('load_resource')) {
         $manifest = public_path('/dist/manifest.json');
         
         if (file_exists($manifest) == false) {
-            return false;
+            return '';
         }
         
         $json = json_decode(file_get_contents($manifest), true);
@@ -34,7 +34,7 @@ if (! function_exists('load_resource')) {
             }
         }
 
-        return false;
+        return '';
     }
 }
 
@@ -50,10 +50,12 @@ if (! function_exists('load_critical_css')) {
     {
         $openFile = load_resource($file, 'file');
 
-        if ($openFile !== false) {
+        if ($openFile !== '') {
             $styles = file_get_contents($openFile);
             return $styles;
         }
+
+        return '';
     }
 }
 
@@ -74,7 +76,7 @@ if (! function_exists('load_svg')) {
             return file_get_contents($filename, FILE_USE_INCLUDE_PATH);
         }
 
-        return false;
+        return '';
     }
 }
 
