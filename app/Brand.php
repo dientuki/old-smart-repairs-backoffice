@@ -16,7 +16,7 @@ class Brand extends Model
     /**
      * The values acepted to order.
      *
-     * @var string
+     * @var array
      */
     protected $order = array('asc', 'desc');
 
