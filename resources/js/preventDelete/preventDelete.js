@@ -14,7 +14,7 @@ export function preventDelete() {
         buttons: [
           {
             attr: {
-              class: 'btn btn-info',
+              class: 'btn btn-light',
               'data-dismiss': 'modal'
             },
             text: modalInfo.dataset.cancel,
