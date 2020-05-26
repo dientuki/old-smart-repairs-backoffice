@@ -3,12 +3,13 @@
 /**
  * https://tutsforweb.com/creating-helpers-laravel/
  */
+
 if (! function_exists('load_resource')) {
     /**
      * Throw an HttpException with the given data.
      *
      * @param  string  $resource
-     * @param  boolean  $url
+     * @param  string  $mode
      * @return string
      *
      */
@@ -17,7 +18,7 @@ if (! function_exists('load_resource')) {
         $manifest = public_path('/dist/manifest.json');
         
         if (file_exists($manifest) == false) {
-            return false;
+            return '';
         }
         
         $json = json_decode(file_get_contents($manifest), true);
@@ -33,37 +34,62 @@ if (! function_exists('load_resource')) {
             }
         }
 
-        return false;
+        return '';
     }
 }
 
 if (! function_exists('load_critical_css')) {
+    /**
+     * Throw an HttpException with the given data.
+     *
+     * @param  string  $file
+     * @return string
+     *
+     */
     function load_critical_css($file)
     {
         $openFile = load_resource($file, 'file');
 
-        if ($openFile !== false) {
+        if ($openFile !== '') {
             $styles = file_get_contents($openFile);
             return $styles;
         }
+
+        return '';
     }
 }
 
 if (! function_exists('load_svg')) {
+    /**
+     * Throw an HttpException with the given data.
+     *
+     * @param  string  $file
+     * @return string
+     *
+     */
     function load_svg($file)
     {
         $folder = '/dist/svg/';
         $filename = public_path($folder . $file . '.svg');
 
         if (file_exists($filename)) {
-            return file_get_contents($filename, FILE_USE_INCLUDE_PATH);
+            return file_get_contents($filename, true);
         }
 
-        return false;
+        return '';
     }
 }
 
 if (! function_exists('selected_filter')) {
+    /**
+     * Return the filter string.
+     *
+     * @param  string  $param
+     * @param  string  $value
+     * @param  string  $default
+     * @return string
+     *
+     */
     function selected_filter($param, $value, $default)
     {
         $request = request();

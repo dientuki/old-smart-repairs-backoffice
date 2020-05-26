@@ -1,5 +1,9 @@
+includes:
+    - ./vendor/nunomaduro/larastan/extension.neon
+
 parameters:
-	level: 0
+	level: 6
+	checkMissingIterableValueType: false
 	paths:
 		- app
 		- config
@@ -7,9 +11,6 @@ parameters:
 		- routes
 		- resources/views
 		- resources/lang
-		- tests
-	autoload_files:
-		- app/Helpers/Resources.php
 	autoload_directories:
 		- database/migrations/
 	ignoreErrors:
@@ -18,10 +19,7 @@ parameters:
 			path: database/factories/*
 		-
 			message: '#Undefined variable\: \$this#'
-			path: routes/console.php
-		-
-			message: '#Undefined variable\: \$errors#'
-			path: resources/views/*			
+			path: routes/console.php	
 		-
 			message: '#Using \$this outside a class.#'
 			path: routes/console.php						

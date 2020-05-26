@@ -178,6 +178,11 @@ class LoginTest extends TestCase
             'password' => self::PASSWORD,
         ]);
 
+        $response = $this->from($this->loginGetRoute())->post($this->loginPostRoute(), [
+            'username' => $user->username,
+            'password' => 'invalid-password',
+        ]);
+                
         for ($i = 1; $i <= $logginAttempts; $i++) {
             $response = $this->from($this->loginGetRoute())->post($this->loginPostRoute(), [
                 'username' => $user->username,

@@ -16,7 +16,7 @@ class LoadResourceTest extends TestCase
      */
     public function testNoManifest()
     {
-        $this->assertFalse(load_resource('any-resource'));
+        $this->assertEquals(load_resource('any-resource'), '');
     }
 
     /**
@@ -24,7 +24,7 @@ class LoadResourceTest extends TestCase
      */
     public function testInvalidAsset()
     {
-        $this->assertFalse(load_resource(self::INVALID));
+        $this->assertEquals(load_resource(self::INVALID), '');
     }
     
     /**

@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
@@ -50,6 +51,9 @@ class Login extends Authenticatable
         $this->attributes['password'] = Hash::make($value);
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
     public function user()
     {
         return $this->hasOne(User::class);

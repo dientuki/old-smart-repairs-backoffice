@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Login;
 use Illuminate\Database\Eloquent\Model;
 
 class User extends Model
@@ -29,8 +30,11 @@ class User extends Model
      */
     public $timestamps = false;
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function login()
     {
-        return $this->belongsTo(App\Login);
+        return $this->belongsTo(Login::class);
     }
 }
