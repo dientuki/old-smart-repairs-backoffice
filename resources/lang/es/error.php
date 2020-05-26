@@ -10,5 +10,6 @@ return [
     |
     */
 
-    'no-records' => 'No hay registros',
+    'no-records' => 'No hay registros.',
+    'in-forms' => 'Se ha producido un error en la carga de datos, revise el formulario.'
 ];
