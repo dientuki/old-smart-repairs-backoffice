@@ -73,7 +73,7 @@ if (! function_exists('load_svg')) {
         $filename = public_path($folder . $file . '.svg');
 
         if (file_exists($filename)) {
-            return file_get_contents($filename, FILE_USE_INCLUDE_PATH);
+            return file_get_contents($filename, true);
         }
 
         return '';
@@ -81,6 +81,15 @@ if (! function_exists('load_svg')) {
 }
 
 if (! function_exists('selected_filter')) {
+    /**
+     * Return the filter string.
+     *
+     * @param  string  $param
+     * @param  string  $value
+     * @param  string  $default
+     * @return string
+     *
+     */
     function selected_filter($param, $value, $default)
     {
         $request = request();

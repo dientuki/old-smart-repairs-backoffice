@@ -30,6 +30,9 @@ class User extends Model
      */
     public $timestamps = false;
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function login()
     {
         return $this->belongsTo(Login::class);

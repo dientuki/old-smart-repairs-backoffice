@@ -51,6 +51,9 @@ class Login extends Authenticatable
         $this->attributes['password'] = Hash::make($value);
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
     public function user()
     {
         return $this->hasOne(User::class);

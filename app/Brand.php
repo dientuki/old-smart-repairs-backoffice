@@ -34,6 +34,11 @@ class Brand extends Model
      */
     protected $fillable = ['brand'];
 
+    /**
+     * Return all the records with order
+     *
+     * @return \Illuminate\Contracts\Pagination\Paginator
+     */
     public function getAll()
     {
         $request = request();
