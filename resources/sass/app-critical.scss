@@ -1,5 +1,7 @@
 $sidebar: rem(270);
 
+@import "./modules/alerts.scss";
+
 .p-5 {
   padding-top: 0 !important;
 }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Brand;
 use Illuminate\Http\Request;
+use Prologue\Alerts\Facades\Alert;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Brands\StoreBrand;
 use App\Http\Requests\Brands\UpdateBrand;
@@ -48,7 +49,7 @@ class BrandsController extends Controller
         $brand = $this->brand;
         $action = 'create';
         $formData = array('route' => 'brands.store', 'method' => 'POST');
-        
+
         return view('brands/form', compact('action', 'brand', 'formData'));
     }
 
@@ -63,6 +64,8 @@ class BrandsController extends Controller
         $data = $request->validated();
 
         $this->brand->create($data);
+
+        Alert::success(__('brands.store'))->flash();
 
         return redirect()->route('brands.index');
     }
@@ -91,6 +94,7 @@ class BrandsController extends Controller
     public function update(UpdateBrand $request, Brand $brand)
     {
         $brand->update($request->validated());
+        Alert::success(__('brands.update'))->flash();
         return redirect()->route('brands.index');
     }
 
@@ -103,6 +107,7 @@ class BrandsController extends Controller
     public function destroy(Brand $brand)
     {
         $brand->delete();
+        Alert::success(__('brands.destroy'))->flash();
         return redirect()->route('brands.index');
     }
 }

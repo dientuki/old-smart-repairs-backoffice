@@ -5,6 +5,7 @@
   </head>
 
   <body >
+    @include ('widgets/alerts')
 
     @include ('main-parts.nav-bar')
 

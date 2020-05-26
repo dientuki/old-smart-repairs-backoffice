@@ -1,7 +1,9 @@
+import { alertClose } from './alertClose/alertClose';
 import { expandableItem } from './sidebar/sidebar';
 __webpack_public_path__ = `${window.location.protocol}//${window.location.host}/admin/dist/`;
 
 expandableItem(document.querySelectorAll('.must-expand'));
+alertClose(document.querySelector('.alert-close'));
 
 if (document.querySelector('.sort') !== null) {
   import(/* webpackChunkName: "orderSort" */ './order/sort').then((module) => {

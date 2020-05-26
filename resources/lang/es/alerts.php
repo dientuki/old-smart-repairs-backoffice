@@ -4,11 +4,13 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Error Language Lines
+    | Alert Language Lines
     |--------------------------------------------------------------------------
     |
     */
 
-    'no-records' => 'No hay registros.',
-    'in-forms' => 'Se ha producido un error en la carga de datos, revise el formulario.'
+    'success' => 'Exito',
+    'warning' => 'Atención',
+    'info' => 'Aviso',
+    'danger' => 'Cuidado'
 ];
