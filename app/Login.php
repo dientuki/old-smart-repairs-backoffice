@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
