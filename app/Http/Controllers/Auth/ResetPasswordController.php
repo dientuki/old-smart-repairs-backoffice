@@ -31,22 +31,14 @@ class ResetPasswordController extends Controller
     protected $redirectTo = RouteServiceProvider::HOME;
 
     /**
-     * Reset the given user's password.
+     * Set the user's password.
      *
      * @param  \Illuminate\Contracts\Auth\CanResetPassword  $user
      * @param  string  $password
      * @return void
      */
-    protected function resetPassword($user, $password)
+    protected function setUserPassword($user, $password)
     {
         $user->password = $password;
-
-        $user->setRememberToken(Str::random(60));
-
-        $user->save();
-
-        event(new PasswordReset($user));
-
-        $this->guard()->login($user);
-    }
+    }    
 }
