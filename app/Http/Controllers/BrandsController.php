@@ -56,7 +56,7 @@ class BrandsController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  App\Http\Requests\Brands\StoreBrand  $request
+     * @param  \App\Http\Requests\Brands\StoreBrand  $request
      * @return \Illuminate\Http\Response
      */
     public function store(StoreBrand $request)
@@ -87,7 +87,7 @@ class BrandsController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  App\Http\Requests\Brands\UpdateBrand  $request
+     * @param  \App\Http\Requests\Brands\UpdateBrand  $request
      * @param  \App\Brand  $brand
      * @return \Illuminate\Http\Response
      */
@@ -101,7 +101,7 @@ class BrandsController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Brands  $brands
+     * @param  \App\Brand  $brand
      * @return \Illuminate\Http\Response
      */
     public function destroy(Brand $brand)
