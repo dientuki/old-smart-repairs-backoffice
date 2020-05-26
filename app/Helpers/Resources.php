@@ -45,7 +45,7 @@ if (! function_exists('load_critical_css')) {
      * @param  string  $file
      * @return string
      *
-     */    
+     */
     function load_critical_css($file)
     {
         $openFile = load_resource($file, 'file');
@@ -64,7 +64,7 @@ if (! function_exists('load_svg')) {
      * @param  string  $file
      * @return string
      *
-     */       
+     */
     function load_svg($file)
     {
         $folder = '/dist/svg/';

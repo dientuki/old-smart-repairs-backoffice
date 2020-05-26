@@ -42,5 +42,5 @@ class ResetPasswordController extends Controller
         $user->fill([
             'password' => $password
         ]);
-    }    
+    }
 }
