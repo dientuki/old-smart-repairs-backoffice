@@ -3,12 +3,13 @@
 /**
  * https://tutsforweb.com/creating-helpers-laravel/
  */
+
 if (! function_exists('load_resource')) {
     /**
      * Throw an HttpException with the given data.
      *
      * @param  string  $resource
-     * @param  boolean  $url
+     * @param  string  $mode
      * @return string
      *
      */
@@ -38,6 +39,13 @@ if (! function_exists('load_resource')) {
 }
 
 if (! function_exists('load_critical_css')) {
+    /**
+     * Throw an HttpException with the given data.
+     *
+     * @param  string  $file
+     * @return string
+     *
+     */    
     function load_critical_css($file)
     {
         $openFile = load_resource($file, 'file');
@@ -50,6 +58,13 @@ if (! function_exists('load_critical_css')) {
 }
 
 if (! function_exists('load_svg')) {
+    /**
+     * Throw an HttpException with the given data.
+     *
+     * @param  string  $file
+     * @return string
+     *
+     */       
     function load_svg($file)
     {
         $folder = '/dist/svg/';
