@@ -17,6 +17,7 @@
         <properties>
             <property name="exceptions">
                 <value>
+                   \Prologue\Alerts\Facades\Alert,
                    \Illuminate\Support\Str,
                    \Illuminate\Support\Facades\Event,
                    \Illuminate\Support\Facades\Hash,
