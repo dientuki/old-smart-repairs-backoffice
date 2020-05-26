@@ -1,5 +1,8 @@
+includes:
+    - ./vendor/nunomaduro/larastan/extension.neon
+
 parameters:
-	level: 0
+	level: 1
 	paths:
 		- app
 		- config
@@ -8,8 +11,6 @@ parameters:
 		- resources/views
 		- resources/lang
 		- tests
-	autoload_files:
-		- app/Helpers/Resources.php
 	autoload_directories:
 		- database/migrations/
 	ignoreErrors:
