@@ -1,5 +1,5 @@
-/* Animated.css library https://github.com/animate-css/animate.css */
-/* originally authored by Nick Pettit - https://github.com/nickpettit/glide */
+/* Animated.css library https://github.com/animate-css/animate.css o
+originally authored by Nick Pettit - https://github.com/nickpettit/glide */
 
 @keyframes pulse {
   from {
@@ -22,13 +22,13 @@
   }
 
   20% {
-    transform: translateY(0px) scale(0.7);
-    opacity: 0.7;
+    transform: translateY(0) scale(.7);
+    opacity: .7;
   }
 
   100% {
-    transform: translateY(-700px) scale(0.7);
-    opacity: 0.7;
+    transform: translateY(rem(-700)) scale(.7);
+    opacity: .7;
   }
 }
 
@@ -83,4 +83,3 @@
     left: 0;
   }
 }
-
