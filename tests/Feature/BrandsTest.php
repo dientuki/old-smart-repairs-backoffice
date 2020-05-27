@@ -72,6 +72,18 @@ class BrandsTest extends TestCase
         $this->get($this->successfulIndexRoute())
             ->assertRedirect($this->loginGetRoute());
     }
+
+    public function testUserCanViewMenuInDashboard()
+    {
+        $brand = factory(Brand::class)->create();
+
+        $response = $this->actingAs($this->user)->get($this->dashboardRoute());
+
+        $response->assertSuccessful();
+        $response->assertViewIs(self::DASHBOARD);
+        $response->assertSee(ucfirst(trans_choice('brands.brand', 2)));
+        $response->assertDontSee(__('buttons.create') . ' ' . ucfirst(trans_choice('brands.brand',1)));
+    }    
         
     public function testUserCanViewIndex()
     {
@@ -83,6 +95,7 @@ class BrandsTest extends TestCase
         $response->assertViewIs(self::VIEW_INDEX);
         $response->assertSee(ucfirst(trans_choice('brands.brand', 2)));
         $response->assertSee($brand->title);
+        $response->assertSee(__('buttons.create') . ' ' . ucfirst(trans_choice('brands.brand',1)));
     }
 
     public function testUserCanViewEmptyIndex()

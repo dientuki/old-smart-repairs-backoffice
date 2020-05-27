@@ -11,6 +11,8 @@ abstract class TestCase extends BaseTestCase
     use CreatesApplication;
     use RefreshDatabase;
 
+    const DASHBOARD = 'dashboard';
+
     /**
      * Set up the test case.
      */
@@ -25,4 +27,9 @@ abstract class TestCase extends BaseTestCase
     {
         return route('login');
     }
+
+    protected function dashboardRoute()
+    {
+        return route('dashboard');
+    }    
 }

@@ -37,19 +37,20 @@
           @endforeach
       </tbody>
   </table>
-
-  <div class="row">
-    <div class="col-sm">
-      <a href="{{route('brands.create')}}" class="btn btn-primary" title="{{__('buttons.create')}} {{ ucfirst(trans_choice('brands.brand',1)) }}">{{__('buttons.create')}} {{ ucfirst(trans_choice('brands.brand',1)) }}</a>
-    </div>
-    <div class="col-sm d-flex">
-      {{ $brands->links() }}
-    </div>
-  </div>
-
-  @include ('widgets/modal-delete')
 @else
   @include ('widgets/empty', ['content' => $brands])
 @endif
+
+<div class="row">
+  <div class="col-sm">
+    <a href="{{route('brands.create')}}" class="btn btn-primary" title="{{__('buttons.create')}} {{ ucfirst(trans_choice('brands.brand',1)) }}">{{__('buttons.create')}} {{ ucfirst(trans_choice('brands.brand',1)) }}</a>
+  </div>
+  <div class="col-sm d-flex">
+    {{ $brands->links() }}
+  </div>
+</div>
+
+@include ('widgets/modal-delete')
+
 
 @endsection
