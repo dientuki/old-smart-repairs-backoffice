@@ -56,7 +56,7 @@ class DeviceTypesController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \App\Http\Requests\DeviceType\StoreDeviceType  $request
+     * @param  \App\Http\Requests\DeviceTypes\StoreDeviceType  $request
      * @return \Illuminate\Http\RedirectResponse
      */
     public function store(StoreDeviceType $request)
@@ -87,7 +87,7 @@ class DeviceTypesController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \App\Http\Requests\DeviceType\UpdateDeviceType  $request
+     * @param  \App\Http\Requests\DeviceTypes\UpdateDeviceType  $request
      * @param  \App\DeviceType  $deviceType
      * @return \Illuminate\Http\RedirectResponse
      */
