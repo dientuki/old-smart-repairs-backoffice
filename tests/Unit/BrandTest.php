@@ -6,7 +6,7 @@ use App\Login;
 use App\Brand;
 use Tests\TestCase;
 
-class BrandsTest extends TestCase
+class BrandTest extends TestCase
 {
     protected $brand;
 
