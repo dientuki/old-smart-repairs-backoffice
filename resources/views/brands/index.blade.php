@@ -25,7 +25,7 @@
                   <div class="row">
                   <a href="{{route('brands.edit', $brand->id)}}" class="btn btn-primary col" title="{{__('buttons.edit')}} {{ $brand->brand }}">{!! load_svg('pencil') !!}{{__('buttons.edit')}}</a>
                   
-                  {!! Form::open(array('route' => array('brands.destroy', $brand->id), 'method' => 'DELETE', 'class' => 'col modalOpener', 'id' => 'id-' . $brand->id)) !!}
+                  {!! Form::open(array('route' => array('brands.destroy', $brand->id), 'method' => 'DELETE', 'class' => 'col modalOpener')) !!}
                     <button id="button-{{ $brand->id }}" type="submit" class="btn btn-danger modalDelete" title="{{__('buttons.delete')}} {{ $brand->brand }}">
                         {!! load_svg('trash') !!}
                         {{__('buttons.delete') }}

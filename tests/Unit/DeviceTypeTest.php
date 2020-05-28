@@ -3,22 +3,22 @@
 namespace Tests\Unit;
 
 use App\Login;
-use App\Brand;
+use App\DeviceType;
 use Tests\TestCase;
 
-class BrandsTest extends TestCase
+class DeviceTypeTest extends TestCase
 {
-    protected $brand;
+    protected $deviceType;
 
     public function setUp(): void
     {
         parent::setUp();
-        $this->brand = new Brand();
+        $this->deviceType = new DeviceType();
     }
 
     protected function successfulIndexOrderRoute($order)
     {
-        return route('brands.index', ['order='. $order]);
+        return route('device-types.index', ['order='. $order]);
     }
 
     public function testGetAscOrder()
@@ -26,17 +26,17 @@ class BrandsTest extends TestCase
         $array = ['C','B','A'];
 
         foreach ($array as $letter) {
-            factory(Brand::class)->create([
-                'brand' => $letter
+            factory(DeviceType::class)->create([
+                'device_type' => $letter
             ]);
         }
 
         $array = array_reverse($array);
 
-        $brands = $this->brand->getAll();
+        $deviceTypes = $this->deviceType->getAll();
 
-        foreach ($brands as $key => $brand) {
-            $this->assertEquals($brand->brand, $array[$key]);
+        foreach ($deviceTypes as $key => $deviceType) {
+            $this->assertEquals($deviceType->device_type, $array[$key]);
         }
     }
     
@@ -45,8 +45,8 @@ class BrandsTest extends TestCase
         $array = ['A','B','C'];
 
         foreach ($array as $letter) {
-            factory(Brand::class)->create([
-                'brand' => $letter
+            factory(DeviceType::class)->create([
+                'device_type' => $letter
             ]);
         }
 
@@ -56,10 +56,10 @@ class BrandsTest extends TestCase
             ->actingAs(factory(Login::class)->create())
             ->get($this->successfulIndexOrderRoute('desc'));
 
-        $brands = $this->brand->getAll();
+        $deviceTypes = $this->deviceType->getAll();
 
-        foreach ($brands as $key => $brand) {
-            $this->assertEquals($brand->brand, $array[$key]);
+        foreach ($deviceTypes as $key => $deviceType) {
+            $this->assertEquals($deviceType->device_type, $array[$key]);
         }
     }
 
@@ -68,8 +68,8 @@ class BrandsTest extends TestCase
         $array = ['C','B','A'];
 
         foreach ($array as $letter) {
-            factory(Brand::class)->create([
-                'brand' => $letter
+            factory(DeviceType::class)->create([
+                'device_type' => $letter
             ]);
         }
 
@@ -79,10 +79,10 @@ class BrandsTest extends TestCase
             ->actingAs(factory(Login::class)->create())
             ->get($this->successfulIndexOrderRoute('any'));
 
-        $brands = $this->brand->getAll();
+        $deviceTypes = $this->deviceType->getAll();
 
-        foreach ($brands as $key => $brand) {
-            $this->assertEquals($brand->brand, $array[$key]);
+        foreach ($deviceTypes as $key => $deviceType) {
+            $this->assertEquals($deviceType->device_type, $array[$key]);
         }
     }
 }

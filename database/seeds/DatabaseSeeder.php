@@ -18,7 +18,8 @@ class DatabaseSeeder extends Seeder
             RolesTableSeeder::Class,
             AccountsTableSeeder::Class,
             MembershipsTableSeeder::Class,
-            BrandsTableSeeder::Class
+            BrandsTableSeeder::Class,
+            DeviceTypeSeeder::Class
         ]);
     }
 }

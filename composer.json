@@ -91,7 +91,7 @@
         ],
         "test": [
             "@php artisan config:clear",
-            "phpunit --coverage-html ./coverage/phpunit"
+            "phpunit --coverage-html ./coverage/phpunit --stop-on-failure"
         ],
         "clear": [
             "@php artisan route:cache",
