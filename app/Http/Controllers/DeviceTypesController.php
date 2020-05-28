@@ -6,10 +6,10 @@ use App\DeviceType;
 use Illuminate\Http\Request;
 use Prologue\Alerts\Facades\Alert;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\DeviceType\StoreDeviceType;
-use App\Http\Requests\DeviceType\UpdateDeviceType;
+use App\Http\Requests\DeviceTypes\StoreDeviceType;
+use App\Http\Requests\DeviceTypes\UpdateDeviceType;
 
-class DeviceTypeController extends Controller
+class DeviceTypesController extends Controller
 {
     /**
      * Device type model
