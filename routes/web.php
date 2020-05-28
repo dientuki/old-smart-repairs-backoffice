@@ -21,5 +21,6 @@ Route::group(['prefix' => 'admin'], function () {
         Route::get('dashboard.html', ['uses' => 'DashboardController@index', 'as' => 'dashboard']);
 
         Route::resource('brands', 'BrandsController')->except(['show']);
+        Route::resource('device-types', 'DeviceTypesController')->except(['show']);
     });
 });

@@ -13,6 +13,7 @@
         </div>
         <ul class="main-nav__submenu">
           <li class="main-nav__li"><a href="{{route('brands.index')}}" class="main-nav__link">{{ ucfirst(trans_choice('brands.brand', 2)) }}</a></li>
+          <li class="main-nav__li"><a href="{{route('device-types.index')}}" class="main-nav__link">{{ ucfirst(trans_choice('device-types.device_type', 2)) }}</a></li>
         </ul>
       </li>
 
@@ -21,7 +22,7 @@
           {{ csrf_field() }}
           <button class="main-nav__title-wrapper">
             <div class="main-nav__icon">{!! load_svg('box-arrow-right') !!}</div>
-            <div class="main-nav__title">Salir</div>            
+            <div class="main-nav__title">{{__('Logout')}}</div>            
           </button>
         </form>
       </li>      
