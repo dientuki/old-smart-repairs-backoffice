@@ -18,7 +18,7 @@ class DeviceTypeTest extends TestCase
 
     protected function successfulIndexOrderRoute($order)
     {
-        return route('deviceTypes.index', ['order='. $order]);
+        return route('device-types.index', ['order='. $order]);
     }
 
     public function testGetAscOrder()
@@ -27,7 +27,7 @@ class DeviceTypeTest extends TestCase
 
         foreach ($array as $letter) {
             factory(DeviceType::class)->create([
-                'deviceType' => $letter
+                'device_type' => $letter
             ]);
         }
 
@@ -36,7 +36,7 @@ class DeviceTypeTest extends TestCase
         $deviceTypes = $this->deviceType->getAll();
 
         foreach ($deviceTypes as $key => $deviceType) {
-            $this->assertEquals($deviceType->deviceType, $array[$key]);
+            $this->assertEquals($deviceType->device_type, $array[$key]);
         }
     }
     
@@ -46,7 +46,7 @@ class DeviceTypeTest extends TestCase
 
         foreach ($array as $letter) {
             factory(DeviceType::class)->create([
-                'deviceType' => $letter
+                'device_type' => $letter
             ]);
         }
 
@@ -59,7 +59,7 @@ class DeviceTypeTest extends TestCase
         $deviceTypes = $this->deviceType->getAll();
 
         foreach ($deviceTypes as $key => $deviceType) {
-            $this->assertEquals($deviceType->deviceType, $array[$key]);
+            $this->assertEquals($deviceType->device_type, $array[$key]);
         }
     }
 
@@ -69,7 +69,7 @@ class DeviceTypeTest extends TestCase
 
         foreach ($array as $letter) {
             factory(DeviceType::class)->create([
-                'deviceType' => $letter
+                'device_type' => $letter
             ]);
         }
 
@@ -82,7 +82,7 @@ class DeviceTypeTest extends TestCase
         $deviceTypes = $this->deviceType->getAll();
 
         foreach ($deviceTypes as $key => $deviceType) {
-            $this->assertEquals($deviceType->deviceType, $array[$key]);
+            $this->assertEquals($deviceType->device_type, $array[$key]);
         }
     }
 }

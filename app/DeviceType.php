@@ -51,7 +51,7 @@ class DeviceType extends Model
 
         if ($request->has('order')) {
             if (in_array($request->get('order'), $this->order)) {
-                $deviceTypes->reorder('brand', $request->get('order'));
+                $deviceTypes->reorder('device_type', $request->get('order'));
                 $queries['order'] = $request->get('order');
             }
         }
