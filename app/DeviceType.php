@@ -58,4 +58,9 @@ class DeviceType extends Model
 
         return $deviceTypes->simplePaginate(20)->appends($queries);
     }
+
+    public function device()
+    {
+        return $this->hasOne('App\Device');
+    }    
 }

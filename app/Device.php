@@ -44,7 +44,7 @@ class Device extends Model
         $request = request();
         $queries = [];
         
-        $devices = $this->select('tradename', 'technical_name', 'url', 'device_type_id', 'brand_id');
+        $devices = $this->select('id', 'tradename', 'technical_name', 'url', 'device_type_id', 'brand_id');
         
         $devices->orderBy('tradename', 'asc');
         $queries['order'] = 'asc';
@@ -58,4 +58,14 @@ class Device extends Model
 
         return $devices->simplePaginate(20)->appends($queries);
     }
+
+    public function device_type()
+    {
+        return $this->belongsTo('App\DeviceType');
+    }    
+
+    public function brand()
+    {
+        return $this->belongsTo('App\Brand');
+    }    
 }

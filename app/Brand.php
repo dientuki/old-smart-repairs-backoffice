@@ -58,4 +58,9 @@ class Brand extends Model
 
         return $brands->simplePaginate(20)->appends($queries);
     }
+
+    public function device()
+    {
+        return $this->hasOne('App\Device');
+    }     
 }
