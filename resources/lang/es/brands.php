@@ -11,7 +11,7 @@ return [
 
     // Brands
     'brand' => 'marca|marcas',
-    //'region_select_placeholder' => 'Seleccione una región...',
+    'select_placeholder' => 'Seleccione una marca...',
 
     'store' => 'La marca ha sido creada con exito!.',
     'update' => 'La marca ha sido actualizada con exito!.',

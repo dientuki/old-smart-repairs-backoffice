@@ -59,6 +59,11 @@ class Brand extends Model
         return $brands->simplePaginate(20)->appends($queries);
     }
 
+    public function getLists()
+    {
+        return $this->orderBy('brand')->pluck('brand', 'id');
+    } 
+
     public function device()
     {
         return $this->hasOne('App\Device');

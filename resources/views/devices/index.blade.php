@@ -24,7 +24,7 @@
           <tr>
               <td>{{ $device->tradename }}</td>
               <td>{{ $device->technical_name }}</td>
-              <td>{{ $device->device_type->device_type }}</td>
+              <td>{{ $device->deviceType->device_type }}</td>
               <td>{{ $device->brand->brand }}</td>
 
               <td class="column-action px-4">

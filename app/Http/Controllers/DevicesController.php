@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Brand;
 use App\Device;
+use App\DeviceType;
 use Illuminate\Http\Request;
 use Prologue\Alerts\Facades\Alert;
 use App\Http\Controllers\Controller;
@@ -48,9 +50,13 @@ class DevicesController extends Controller
     {
         $device = $this->device;
         $action = 'create';
+        $deviceTypes = new DeviceType();
+        $deviceTypes = $deviceTypes->getLists();
+        $brands = new Brand();
+        $brands = $brands->getLists();        
         $formData = array('route' => 'devices.store', 'method' => 'POST');
 
-        return view('devices/form', compact('action', 'brand', 'formData'));
+        return view('devices/form', compact('action', 'device', 'deviceTypes', 'brands', 'formData'));
     }
 
     /**

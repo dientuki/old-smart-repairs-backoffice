@@ -59,7 +59,7 @@ class Device extends Model
         return $devices->simplePaginate(20)->appends($queries);
     }
 
-    public function device_type()
+    public function deviceType()
     {
         return $this->belongsTo('App\DeviceType');
     }    

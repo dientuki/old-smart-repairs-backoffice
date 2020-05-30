@@ -11,7 +11,7 @@ return [
 
     // Brands
     'device_type' => 'tipo de equipo|tipo de equipos',
-    //'region_select_placeholder' => 'Seleccione una región...',
+    'select_placeholder' => 'Seleccione un tipo de equipo...',
 
     'store' => 'El tipo de equipo ha sido creada con exito!.',
     'update' => 'El tipo de equipo ha sido actualizada con exito!.',
