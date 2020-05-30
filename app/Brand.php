@@ -62,10 +62,10 @@ class Brand extends Model
     public function getLists()
     {
         return $this->orderBy('brand')->pluck('brand', 'id');
-    } 
+    }
 
     public function device()
     {
         return $this->hasOne('App\Device');
-    }     
+    }
 }

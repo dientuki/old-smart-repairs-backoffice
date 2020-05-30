@@ -62,10 +62,10 @@ class DeviceType extends Model
     public function getLists()
     {
         return $this->orderBy('device_type')->pluck('device_type', 'id');
-    }      
+    }
 
     public function device()
     {
         return $this->hasOne('App\Device');
-    }    
+    }
 }

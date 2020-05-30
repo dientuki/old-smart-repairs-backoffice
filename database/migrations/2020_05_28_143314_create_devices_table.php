@@ -1,4 +1,5 @@
 <?php
+// phpcs:disable PSR1.Classes.ClassDeclaration.MissingNamespace
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -24,7 +25,7 @@ class CreateDevicesTable extends Migration
             $table->string('url', 190);
 
             $table->smallInteger('device_type_id')->unsigned();
-            $table->foreign('device_type_id')->references('id')->on('device_types');            
+            $table->foreign('device_type_id')->references('id')->on('device_types');
             
             $table->smallInteger('brand_id')->unsigned();
             $table->foreign('brand_id')->references('id')->on('brands');

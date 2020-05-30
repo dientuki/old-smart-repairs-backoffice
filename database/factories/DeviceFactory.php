@@ -27,5 +27,3 @@ $factory->define(Device::class, function (Faker $faker) {
         'brand_id' => factory(Brand::class)->create()->id
     ];
 });
-
-

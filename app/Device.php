@@ -62,10 +62,10 @@ class Device extends Model
     public function deviceType()
     {
         return $this->belongsTo('App\DeviceType');
-    }    
+    }
 
     public function brand()
     {
         return $this->belongsTo('App\Brand');
-    }    
+    }
 }

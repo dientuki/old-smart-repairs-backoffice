@@ -53,7 +53,7 @@ class DevicesController extends Controller
         $deviceTypes = new DeviceType();
         $deviceTypes = $deviceTypes->getLists();
         $brands = new Brand();
-        $brands = $brands->getLists();        
+        $brands = $brands->getLists();
         $formData = array('route' => 'devices.store', 'method' => 'POST');
 
         return view('devices/form', compact('action', 'device', 'deviceTypes', 'brands', 'formData'));
