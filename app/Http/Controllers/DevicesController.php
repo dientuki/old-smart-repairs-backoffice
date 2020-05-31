@@ -88,7 +88,7 @@ class DevicesController extends Controller
         $deviceTypes = new DeviceType();
         $deviceTypes = $deviceTypes->getLists();
         $brands = new Brand();
-        $brands = $brands->getLists();        
+        $brands = $brands->getLists();
         $formData = array('route' => array('devices.update', $device->id), 'method' => 'PATCH');
 
         return view('devices/form', compact('action', 'device', 'deviceTypes', 'brands', 'formData'));

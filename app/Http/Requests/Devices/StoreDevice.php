@@ -43,7 +43,7 @@ class StoreDevice extends FormRequest
             'tradename' => __('devices.tradename'),
             'technical_name' => __('devices.technical_name'),
             'url' => __('devices.url'),
-            'device_type_id' => trans_choice('device-types.device_type',1),
+            'device_type_id' => trans_choice('device-types.device_type', 1),
             'brand_id' => trans_choice('brands.brand', 1)
         ];
     }

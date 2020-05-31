@@ -20,7 +20,7 @@ class DevicesSeeder extends Seeder
             'url' => 'https://www.gsmarena.com/zte_blade_a5_(2019)-9712.php',
             'device_type_id' => 1,
             'brand_id' => 1
-        ]);      
+        ]);
 
         DB::table('devices')->insert([
             'tradename' => 'Moto G7',
@@ -28,7 +28,7 @@ class DevicesSeeder extends Seeder
             'url' => 'https://www.gsmarena.com/motorola_moto_g7-9357.php',
             'device_type_id' => 1,
             'brand_id' => 2
-        ]);         
+        ]);
 
         DB::table('devices')->insert([
             'tradename' => 'Galaxy J2 Core',
@@ -36,6 +36,6 @@ class DevicesSeeder extends Seeder
             'url' => 'https://www.gsmarena.com/samsung_galaxy_j2_core-9255.php',
             'device_type_id' => 1,
             'brand_id' => 3
-        ]);        
+        ]);
     }
 }
