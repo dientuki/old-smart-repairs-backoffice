@@ -59,11 +59,21 @@ class Device extends Model
         return $devices->simplePaginate(20)->appends($queries);
     }
 
+    /**
+     * Relationship with device table
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function deviceType()
     {
         return $this->belongsTo('App\DeviceType');
     }
 
+    /**
+     * Relationship with device table
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function brand()
     {
         return $this->belongsTo('App\Brand');

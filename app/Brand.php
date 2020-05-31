@@ -59,11 +59,21 @@ class Brand extends Model
         return $brands->simplePaginate(20)->appends($queries);
     }
 
+    /**
+     * Return all the records with order to use in combo
+     *
+     * @return \Illuminate\Support\Collection
+     */
     public function getLists()
     {
         return $this->orderBy('brand')->pluck('brand', 'id');
     }
 
+    /**
+     * Relationship with device table
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
     public function device()
     {
         return $this->hasOne('App\Device');
