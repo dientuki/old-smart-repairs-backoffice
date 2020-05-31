@@ -9,4 +9,6 @@ export function sort(element) {
     url.searchParams.set(e.target.dataset.param, e.target.value);
     window.location.href = url.href;
   });
+
+  return true;
 }

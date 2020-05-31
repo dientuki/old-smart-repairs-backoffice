@@ -22,4 +22,5 @@ export function filter(elements) {
     });
   });
 
+  return true;
 }

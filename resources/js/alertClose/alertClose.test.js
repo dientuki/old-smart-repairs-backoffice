@@ -7,8 +7,8 @@ describe('alertClose', () => {
   });
 
   test('close alert', () => {
-    const wrapper = document.createElement('div'),
-      button = document.createElement('button');
+    const button = document.createElement('button'),
+      wrapper = document.createElement('div');
 
     wrapper.dataset.open = 'pulse';
     wrapper.dataset.close = 'backOutUp';
@@ -21,6 +21,6 @@ describe('alertClose', () => {
     alertClose(document.querySelector('.alert-close'));
 
     button.click();
-    expect(wrapper.className).toBe('animated ' + wrapper.dataset.close);
+    expect(wrapper.className).toBe(`animated ${wrapper.dataset.close}`);
   });
 });

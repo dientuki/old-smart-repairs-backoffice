@@ -9,4 +9,6 @@ export function alertClose(element) {
     animated.classList.remove(animated.dataset.open);
     animated.classList.add(animated.dataset.close);
   });
+
+  return true;
 }
