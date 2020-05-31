@@ -2,7 +2,7 @@ import Modal from 'modal-vanilla';
 
 export function preventDelete(element) {
   if (element === null) {
-    return falase;
+    return false;
   }
 
   Array.from(document.querySelectorAll('.modalOpener')).forEach((form) => {
@@ -51,4 +51,6 @@ export function preventDelete(element) {
       event.preventDefault();
     });
   });
+
+  return true;
 }
