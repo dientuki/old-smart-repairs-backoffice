@@ -8,8 +8,8 @@
 
   <div class="form-group">
     <?php $class = $errors->has('tradename') != null ? 'form-control is-invalid' : 'form-control'; ?>
-    {!! Form::label('tradename', ucfirst(trans_choice('devices.tradename',1))) !!}
-    {!! Form::text('tradename', null, array('placeholder' => ucfirst(trans_choice('devices.tradename', 1)), 'class'=>$class, 'required' => true, 'maxlength' => 190))  !!}
+    {!! Form::label('tradename', ucfirst(__('devices.tradename'))) !!}
+    {!! Form::text('tradename', null, array('placeholder' => ucfirst(__('devices.tradename')), 'class'=>$class, 'required' => true, 'maxlength' => 190))  !!}
     @error('tradename')
       <div class="invalid-feedback">
         <strong>{{ $message }}</strong>
@@ -19,8 +19,8 @@
 
   <div class="form-group">
     <?php $class = $errors->has('technical_name') != null ? 'form-control is-invalid' : 'form-control'; ?>
-    {!! Form::label('technical_name', ucfirst(trans_choice('devices.technical_name',1))) !!}
-    {!! Form::text('technical_name', null, array('placeholder' => __('devices.technical_name'), 'class'=>$class, 'required' => true, 'maxlength' => 190))  !!}
+    {!! Form::label('technical_name', ucfirst(__('devices.technical_name'))) !!}
+    {!! Form::text('technical_name', null, array('placeholder' => ucfirst(__('devices.technical_name')), 'class'=>$class, 'required' => true, 'maxlength' => 190))  !!}
     @error('technical_name')
       <div class="invalid-feedback">
         <strong>{{ $message }}</strong>
@@ -53,7 +53,7 @@
   <div class="form-group">
     <?php $class = $errors->has('url') != null ? 'form-control is-invalid' : 'form-control'; ?>
     {!! Form::label('url', ucfirst(__('devices.url'))) !!}
-    {!! Form::text('url', null, array('placeholder' => __('devices.url'), 'class'=>$class, 'required' => true, 'maxlength' => 190))  !!}
+    {!! Form::url('url', null, array('placeholder' => ucfirst(__('devices.url')), 'class'=>$class))  !!}
     @error('url')
       <div class="invalid-feedback">
         <strong>{{ $message }}</strong>

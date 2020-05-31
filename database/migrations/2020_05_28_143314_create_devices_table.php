@@ -22,7 +22,7 @@ class CreateDevicesTable extends Migration
             $table->smallIncrements('id');
             $table->string('tradename', 190);
             $table->string('technical_name', 190);
-            $table->string('url', 190);
+            $table->text('url')->nullable(true);
 
             $table->smallInteger('device_type_id')->unsigned();
             $table->foreign('device_type_id')->references('id')->on('device_types');

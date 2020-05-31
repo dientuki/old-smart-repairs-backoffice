@@ -9,7 +9,7 @@ return [
     |
     */
 
-    'device' => 'equipo',
+    'device' => 'equipo|equipos',
     'tradename' => 'nombre comercial',
     'technical_name' => 'nombre tecnico',
     'url' => 'url',

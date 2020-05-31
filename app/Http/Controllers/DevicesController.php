@@ -8,8 +8,8 @@ use App\DeviceType;
 use Illuminate\Http\Request;
 use Prologue\Alerts\Facades\Alert;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Brands\StoreBrand;
-use App\Http\Requests\Brands\UpdateBrand;
+use App\Http\Requests\Devices\StoreDevice;
+use App\Http\Requests\Devices\UpdateDevice;
 
 class DevicesController extends Controller
 {
@@ -62,10 +62,10 @@ class DevicesController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \App\Http\Requests\Brands\StoreBrand  $request
+     * @param  \App\Http\Requests\Devices\StoreDevice  $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function store(StoreBrand $request)
+    public function store(StoreDevice $request)
     {
         $data = $request->validated();
 
@@ -82,22 +82,26 @@ class DevicesController extends Controller
      * @param  \App\Device  $device
      * @return \Illuminate\View\View
      */
-    public function edit(Brand $device)
+    public function edit(Device $device)
     {
         $action    = 'update';
+        $deviceTypes = new DeviceType();
+        $deviceTypes = $deviceTypes->getLists();
+        $brands = new Brand();
+        $brands = $brands->getLists();        
         $formData = array('route' => array('devices.update', $device->id), 'method' => 'PATCH');
 
-        return view('devices/form', compact('action', 'brand', 'formData'));
+        return view('devices/form', compact('action', 'device', 'deviceTypes', 'brands', 'formData'));
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \App\Http\Requests\Brands\UpdateBrand  $request
+     * @param  \App\Http\Requests\Devices\UpdateDevice  $request
      * @param  \App\Device  $device
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function update(UpdateBrand $request, Brand $device)
+    public function update(UpdateDevice $request, Device $device)
     {
         $device->update($request->validated());
         Alert::success(__('devices.update'))->flash();
@@ -110,7 +114,7 @@ class DevicesController extends Controller
      * @param  \App\Device  $device
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function destroy(Brand $device)
+    public function destroy(Device $device)
     {
         $device->delete();
         Alert::success(__('devices.destroy'))->flash();
