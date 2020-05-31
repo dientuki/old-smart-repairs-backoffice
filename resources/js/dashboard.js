@@ -14,6 +14,6 @@ if (document.querySelector('.sort') !== null) {
 // Load the preventDelete modal
 if (document.querySelectorAll('.modalOpener').length > 0) {
   import(/* webpackChunkName: "preventDelete" */ './preventDelete/preventDelete').then((module) => {
-    module.preventDelete();
+    module.preventDelete(document.querySelector('#deleteModal'));
   });
 }

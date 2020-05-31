@@ -47,9 +47,9 @@
     "coverageDirectory": "coverage/jest",
     "coverageThreshold": {
       "global": {
-        "branches": 75,
-        "functions": 75,
-        "lines": 75
+        "branches": 73,
+        "functions": 72,
+        "lines": 66
       }
     },
     "testURL": "http://localhost/admin",
