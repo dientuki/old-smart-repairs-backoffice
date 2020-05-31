@@ -4,14 +4,14 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class DeviceType extends Model
+class Device extends Model
 {
     /**
      * The table associated with the model.
      *
      * @var string
      */
-    protected $table = 'device_types';
+    protected $table = 'devices';
 
     /**
      * The values acepted to order.
@@ -32,7 +32,7 @@ class DeviceType extends Model
      *
      * @var array
      */
-    protected $fillable = ['device_type'];
+    protected $fillable = ['tradename', 'technical_name', 'url', 'device_type_id', 'brand_id'];
 
     /**
      * Return all the records with order
@@ -44,38 +44,38 @@ class DeviceType extends Model
         $request = request();
         $queries = [];
         
-        $deviceTypes = $this->select('id', 'device_type');
+        $devices = $this->select('id', 'tradename', 'technical_name', 'url', 'device_type_id', 'brand_id');
         
-        $deviceTypes->orderBy('device_type', 'asc');
+        $devices->orderBy('tradename', 'asc');
         $queries['order'] = 'asc';
 
         if ($request->has('order')) {
             if (in_array($request->get('order'), $this->order)) {
-                $deviceTypes->reorder('device_type', $request->get('order'));
+                $devices->reorder('tradename', $request->get('order'));
                 $queries['order'] = $request->get('order');
             }
         }
 
-        return $deviceTypes->simplePaginate(20)->appends($queries);
-    }
-
-    /**
-     * Return all the records with order to use in combo
-     *
-     * @return \Illuminate\Support\Collection
-     */
-    public function getLists()
-    {
-        return $this->orderBy('device_type')->pluck('device_type', 'id');
+        return $devices->simplePaginate(20)->appends($queries);
     }
 
     /**
      * Relationship with device table
      *
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function device()
+    public function deviceType()
     {
-        return $this->hasOne('App\Device');
+        return $this->belongsTo('App\DeviceType');
+    }
+
+    /**
+     * Relationship with device table
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function brand()
+    {
+        return $this->belongsTo('App\Brand');
     }
 }

@@ -14,6 +14,7 @@
         <ul class="main-nav__submenu">
           <li class="main-nav__li"><a href="{{route('brands.index')}}" class="main-nav__link">{{ ucfirst(trans_choice('brands.brand', 2)) }}</a></li>
           <li class="main-nav__li"><a href="{{route('device-types.index')}}" class="main-nav__link">{{ ucfirst(trans_choice('device-types.device_type', 2)) }}</a></li>
+          <li class="main-nav__li"><a href="{{route('devices.index')}}" class="main-nav__link">{{ ucfirst(trans_choice('devices.device', 2)) }}</a></li>
         </ul>
       </li>
 
