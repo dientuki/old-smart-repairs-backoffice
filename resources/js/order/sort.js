@@ -1,6 +1,6 @@
 export function sort(element) {
   if (element === null) {
-    return;
+    return false;
   }
 
   element.addEventListener('change', (e) => {

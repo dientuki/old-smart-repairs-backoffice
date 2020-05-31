@@ -1,6 +1,6 @@
 export function filter(elements) {
   if (elements.length === 0) {
-    return;
+    return false;
   }
 
   elements.forEach((element) => {
