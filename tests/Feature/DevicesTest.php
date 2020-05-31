@@ -198,7 +198,7 @@ class DevicesTest extends TestCase
         ]));
         $response->assertSee(__('validation.required', [
             'attribute' => trans_choice('brands.brand', 1)
-        ]));                        
+        ]));
         $response->assertSee(__('error.in-forms'));
     }
 
@@ -211,7 +211,7 @@ class DevicesTest extends TestCase
                 'tradename' => Str::random(200),
                 'technical_name' => Str::random(200),
                 'device_type_id' => 5,
-                'brand_id' => 5,                
+                'brand_id' => 5,
                 'url' => 'wrong-url',
                 '_token' => csrf_token(),
             ]);
@@ -226,16 +226,16 @@ class DevicesTest extends TestCase
         $response->assertSee(__('validation.max.string', [
             'attribute' => __('devices.technical_name'),
             'max' => 190
-        ])); 
+        ]));
         $response->assertSee(__('validation.exists', [
             'attribute' => trans_choice('device-types.device_type', 1)
-        ]));        
+        ]));
         $response->assertSee(__('validation.exists', [
             'attribute' => trans_choice('brands.brand', 1)
-        ]));    
+        ]));
         $response->assertSee(__('validation.url', [
             'attribute' => __('devices.url')
-        ]));                
+        ]));
         $response->assertSee(__('error.in-forms'));
     }
 
@@ -280,7 +280,7 @@ class DevicesTest extends TestCase
             'id' => random_int(1, 100),
         ]);
         $deviceType = factory(DeviceType::class)->create();
-        $brand = factory(Brand::class)->create();        
+        $brand = factory(Brand::class)->create();
         
         $this->assertCount(1, $this->device->all());
 
@@ -339,7 +339,7 @@ class DevicesTest extends TestCase
         ]));
         $response->assertSee(__('validation.required', [
             'attribute' => trans_choice('brands.brand', 1)
-        ])); 
+        ]));
         $response->assertSee(__('error.in-forms'));
     }
 
@@ -358,7 +358,7 @@ class DevicesTest extends TestCase
                 'tradename' => Str::random(200),
                 'technical_name' => Str::random(200),
                 'device_type_id' => 5,
-                'brand_id' => 5,                
+                'brand_id' => 5,
                 'url' => 'wrong-url',
                 '_token' => csrf_token(),
             ]);
@@ -373,16 +373,16 @@ class DevicesTest extends TestCase
         $response->assertSee(__('validation.max.string', [
             'attribute' => __('devices.technical_name'),
             'max' => 190
-        ])); 
+        ]));
         $response->assertSee(__('validation.exists', [
             'attribute' => trans_choice('device-types.device_type', 1)
-        ]));        
+        ]));
         $response->assertSee(__('validation.exists', [
             'attribute' => trans_choice('brands.brand', 1)
-        ]));    
+        ]));
         $response->assertSee(__('validation.url', [
             'attribute' => __('devices.url')
-        ])); 
+        ]));
         $response->assertSee(__('error.in-forms'));
     }
 
