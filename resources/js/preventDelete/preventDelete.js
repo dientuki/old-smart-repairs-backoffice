@@ -1,10 +1,8 @@
 import Modal from 'modal-vanilla';
 
-export function preventDelete() {
-  const modalInfo = document.querySelector('#deleteModal');
-
-  if (modalInfo === null) {
-    return;
+export function preventDelete(element) {
+  if (element === null) {
+    return false;
   }
 
   Array.from(document.querySelectorAll('.modalOpener')).forEach((form) => {
@@ -17,7 +15,7 @@ export function preventDelete() {
               class: 'btn btn-light',
               'data-dismiss': 'modal'
             },
-            text: modalInfo.dataset.cancel,
+            text: element.dataset.cancel,
             value: false
           },
           {
@@ -25,14 +23,14 @@ export function preventDelete() {
               class: 'btn btn-danger',
               'data-dismiss': 'modal'
             },
-            text: modalInfo.dataset.confirm,
+            text: element.dataset.confirm,
             value: true
           }
         ],
         construct: true,
-        content: modalInfo.dataset.content,
+        content: element.dataset.content,
         headerClose: true,
-        title: modalInfo.dataset.title
+        title: element.dataset.title
       }
       );
 
@@ -53,4 +51,6 @@ export function preventDelete() {
       event.preventDefault();
     });
   });
+
+  return true;
 }
