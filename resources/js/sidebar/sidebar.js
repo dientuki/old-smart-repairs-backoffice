@@ -1,6 +1,6 @@
 export function expandableItem(elements) {
-  if (elements.lenght === 0) {
-    return;
+  if (elements.length === 0) {
+    return false;
   }
 
   Array.from(elements).forEach((element) => {
@@ -10,4 +10,6 @@ export function expandableItem(elements) {
       }
     });
   });
+
+  return true;
 }

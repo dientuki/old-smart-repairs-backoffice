@@ -2,7 +2,6 @@ import { alertClose } from './alertClose';
 
 describe('alertClose', () => {
   test('returns false if null is given', () => {
-
     expect(alertClose(null)).toBe(false);
   });
 
