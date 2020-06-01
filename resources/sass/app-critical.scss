@@ -2,9 +2,12 @@ $sidebar: rem(270);
 
 @import "./modules/alerts.scss";
 
+/* stylelint-disable declaration-no-important */
 .p-5 {
   padding-top: 0 !important;
 }
+
+/* stylelint-enable declaration-no-important */
 
 .header-sticky {
   height: rem(60);
@@ -18,7 +21,7 @@ $sidebar: rem(270);
   margin-bottom: rem(5);
 
   .form-control {
-    width: 100% !important;
+    width: 100%;
   }
 }
 
@@ -156,7 +159,7 @@ $sidebar: rem(270);
   position: fixed;
   top: 0;
   left: 0;
-  box-shadow: rem(3) rem(3) rem(10) rgba(0, 0, 0, .1);
+  box-shadow: rem(3) rem(3) rem(10) rgba(0 0 0 / .1);
   background: #364150;
 
   &__action {

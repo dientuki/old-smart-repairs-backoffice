@@ -11,7 +11,8 @@
 
 @font-face {
   font-family: Roboto-regular;
-  src: url("../fonts/Roboto-Regular.woff2") format("woff2"),
+  src:
+    url("../fonts/Roboto-Regular.woff2") format("woff2"),
     url("../fonts/Roboto-Regular.woff") format("woff");
   font-weight: 400;
   font-style: normal;
@@ -21,17 +22,7 @@
 @import "./app-critical";
 
 body {
-  font-family: Roboto-regular;
-}
-
-.p-5 {
-  padding-top: 0 !important;
-}
-
-.d-flex {
-  > nav {
-    margin-left: auto !important;
-  }
+  font-family: Roboto-regular, Arial, Helvetica, sans-serif;
 }
 
 ul,
