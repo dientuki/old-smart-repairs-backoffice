@@ -95,7 +95,7 @@ class DevicesTest extends TestCase
 
         $response->assertSuccessful();
         $response->assertViewIs(self::VIEW_INDEX);
-        $response->assertSee(__('error.no-record'));
+        $response->assertSee(__('error.no-records'));
     }
 
     public function testUserCanPaginate()
