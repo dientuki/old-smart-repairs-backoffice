@@ -198,11 +198,11 @@ class PartsTest extends TestCase
         $response->assertSuccessful();
         $response->assertViewIs(self::VIEW_FORM);
         $response->assertSee(__('validation.max.string', [
-            'attribute' => __('parts.name', 1),
+            'attribute' => __('parts.name'),
             'max' => 190
         ]));
         $response->assertSee(__('validation.max.string', [
-            'attribute' => __('parts.code', 1),
+            'attribute' => __('parts.code'),
             'max' => 190
         ]));
         $response->assertSee(__('error.in-forms'));
@@ -318,11 +318,11 @@ class PartsTest extends TestCase
         $response->assertSuccessful();
         $response->assertViewIs(self::VIEW_FORM);
         $response->assertSee(__('validation.max.string', [
-            'attribute' => __('parts.name', 1),
+            'attribute' => __('parts.name'),
             'max' => 190
         ]));
         $response->assertSee(__('validation.max.string', [
-            'attribute' => __('parts.code', 1),
+            'attribute' => __('parts.code'),
             'max' => 190
         ]));
         $response->assertSee(__('error.in-forms'));
