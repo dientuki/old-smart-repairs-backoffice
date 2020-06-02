@@ -4,7 +4,7 @@
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
-class DeviceTypeSeeder extends Seeder
+class DeviceTypeTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.

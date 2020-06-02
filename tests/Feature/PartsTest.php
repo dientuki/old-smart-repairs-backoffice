@@ -179,7 +179,7 @@ class PartsTest extends TestCase
         ]));
         $response->assertSee(__('validation.required', [
             'attribute' => __('parts.code'),
-        ]));        
+        ]));
         $response->assertSee(__('error.in-forms'));
     }
 
@@ -204,7 +204,7 @@ class PartsTest extends TestCase
         $response->assertSee(__('validation.max.string', [
             'attribute' => __('parts.code', 1),
             'max' => 190
-        ]));        
+        ]));
         $response->assertSee(__('error.in-forms'));
     }
 
@@ -293,7 +293,7 @@ class PartsTest extends TestCase
         ]));
         $response->assertSee(__('validation.required', [
             'attribute' => __('parts.code'),
-        ]));    
+        ]));
         $response->assertSee(__('error.in-forms'));
     }
 
@@ -324,7 +324,7 @@ class PartsTest extends TestCase
         $response->assertSee(__('validation.max.string', [
             'attribute' => __('parts.code', 1),
             'max' => 190
-        ]));   
+        ]));
         $response->assertSee(__('error.in-forms'));
     }
 
