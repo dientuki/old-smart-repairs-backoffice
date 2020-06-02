@@ -23,5 +23,6 @@ Route::group(['prefix' => 'admin'], function () {
         Route::resource('brands', 'BrandsController')->except(['show']);
         Route::resource('device-types', 'DeviceTypesController')->except(['show']);
         Route::resource('devices', 'DevicesController')->except(['show']);
+        Route::resource('parts', 'PartsController')->except(['show']);
     });
 });

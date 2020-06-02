@@ -20,7 +20,8 @@ class DatabaseSeeder extends Seeder
             MembershipsTableSeeder::Class,
             BrandsTableSeeder::Class,
             DeviceTypeSeeder::Class,
-            DevicesSeeder::Class
+            DevicesSeeder::Class,
+            PartsSeeder::Class
         ]);
     }
 }
