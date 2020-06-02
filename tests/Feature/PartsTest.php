@@ -3,68 +3,69 @@
 namespace Tests\Feature;
 
 use App\Login;
-use App\DeviceType;
+use App\Part;
 use Tests\TestCase;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
-class DeviceTypesTest extends TestCase
+class PartsTest extends TestCase
 {
     use RefreshDatabase;
     
-    const DEVICE_TYPE = 'Mobile Phone';
-    const VIEW_FORM = 'device-types.form';
-    const VIEW_INDEX = 'device-types.index';
+    const NAME = 'Pin de carga';
+    const CODE = 'abc123';
+    const VIEW_FORM = 'parts.form';
+    const VIEW_INDEX = 'parts.index';
 
     protected $user;
-    protected $deviceType;
+    protected $part;
 
     public function setUp(): void
     {
         parent::setUp();
         $this->user = factory(Login::class)->create();
-        $this->deviceType = new DeviceType();
+        $this->part = new Part();
     }
 
     protected function successfulIndexRoute()
     {
-        return route('device-types.index');
+        return route('parts.index');
     }
 
     protected function successfulIndexPaginateRoute($page)
     {
-        return route('device-types.index', ['page='. $page]);
+        return route('parts.index', ['page='. $page]);
     }
 
     protected function successfulIndexOrderRoute($order)
     {
-        return route('device-types.index', ['order='. $order]);
+        return route('parts.index', ['order='. $order]);
     }
 
     protected function successfulCreateRoute()
     {
-        return route('device-types.create');
+        return route('parts.create');
     }
 
     protected function successfulStoreRoute()
     {
-        return route('device-types.store');
+        return route('parts.store');
     }
 
-    protected function successfulEditRoute($deviceType)
+    protected function successfulEditRoute($part)
     {
-        return route('device-types.edit', $deviceType);
+        return route('parts.edit', $part);
     }
 
-    protected function successfulUpdateRoute($deviceType)
+    protected function successfulUpdateRoute($part)
     {
-        return route('device-types.update', $deviceType);
+        return route('parts.update', $part);
     }
 
-    protected function successfulDeleteRoute($deviceType)
+    protected function successfulDeleteRoute($part)
     {
-        return route('device-types.destroy', $deviceType);
+        return route('parts.destroy', $part);
     }
 
     public function testUserUnauthenticateCantViewIndex()
@@ -75,14 +76,14 @@ class DeviceTypesTest extends TestCase
         
     public function testUserCanViewIndex()
     {
-        $deviceType = factory(DeviceType::class)->create();
+        $part = factory(Part::class)->create();
 
         $response = $this->actingAs($this->user)->get($this->successfulIndexRoute());
 
         $response->assertSuccessful();
         $response->assertViewIs(self::VIEW_INDEX);
-        $response->assertSee(ucfirst(trans_choice('device-types.device_type', 2)));
-        $response->assertSee($deviceType->title);
+        $response->assertSee(ucfirst(trans_choice('parts.part', 2)));
+        $response->assertSee($part->title);
     }
 
     public function testUserCanViewEmptyIndex()
@@ -96,7 +97,7 @@ class DeviceTypesTest extends TestCase
 
     public function testUserCanPaginate()
     {
-        factory(DeviceType::class, 30)->create();
+        factory(Part::class, 30)->create();
 
         $response = $this->actingAs($this->user)->get($this->successfulIndexPaginateRoute(2));
         $response->assertSuccessful();
@@ -107,7 +108,7 @@ class DeviceTypesTest extends TestCase
 
     public function testUserCanOrder()
     {
-        factory(DeviceType::class, 30)->create();
+        factory(Part::class, 30)->create();
 
         $response = $this->actingAs($this->user)->get($this->successfulIndexOrderRoute('asc'));
         $response->assertSuccessful();
@@ -118,7 +119,7 @@ class DeviceTypesTest extends TestCase
 
     public function testUserCanPaginateNonExistentPage()
     {
-        factory(DeviceType::class, 30)->create();
+        factory(Part::class, 30)->create();
         $response = $this->actingAs($this->user)->get($this->successfulIndexPaginateRoute(80));
         $response->assertSuccessful();
         $response->assertViewIs(self::VIEW_INDEX);
@@ -137,7 +138,7 @@ class DeviceTypesTest extends TestCase
 
         $response->assertSuccessful();
         $response->assertViewIs(self::VIEW_FORM);
-        $response->assertSee(__('buttons.create') . ' ' . trans_choice('device-types.device_type', 1));
+        $response->assertSee(__('buttons.create') . ' ' . trans_choice('parts.part', 1));
     }
 
     public function testUserCanCreate()
@@ -146,51 +147,62 @@ class DeviceTypesTest extends TestCase
             ->followingRedirects()
             ->from($this->successfulCreateRoute())
             ->post($this->successfulStoreRoute(), [
-                'device_type' => self::DEVICE_TYPE,
+                'name' => self::NAME,
+                'code' => self::CODE,
                 '_token' => csrf_token(),
             ]);
 
-        $this->assertCount(1, $this->deviceType->all());
+        $this->assertCount(1, $this->part->all());
         $response->assertSuccessful();
         $response->assertViewIs(self::VIEW_INDEX);
-        $response->assertSee(self::DEVICE_TYPE);
-        $response->assertSee(__('device-types.store'));
+        $response->assertSee(self::NAME);
+        $response->assertSee(self::CODE);
+        $response->assertSee(__('parts.store'));
     }
     
-    public function testUserCannotCreateWithoutDeviceType()
+    public function testUserCannotCreateWithoutRequired()
     {
         $response = $this->actingAs($this->user)
             ->followingRedirects()
             ->from($this->successfulCreateRoute())
             ->post($this->successfulStoreRoute(), [
-                'device_type' => '',
+                'name' => '',
+                'code' => '',
                 '_token' => csrf_token(),
             ]);
 
-        $this->assertCount(0, $this->deviceType->all());
+        $this->assertCount(0, $this->part->all());
         $response->assertSuccessful();
         $response->assertViewIs(self::VIEW_FORM);
         $response->assertSee(__('validation.required', [
-            'attribute' => trans_choice('device-types.device_type', 1),
+            'attribute' => __('parts.name'),
+        ]));
+        $response->assertSee(__('validation.required', [
+            'attribute' => __('parts.code'),
         ]));
         $response->assertSee(__('error.in-forms'));
     }
 
-    public function testUserCannotCreateWithoutCorrectDeviceType()
+    public function testUserCannotCreateWithoutCorrectFields()
     {
         $response = $this->actingAs($this->user)
             ->followingRedirects()
             ->from($this->successfulCreateRoute())
             ->post($this->successfulStoreRoute(), [
-                'device_type' => Str::random(200),
+                'name' => Str::random(200),
+                'code' => Str::random(200),
                 '_token' => csrf_token(),
             ]);
 
-        $this->assertCount(0, $this->deviceType->all());
+        $this->assertCount(0, $this->part->all());
         $response->assertSuccessful();
         $response->assertViewIs(self::VIEW_FORM);
         $response->assertSee(__('validation.max.string', [
-            'attribute' => trans_choice('device-types.device_type', 1),
+            'attribute' => __('parts.name'),
+            'max' => 190
+        ]));
+        $response->assertSee(__('validation.max.string', [
+            'attribute' => __('parts.code'),
             'max' => 190
         ]));
         $response->assertSee(__('error.in-forms'));
@@ -198,31 +210,31 @@ class DeviceTypesTest extends TestCase
 
     public function testUserUnauthenticateCantViewEdit()
     {
-        $deviceType = factory(DeviceType::class)->create([
+        $part = factory(Part::class)->create([
             'id' => random_int(1, 100)
         ]);
 
-        $this->get($this->successfulEditRoute($deviceType->id))
+        $this->get($this->successfulEditRoute($part->id))
             ->assertRedirect($this->loginGetRoute());
     }
 
     public function testUserCanViewEdit()
     {
-        $deviceType = factory(DeviceType::class)->create([
+        $part = factory(Part::class)->create([
             'id' => random_int(1, 100)
         ]);
 
-        $response = $this->actingAs($this->user)->get($this->successfulEditRoute($deviceType->id));
+        $response = $this->actingAs($this->user)->get($this->successfulEditRoute($part->id));
 
         $response->assertSuccessful();
         $response->assertViewIs(self::VIEW_FORM);
-        $response->assertSee($deviceType->deviceType);
-        $response->assertSee(__('buttons.update') . ' ' . trans_choice('device-types.device_type', 1));
+        $response->assertSee($part->part);
+        $response->assertSee(__('buttons.update') . ' ' . trans_choice('parts.part', 1));
     }
 
     public function testUserCannotViewEditWithWrongId()
     {
-        factory(DeviceType::class)->create([
+        factory(Part::class)->create([
             'id' => 1
         ]);
 
@@ -233,73 +245,84 @@ class DeviceTypesTest extends TestCase
 
     public function testUserCanUpdate()
     {
-        $deviceType = factory(DeviceType::class)->create([
+        $part = factory(Part::class)->create([
             'id' => random_int(1, 100)
         ]);
         
-        $this->assertCount(1, $this->deviceType->all());
+        $this->assertCount(1, $this->part->all());
 
         $response = $this->actingAs($this->user)
             ->followingRedirects()
-            ->from($this->successfulEditRoute($deviceType->id))
-            ->put($this->successfulUpdateRoute($deviceType->id), [
-                'device_type' => self::DEVICE_TYPE,
+            ->from($this->successfulEditRoute($part->id))
+            ->put($this->successfulUpdateRoute($part->id), [
+                'name' => self::NAME,
+                'code' => self::CODE,
                 '_token' => csrf_token(),
             ]);
 
-        $this->assertCount(1, $this->deviceType->all());
+        $this->assertCount(1, $this->part->all());
         $response->assertSuccessful();
         $response->assertViewIs(self::VIEW_INDEX);
-        $response->assertSee(self::DEVICE_TYPE);
-        $response->assertSee(__('device-types.update'));
+        $response->assertSee(self::NAME);
+        $response->assertSee(self::CODE);
+        $response->assertSee(__('parts.update'));
     }
 
-    public function testUserCannotUpdateWithoutDeviceType()
+    public function testUserCannotUpdateWithoutRequired()
     {
-        $deviceType = factory(DeviceType::class)->create([
+        $part = factory(Part::class)->create([
             'id' => random_int(1, 100)
         ]);
 
-        $this->assertCount(1, $this->deviceType->all());
+        $this->assertCount(1, $this->part->all());
 
         $response = $this->actingAs($this->user)
             ->followingRedirects()
-            ->from($this->successfulEditRoute($deviceType->id))
-            ->put($this->successfulUpdateRoute($deviceType->id), [
-                'device_type' => '',
+            ->from($this->successfulEditRoute($part->id))
+            ->put($this->successfulUpdateRoute($part->id), [
+                'name' => '',
+                'code' => '',
                 '_token' => csrf_token(),
             ]);
 
-        $this->assertCount(1, $this->deviceType->all());
+        $this->assertCount(1, $this->part->all());
         $response->assertSuccessful();
         $response->assertViewIs(self::VIEW_FORM);
         $response->assertSee(__('validation.required', [
-            'attribute' => trans_choice('device-types.device_type', 1),
+            'attribute' => __('parts.name'),
+        ]));
+        $response->assertSee(__('validation.required', [
+            'attribute' => __('parts.code'),
         ]));
         $response->assertSee(__('error.in-forms'));
     }
 
-    public function testUserCannotUpdateWithoutCorrectDeviceType()
+    public function testUserCannotUpdateWithoutCorrectFields()
     {
-        $deviceType = factory(DeviceType::class)->create([
+        $part = factory(Part::class)->create([
             'id' => random_int(1, 100)
         ]);
 
-        $this->assertCount(1, $this->deviceType->all());
+        $this->assertCount(1, $this->part->all());
 
         $response = $this->actingAs($this->user)
             ->followingRedirects()
-            ->from($this->successfulEditRoute($deviceType->id))
-            ->put($this->successfulUpdateRoute($deviceType->id), [
-                'device_type' => Str::random(200),
+            ->from($this->successfulEditRoute($part->id))
+            ->put($this->successfulUpdateRoute($part->id), [
+                'name' => Str::random(200),
+                'code' => Str::random(200),
                 '_token' => csrf_token(),
             ]);
 
-        $this->assertCount(1, $this->deviceType->all());
+        $this->assertCount(1, $this->part->all());
         $response->assertSuccessful();
         $response->assertViewIs(self::VIEW_FORM);
         $response->assertSee(__('validation.max.string', [
-            'attribute' => trans_choice('device-types.device_type', 1),
+            'attribute' => __('parts.name'),
+            'max' => 190
+        ]));
+        $response->assertSee(__('validation.max.string', [
+            'attribute' => __('parts.code'),
             'max' => 190
         ]));
         $response->assertSee(__('error.in-forms'));
@@ -307,32 +330,32 @@ class DeviceTypesTest extends TestCase
 
     public function testUserCanDelete()
     {
-        $deviceType = factory(DeviceType::class)->create([
+        $part = factory(Part::class)->create([
             'id' => random_int(1, 100)
         ]);
 
-        $this->assertCount(1, $this->deviceType->all());
+        $this->assertCount(1, $this->part->all());
 
         $response = $this->actingAs($this->user)
             ->followingRedirects()
             ->from($this->successfulIndexRoute())
-            ->delete($this->successfulDeleteRoute($deviceType->id), [
+            ->delete($this->successfulDeleteRoute($part->id), [
                 '_token' => csrf_token(),
             ]);
 
-        $this->assertCount(0, $this->deviceType->all());
+        $this->assertCount(0, $this->part->all());
         $response->assertSuccessful();
         $response->assertViewIs(self::VIEW_INDEX);
-        $response->assertSee(__('device-types.destroy'));
+        $response->assertSee(__('parts.destroy'));
     }
 
     public function testUserCannotDeleteWithWrongId()
     {
-        factory(DeviceType::class)->create([
+        factory(Part::class)->create([
             'id' => 1
         ]);
 
-        $this->assertCount(1, $this->deviceType->all());
+        $this->assertCount(1, $this->part->all());
 
         $response = $this->actingAs($this->user)
             ->followingRedirects()
@@ -341,7 +364,7 @@ class DeviceTypesTest extends TestCase
                 '_token' => csrf_token(),
             ]);
 
-        $this->assertCount(1, $this->deviceType->all());
+        $this->assertCount(1, $this->part->all());
         $response->assertNotFound();
     }
 }

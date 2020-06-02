@@ -4,7 +4,7 @@
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
-class DeviceTypeSeeder extends Seeder
+class PartsTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -13,8 +13,9 @@ class DeviceTypeSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('device_types')->insert([
-            'device_type' => 'mobile'
+        DB::table('parts')->insert([
+            'name' => 'pin de carga',
+            'code' => 'abs'
         ]);
     }
 }
