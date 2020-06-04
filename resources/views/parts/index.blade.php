@@ -39,19 +39,26 @@
           @endforeach
       </tbody>
   </table>
-
-  <div class="row">
-    <div class="col-sm">
-      <a href="{{route('parts.create')}}" class="btn btn-primary" title="{{__('buttons.create')}} {{ ucfirst(trans_choice('parts.part',1)) }}">{{__('buttons.create')}} {{ ucfirst(trans_choice('parts.part',1)) }}</a>
-    </div>
-    <div class="col-sm d-flex">
-      {{ $parts->links() }}
-    </div>
-  </div>
-
   @include ('widgets/modal-delete')
+
 @else
+
   @include ('widgets/empty', ['content' => $parts])
+
 @endif
+
+<div class="row">
+  <div class="col-sm">
+    <a href="{{route('parts.create')}}" class="btn btn-primary" title="{{__('buttons.create')}} {{ ucfirst(trans_choice('parts.part',1)) }}">{{__('buttons.create')}} {{ ucfirst(trans_choice('parts.part',1)) }}</a>
+  </div>
+  @if (count($parts) > 0)
+  <div class="col-sm d-flex">
+    {{ $parts->links() }}
+  </div>
+  @endif
+</div>
+
+  
+
 
 @endsection
