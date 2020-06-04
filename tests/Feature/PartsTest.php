@@ -167,7 +167,6 @@ class PartsTest extends TestCase
             ->from($this->successfulCreateRoute())
             ->post($this->successfulStoreRoute(), [
                 'name' => '',
-                'code' => '',
                 '_token' => csrf_token(),
             ]);
 
@@ -176,9 +175,6 @@ class PartsTest extends TestCase
         $response->assertViewIs(self::VIEW_FORM);
         $response->assertSee(__('validation.required', [
             'attribute' => __('parts.name'),
-        ]));
-        $response->assertSee(__('validation.required', [
-            'attribute' => __('parts.code'),
         ]));
         $response->assertSee(__('error.in-forms'));
     }
@@ -281,7 +277,6 @@ class PartsTest extends TestCase
             ->from($this->successfulEditRoute($part->id))
             ->put($this->successfulUpdateRoute($part->id), [
                 'name' => '',
-                'code' => '',
                 '_token' => csrf_token(),
             ]);
 
@@ -290,9 +285,6 @@ class PartsTest extends TestCase
         $response->assertViewIs(self::VIEW_FORM);
         $response->assertSee(__('validation.required', [
             'attribute' => __('parts.name'),
-        ]));
-        $response->assertSee(__('validation.required', [
-            'attribute' => __('parts.code'),
         ]));
         $response->assertSee(__('error.in-forms'));
     }

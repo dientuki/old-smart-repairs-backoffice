@@ -20,7 +20,7 @@
   <div class="form-group">
     <?php $class = $errors->has('code') != null ? 'form-control is-invalid' : 'form-control'; ?>
     {!! Form::label('code', ucfirst(trans_choice('parts.part',1))) !!}
-    {!! Form::text('code', null, array('placeholder' => ucfirst(__('parts.code')), 'class'=>$class, 'required' => true, 'maxlength' => 190))  !!}
+    {!! Form::text('code', null, array('placeholder' => ucfirst(__('parts.code')), 'class'=>$class, 'maxlength' => 190))  !!}
     @error('code')
       <div class="invalid-feedback">
         <strong>{{ $message }}</strong>

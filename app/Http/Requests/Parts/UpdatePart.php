@@ -25,7 +25,7 @@ class UpdatePart extends FormRequest
     {
         return [
             'name' => 'required|string|max:190',
-            'code' => 'required|string|max:190'
+            'code' => 'nullable|string|max:190'
         ];
     }
 
