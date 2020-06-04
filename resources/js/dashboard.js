@@ -20,7 +20,7 @@ if (document.querySelectorAll('.modalOpener').length > 0) {
 
 // Load the image uploader
 if (document.querySelector('#dropzone') !== null) {
-  import(/* webpackChunkName: "dropzone" */ './modules/dropzone/dropzone').then((DropzoneMiddleware) => {
+  import(/* webpackChunkName: "dropzone" */ './dropzone/dropzone').then((DropzoneMiddleware) => {
     window.dropzone = new DropzoneMiddleware.default('#dropzone');
   });
 }
