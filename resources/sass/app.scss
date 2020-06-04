@@ -52,3 +52,25 @@ li {
     width: 100%;
   }
 }
+
+.image-row {
+  display: flex;
+  height: rem(120);
+  align-items: center;
+
+  .col-image {
+    flex-basis: rem(120);
+    min-width: rem(120);
+    max-width: rem(120);
+  }
+
+  .col {
+    flex-grow: 1;
+  }
+
+  .col-action {
+    flex-basis: rem(150);
+    min-width: rem(150);
+    max-width: rem(150);
+  }
+}
