@@ -13,6 +13,7 @@ return [
     'part' => 'parte|partes',
     'name' => 'nombre',
     'code' => 'codigo',
+    'image' => 'imagen',
     'select_placeholder' => 'Seleccione una parte...',
 
     'store' => 'La parte ha sido creada con exito!.',
