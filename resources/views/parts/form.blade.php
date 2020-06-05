@@ -47,12 +47,12 @@
     </div>  
 
     <div class="table table-striped files" id="previews">
-      @if (request()->old('images') != null)
-      @foreach (request()->old('images') as $image)
+      @if (request()->old('image') != null)
+      @foreach (request()->old('image') as $image)
       @if ($image != null)
       <div class="file-row template old-image row">
         <!-- This is used as the file preview template -->
-        <input type="text" class="image" name="images" value="{{ $image }}" />
+        <input type="text" class="image" name="image" value="{{ $image }}" />
         <div class="col-2">
           <span class="preview"><img class="thumbnail" data-dz-thumbnail /></span>
         </div>

@@ -2,7 +2,7 @@
 
   <div class="file-row template image-row">
 
-    <input type="hidden" name="images" class="image" value="" />
+    <input type="hidden" name="image" class="image" value="" />
     <div class="col-image" >
       <div class="preview aspect-1-1">
         <img class="thumbnail " data-dz-thumbnail />
