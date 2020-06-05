@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Exception;
 use App\Part;
 use Illuminate\Http\Request;
 use Prologue\Alerts\Facades\Alert;
@@ -73,11 +74,15 @@ class PartsController extends Controller
         return redirect()->route('parts.index');
     }
 
+    /**
+     * Store a new image in media library
+     *
+     * @param  array  $data
+     * @return void
+     */
     private function storeImage($data)
     {
         if (isset($data['image'])) {
-            //dd(storage_path('tmp/uploads/' . $data['image']));
-            //dd($this->part);
             $this->part->addMedia(storage_path('tmp/uploads/' . $data['image']))->toMediaCollection('parts');
         }
     }
@@ -115,6 +120,12 @@ class PartsController extends Controller
         return redirect()->route('parts.index');
     }
 
+    /**
+     * Delete an image in media library
+     *
+     * @param  array  $data
+     * @return void
+     */
     private function updateImage($data)
     {
         if (isset($data['delete'])) {
