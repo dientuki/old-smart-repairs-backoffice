@@ -2,8 +2,9 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Model;
+use Spatie\Image\Manipulations;
 use Spatie\MediaLibrary\HasMedia;
+use Illuminate\Database\Eloquent\Model;
 use Spatie\MediaLibrary\InteractsWithMedia;
 
 class Part extends Model implements HasMedia
@@ -71,5 +72,5 @@ class Part extends Model implements HasMedia
     public function getLists()
     {
         return $this->orderBy('name')->pluck('name', 'id');
-    }
+    }  
 }
