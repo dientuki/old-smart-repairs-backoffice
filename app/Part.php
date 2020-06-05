@@ -72,5 +72,5 @@ class Part extends Model implements HasMedia
     public function getLists()
     {
         return $this->orderBy('name')->pluck('name', 'id');
-    }  
+    }
 }

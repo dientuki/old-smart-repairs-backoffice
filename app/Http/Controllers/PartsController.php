@@ -73,7 +73,8 @@ class PartsController extends Controller
         return redirect()->route('parts.index');
     }
 
-    private function storeImage($data) {
+    private function storeImage($data)
+    {
         if (isset($data['image'])) {
             //dd(storage_path('tmp/uploads/' . $data['image']));
             //dd($this->part);
@@ -114,15 +115,16 @@ class PartsController extends Controller
         return redirect()->route('parts.index');
     }
 
-    private function updateImage($data) {
+    private function updateImage($data)
+    {
         if (isset($data['delete'])) {
-          try {
-              Media::whereIn('id', $data['delete'])->delete();
-          } catch (Exception $e) {
-              Alert::error('No puedes eliminar las imagenes!')->flash();
-          }  
+            try {
+                Media::whereIn('id', $data['delete'])->delete();
+            } catch (Exception $e) {
+                Alert::error('No puedes eliminar las imagenes!')->flash();
+            }
         }
-      }      
+    }
 
     /**
      * Remove the specified resource from storage.
