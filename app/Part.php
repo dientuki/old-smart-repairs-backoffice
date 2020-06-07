@@ -77,14 +77,15 @@ class Part extends Model implements HasMedia
 
     /**
      * Media conversion
-     *
+     * @inheritdoc
+     * 
      * @param  \Spatie\MediaLibrary\MediaCollections\Models\Media $media
      * @return void
-     */    
+     */
     public function registerMediaConversions(Media $media = null): void
     {
         $this->addMediaConversion('backoffice')
           ->fit(Manipulations::FIT_CROP, 120, 120)
-          ->optimize();         
-    }    
+          ->optimize();
+    }
 }
