@@ -47,27 +47,51 @@
     </div>  
 
     <div class="table table-striped files" id="previews">
-      @if (request()->old('image') != null)
-      @foreach (request()->old('image') as $image)
-      @if ($image != null)
-      <div class="file-row template old-image row">
-        <!-- This is used as the file preview template -->
-        <input type="text" class="image" name="image" value="{{ $image }}" />
-        <div class="col-2">
-          <span class="preview"><img class="thumbnail" data-dz-thumbnail /></span>
-        </div>
-        <div class="col">
+      @if ( request()->old('image') !== null)
+          <div class="file-row template old-image row">
+            <!-- This is used as the file preview template -->
+            <input type="text" class="image" name="image" value="{{ request()->old('image') }}" />
+            <div class="col-2">
+              <span class="preview"><img class="thumbnail" data-dz-thumbnail /></span>
+            </div>
+            <div class="col">
 
-        </div>
-        <div class="col-2">
-          <div data-dz-remove class="btn btn-danger delete">
-            <i class="glyphicon glyphicon-trash"></i>
-            <span>Delete</span>
+            </div>
+            <div class="col-2">
+              <div data-dz-remove class="btn btn-danger delete">
+                <i class="glyphicon glyphicon-trash"></i>
+                <span>Delete</span>
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
-      @endif
-      @endforeach
+      @else
+        @foreach ($part->getMedia('parts') as $image)
+          <div class="file-row template image-row db-image">
+            <!-- This is used as the file preview template -->
+
+            <input type="hidden" name="delete_{{ $image->id }}" value="{{ $image->id }}" />
+
+            <div class="col-image" >
+              <div class="preview aspect-1-1">
+                <img class="thumbnail " src="{{ $image->getFullUrl('backoffice') }}" />
+              </div>
+            </div>
+
+            <div class="col">
+              <div class="row">
+                <p class="name col">{{$image->name}}</p>
+                <p class="size col">{{$image->human_readable_size}}</p>
+              </div>
+            </div>
+
+            <div class="col-action">
+              <div data-dz-remove class="btn btn-danger delete">
+                <i class="glyphicon glyphicon-trash"></i>
+                <span>Delete</span>
+              </div>
+            </div>
+          </div>        
+        @endforeach  
       @endif
 
     </div>
