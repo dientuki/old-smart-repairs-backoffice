@@ -78,7 +78,7 @@ class Part extends Model implements HasMedia
     /**
      * Media conversion
      * @inheritdoc
-     * 
+     *
      * @param  \Spatie\MediaLibrary\MediaCollections\Models\Media $media
      * @return void
      */
