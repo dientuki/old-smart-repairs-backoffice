@@ -43,6 +43,10 @@ li {
     height: rem(16);
     margin-right: rem(8);
   }
+
+  &-image {
+    margin-top: 1rem;
+  }
 }
 
 .column-action {
@@ -73,4 +77,29 @@ li {
     min-width: rem(150);
     max-width: rem(150);
   }
+}
+
+[class *= aspect-] {
+  margin: 0;
+  width: 100%;
+  height: 0;
+  position: relative;
+  display: block;
+  background: #e2e2e2;
+  overflow: hidden;
+  z-index: 0;
+
+  img,
+  iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+  }
+}
+
+.aspect-1-1 {
+  padding-bottom: 100%;
 }
