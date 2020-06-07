@@ -2,15 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Request;
 
 class ImagesController extends Controller
 {
     /**
      * Upload an image to the tmp folder
      *
-     * @param  \Illuminate\Support\Facades\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\JsonResponse
      */
     public function store(Request $request)

@@ -121,7 +121,7 @@ class PartsController extends Controller
     }
 
     /**
-     * Delete an image in media library
+     * Update an image in media library
      *
      * @param  array  $data
      * @return void
