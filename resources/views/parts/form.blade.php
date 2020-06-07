@@ -46,7 +46,7 @@
 
     </div>  
 
-    <div class="table table-striped files" id="previews">
+    <div class="table table-striped table-images" id="previews">
       @if ( request()->old('image') !== null)
         @include('parts.image', ['image' => request()->old('image')])
       @else
