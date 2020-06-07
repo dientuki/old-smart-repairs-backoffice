@@ -27,7 +27,7 @@ class UpdatePart extends FormRequest
             'name' => 'required|string|max:190',
             'code' => 'nullable|string|max:190',
             'image' => 'nullable|string',
-            'delete' => 'nullable|string',
+            'delete' => 'nullable|exists:media,id',
         ];
     }
 
