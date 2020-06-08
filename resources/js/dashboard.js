@@ -17,3 +17,10 @@ if (document.querySelectorAll('.modalOpener').length > 0) {
     module.preventDelete(document.querySelector('#deleteModal'));
   });
 }
+
+// Load the image uploader
+if (document.querySelector('#dropzone') !== null) {
+  import(/* webpackChunkName: "dropzone" */ './dropzone/dropzone').then((DropzoneMiddleware) => {
+    window.dropzone = new DropzoneMiddleware.default('#dropzone');
+  });
+}

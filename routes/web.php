@@ -24,5 +24,7 @@ Route::group(['prefix' => 'admin'], function () {
         Route::resource('device-types', 'DeviceTypesController')->except(['show']);
         Route::resource('devices', 'DevicesController')->except(['show']);
         Route::resource('parts', 'PartsController')->except(['show']);
+
+        Route::post('images', 'ImagesController@store')->name('images.store');
     });
 });

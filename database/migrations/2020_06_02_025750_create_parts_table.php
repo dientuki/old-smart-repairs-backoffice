@@ -21,7 +21,7 @@ class CreatePartsTable extends Migration
 
             $table->id();
             $table->string('name', 190);
-            $table->string('code', 190);
+            $table->string('code', 190)->nullable(true);
         });
     }
 

@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use Exception;
 use App\Part;
 use Illuminate\Http\Request;
 use Prologue\Alerts\Facades\Alert;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Parts\StorePart;
 use App\Http\Requests\Parts\UpdatePart;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class PartsController extends Controller
 {
@@ -63,11 +65,26 @@ class PartsController extends Controller
     {
         $data = $request->validated();
 
-        $this->part->create($data);
+        $this->part = $this->part->create($data);
+
+        $this->storeImage($data);
 
         Alert::success(__('parts.store'))->flash();
 
         return redirect()->route('parts.index');
+    }
+
+    /**
+     * Store a new image in media library
+     *
+     * @param  array  $data
+     * @return void
+     */
+    private function storeImage($data)
+    {
+        if (isset($data['image'])) {
+            $this->part->addMedia(storage_path('tmp/uploads/' . $data['image']))->toMediaCollection('parts');
+        }
     }
 
     /**
@@ -93,9 +110,31 @@ class PartsController extends Controller
      */
     public function update(UpdatePart $request, Part $part)
     {
-        $part->update($request->validated());
+        $data = $request->validated();
+        $part->update($data);
+        $this->part = $part;
+        $this->updateImage($data);
+        $this->storeImage($data);
+
         Alert::success(__('parts.update'))->flash();
         return redirect()->route('parts.index');
+    }
+
+    /**
+     * Update an image in media library
+     *
+     * @param  array  $data
+     * @return void
+     */
+    private function updateImage($data)
+    {
+        if (isset($data['delete'])) {
+            try {
+                Media::where('id', $data['delete'])->delete();
+            } catch (Exception $e) {
+                Alert::error('No puedes eliminar las imagenes!')->flash();
+            }
+        }
     }
 
     /**
