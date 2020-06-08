@@ -19,6 +19,7 @@
                 <value>
                    \Prologue\Alerts\Facades\Alert,
                    \Illuminate\Support\Str,
+                   \Illuminate\Support\Facades\File,
                    \Illuminate\Support\Facades\Event,
                    \Illuminate\Support\Facades\Hash,
                    \Illuminate\Support\Facades\Notification,

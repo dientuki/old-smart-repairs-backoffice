@@ -4,9 +4,32 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Storage;
 
 class ImagesController extends Controller
 {
+
+    /**
+     * Path
+     *
+     * @var string
+     */
+    protected $path;
+
+    /**
+     * Instantiate a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->path = Storage::disk('tmp')->getAdapter()->getPathPrefix();
+
+        if (!file_exists($this->path)) {
+            mkdir($this->path, 0777, true);
+        }
+    }
+
     /**
      * Upload an image to the tmp folder
      *
@@ -15,17 +38,11 @@ class ImagesController extends Controller
      */
     public function store(Request $request)
     {
-        $path = storage_path('tmp/uploads');
-    
-        if (!file_exists($path)) {
-            mkdir($path, 0777, true);
-        }
-    
         $file = $request->file('file');
     
         $name = uniqid() . '_' . trim($file->getClientOriginalName());
     
-        $file->move($path, $name);
+        $file->move($this->path, $name);
     
         return response()->json([
             'name'          => $name,
