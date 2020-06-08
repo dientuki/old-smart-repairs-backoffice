@@ -130,7 +130,7 @@ class PartsController extends Controller
     {
         if (isset($data['delete'])) {
             try {
-                Media::whereIn('id', $data['delete'])->delete();
+                Media::where('id', $data['delete'])->delete();
             } catch (Exception $e) {
                 Alert::error('No puedes eliminar las imagenes!')->flash();
             }

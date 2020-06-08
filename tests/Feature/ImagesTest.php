@@ -21,7 +21,7 @@ class ImagesTest extends TestCase
     {
         parent::setUp();
         $this->user = factory(Login::class)->create();
-        File::deleteDirectory(Storage::disk('tmp')->getAdapter()->getPathPrefix());
+        File::deleteDirectory(Storage::disk('tmp')->path('/'));
     }
 
     public function testUserUploadImage()
@@ -29,7 +29,7 @@ class ImagesTest extends TestCase
         $file = UploadedFile::fake()->image('avatar.jpg');
 
         $response = $this->actingAs($this->user)
-        ->post($this->successfulUploadRoute(), [
+            ->post($this->successfulUploadRoute(), [
             'file' => $file
         ]);
 

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use League\Flysystem\Filesystem;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Storage;
 
@@ -23,8 +24,7 @@ class ImagesController extends Controller
      */
     public function __construct()
     {
-        $this->path = Storage::disk('tmp')->getAdapter()->getPathPrefix();
-
+        $this->path = Storage::disk('tmp')->path('/');
         if (!file_exists($this->path)) {
             mkdir($this->path, 0777, true);
         }
