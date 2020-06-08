@@ -2,10 +2,16 @@
 
 namespace App;
 
+use Spatie\Image\Manipulations;
+use Spatie\MediaLibrary\HasMedia;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\MediaLibrary\InteractsWithMedia;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
-class Part extends Model
+class Part extends Model implements HasMedia
 {
+    use InteractsWithMedia;
+    
     /**
      * The table associated with the model.
      *
@@ -67,5 +73,19 @@ class Part extends Model
     public function getLists()
     {
         return $this->orderBy('name')->pluck('name', 'id');
+    }
+
+    /**
+     * Media conversion
+     * @inheritdoc
+     *
+     * @param  \Spatie\MediaLibrary\MediaCollections\Models\Media $media
+     * @return void
+     */
+    public function registerMediaConversions(Media $media = null): void
+    {
+        $this->addMediaConversion('backoffice')
+          ->fit(Manipulations::FIT_CROP, 120, 120)
+          ->optimize();
     }
 }

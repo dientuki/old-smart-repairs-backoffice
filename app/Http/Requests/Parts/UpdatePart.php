@@ -25,7 +25,9 @@ class UpdatePart extends FormRequest
     {
         return [
             'name' => 'required|string|max:190',
-            'code' => 'required|string|max:190'
+            'code' => 'nullable|string|max:190',
+            'image' => 'nullable|string',
+            'delete' => 'nullable|exists:media,id',
         ];
     }
 
@@ -39,6 +41,7 @@ class UpdatePart extends FormRequest
         return [
             'name' => __('parts.name'),
             'code' => __('parts.code'),
+            'image' => __('parts.image')
         ];
     }
 }

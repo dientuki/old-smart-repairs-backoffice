@@ -15,7 +15,15 @@ node: &node
 
 ubuntu: &ubuntu
   docker:
-    - image: circleci/buildpack-deps:20.04    
+    - image: circleci/buildpack-deps:20.04  
+    
+exiftool: &exiftool    
+  name: Install exiftool
+  command: |
+    sudo apt-get update
+    sudo apt-get install exiftool
+    sudo docker-php-ext-configure exif
+    sudo docker-php-ext-install exif
 
 version: 2
 jobs:
@@ -115,6 +123,8 @@ jobs:
       - restore_cache:
           key: checkout-cache-{{ .Branch }}-{{ .Environment.CIRCLE_SHA1 }}
       - run:
+          <<: *exiftool
+      - run:
           name: Install Laravel
           command: composer install --optimize-autoloader
       - save_cache:
@@ -167,9 +177,17 @@ jobs:
       - restore_cache:
           key: laravel-install-test-{{ .Branch }}-{{ .Environment.CIRCLE_SHA1 }}
       - run:
+          name: Install GD
+          command: |
+            sudo apt update && sudo apt install -y libfreetype6-dev libjpeg62-turbo-dev libpng-dev
+            sudo docker-php-ext-configure gd --with-freetype --with-jpeg      
+            sudo docker-php-ext-install -j$(nproc) gd
+      - run:
+          <<: *exiftool
+      - run:
           name: Install SQLite
           command: |
-            sudo apt install -y libsqlite3-dev zlib1g-dev
+            sudo apt update && sudo apt install -y libsqlite3-dev zlib1g-dev
             sudo docker-php-ext-install zip          
       - run:
           name: Create database and run migration

@@ -2,10 +2,11 @@
 
 namespace Tests\Feature;
 
-use App\Login;
 use App\Part;
+use App\Login;
 use Tests\TestCase;
 use Illuminate\Support\Str;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
@@ -66,6 +67,11 @@ class PartsTest extends TestCase
     protected function successfulDeleteRoute($part)
     {
         return route('parts.destroy', $part);
+    }
+
+    protected function successfulUploadRoute()
+    {
+        return route('images.store');
     }
 
     public function testUserUnauthenticateCantViewIndex()
@@ -143,12 +149,22 @@ class PartsTest extends TestCase
 
     public function testUserCanCreate()
     {
+        $file = UploadedFile::fake()->image('avatar.jpg');
+
+        $uploadedFile = $this->actingAs($this->user)
+            ->post($this->successfulUploadRoute(), [
+            'file' => $file
+        ]);
+
+        $json = $uploadedFile->json();
+
         $response = $this->actingAs($this->user)
             ->followingRedirects()
             ->from($this->successfulCreateRoute())
             ->post($this->successfulStoreRoute(), [
                 'name' => self::NAME,
                 'code' => self::CODE,
+                'image' => $json['name'],
                 '_token' => csrf_token(),
             ]);
 
@@ -167,7 +183,6 @@ class PartsTest extends TestCase
             ->from($this->successfulCreateRoute())
             ->post($this->successfulStoreRoute(), [
                 'name' => '',
-                'code' => '',
                 '_token' => csrf_token(),
             ]);
 
@@ -176,9 +191,6 @@ class PartsTest extends TestCase
         $response->assertViewIs(self::VIEW_FORM);
         $response->assertSee(__('validation.required', [
             'attribute' => __('parts.name'),
-        ]));
-        $response->assertSee(__('validation.required', [
-            'attribute' => __('parts.code'),
         ]));
         $response->assertSee(__('error.in-forms'));
     }
@@ -245,11 +257,33 @@ class PartsTest extends TestCase
 
     public function testUserCanUpdate()
     {
+        //Create with image
+        $file = UploadedFile::fake()->image('avatar.jpg');
+
+        $uploadedFile = $this->actingAs($this->user)
+            ->post($this->successfulUploadRoute(), [
+            'file' => $file
+        ]);
+
+        $json = $uploadedFile->json();
+
         $part = factory(Part::class)->create([
             'id' => random_int(1, 100)
         ]);
+        $part->addMedia(storage_path('tmp/uploads/' . $json['name']))->toMediaCollection('parts');
         
         $this->assertCount(1, $this->part->all());
+        $media = $part->getFirstMedia('parts');
+
+        //Prepare with new image
+        $file = UploadedFile::fake()->image('avatar.jpg');
+
+        $uploadedFile = $this->actingAs($this->user)
+            ->post($this->successfulUploadRoute(), [
+            'file' => $file
+        ]);
+
+        $json = $uploadedFile->json();
 
         $response = $this->actingAs($this->user)
             ->followingRedirects()
@@ -257,6 +291,8 @@ class PartsTest extends TestCase
             ->put($this->successfulUpdateRoute($part->id), [
                 'name' => self::NAME,
                 'code' => self::CODE,
+                'delete' => $media->id,
+                'image' => $json['name'],
                 '_token' => csrf_token(),
             ]);
 
@@ -281,7 +317,6 @@ class PartsTest extends TestCase
             ->from($this->successfulEditRoute($part->id))
             ->put($this->successfulUpdateRoute($part->id), [
                 'name' => '',
-                'code' => '',
                 '_token' => csrf_token(),
             ]);
 
@@ -290,9 +325,6 @@ class PartsTest extends TestCase
         $response->assertViewIs(self::VIEW_FORM);
         $response->assertSee(__('validation.required', [
             'attribute' => __('parts.name'),
-        ]));
-        $response->assertSee(__('validation.required', [
-            'attribute' => __('parts.code'),
         ]));
         $response->assertSee(__('error.in-forms'));
     }
