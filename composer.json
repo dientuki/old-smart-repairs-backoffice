@@ -94,6 +94,9 @@
             "@php artisan config:clear",
             "phpunit --coverage-html ./coverage/phpunit --stop-on-failure"
         ],
+        "puretest": [
+            "phpunit "
+        ],        
         "clear": [
             "@php artisan route:cache",
             "@php artisan cache:clear",
